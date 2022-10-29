@@ -18,10 +18,10 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.Lyrics
-import org.openapitools.client.models.VideoSupplement
+import api.models.Lyrics
+import api.models.VideoSupplement
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

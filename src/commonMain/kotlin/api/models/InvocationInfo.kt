@@ -18,7 +18,7 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
 
 import kotlinx.serialization.*
@@ -35,11 +35,11 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class InvocationInfo (
 
-    @SerialName(value = "exec-duration-millis") val execDurationMillis: kotlin.Double? = null,
+    @SerialName(value = "exec-duration-millis") val execDurationMillis: Long? = null,
 
-    @SerialName(value = "hostname") val hostname: kotlin.String? = null,
+    @SerialName(value = "hostname") val hostname: String,
 
-    @SerialName(value = "req-id") val reqId: kotlin.Double? = null
+    @SerialName(value = "req-id") val reqId: String
 
 )
 

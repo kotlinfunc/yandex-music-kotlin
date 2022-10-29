@@ -18,7 +18,7 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
 
 import kotlinx.serialization.*
@@ -26,7 +26,7 @@ import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
 /**
- * подсказки при поиске
+ * Подсказки при поиске
  *
  * @param best 
  * @param suggestions 
@@ -34,9 +34,9 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class Suggestions (
 
-    @SerialName(value = "best") val best: kotlin.String? = null,
+    //@SerialName(value = "best") val best: String? = null,
 
-    @SerialName(value = "suggestions") val suggestions: kotlin.collections.List<kotlin.String>? = null
+    @SerialName(value = "suggestions") val suggestions: List<String> = emptyList()
 
 )
 

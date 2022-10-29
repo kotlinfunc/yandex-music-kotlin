@@ -18,13 +18,13 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.Account
-import org.openapitools.client.models.Alert
-import org.openapitools.client.models.Permissions
-import org.openapitools.client.models.StatusPlus
-import org.openapitools.client.models.Subscription
+import api.models.Account
+import api.models.Alert
+import api.models.Permissions
+import api.models.StatusPlus
+import api.models.Subscription
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

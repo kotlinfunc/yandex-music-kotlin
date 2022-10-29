@@ -18,10 +18,10 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.UserSettings
-import org.openapitools.client.models.VisibilityEnum
+import api.models.UserSettings
+import api.models.VisibilityEnum
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

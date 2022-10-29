@@ -18,7 +18,7 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
 
 import kotlinx.serialization.*

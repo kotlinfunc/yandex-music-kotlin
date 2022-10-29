@@ -11,6 +11,7 @@ plugins {
 group = "ru.pamugk"
 version = "1.0"
 
+val logback_version = "1.4.4"
 val ktor_version = "2.1.3"
 
 repositories {
@@ -31,6 +32,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("io.ktor:ktor-client-cio:$ktor_version")
                 implementation("io.ktor:ktor-client-logging:$ktor_version")
+                implementation("io.ktor:ktor-client-resources:$ktor_version")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
             }
@@ -38,6 +40,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation("ch.qos.logback:logback-classic:$logback_version")
             }
         }
         val jvmTest by getting

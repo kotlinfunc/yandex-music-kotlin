@@ -18,10 +18,10 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.InvocationInfo
-import org.openapitools.client.models.UsersUserIdLikesTracksGet200ResponseResult
+import api.models.InvocationInfo
+import api.models.UsersUserIdLikesTracksGet200ResponseResult
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

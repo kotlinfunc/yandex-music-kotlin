@@ -18,9 +18,9 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.TrackShort
+import api.models.TrackShort
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

@@ -18,9 +18,9 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.BestResult
+import api.models.BestResult
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

@@ -18,18 +18,18 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.Album
-import org.openapitools.client.models.AlbumLabelsInner
-import org.openapitools.client.models.Artist
-import org.openapitools.client.models.Owner
-import org.openapitools.client.models.Playlist
-import org.openapitools.client.models.PlaylistTagsInner
-import org.openapitools.client.models.Track
-import org.openapitools.client.models.TrackItem
-import org.openapitools.client.models.TrackNormalization
-import org.openapitools.client.models.Video
+import api.models.Album
+import api.models.AlbumLabelsInner
+import api.models.Artist
+import api.models.Owner
+import api.models.Playlist
+import api.models.PlaylistTagsInner
+import api.models.Track
+import api.models.TrackItem
+import api.models.TrackNormalization
+import api.models.Video
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

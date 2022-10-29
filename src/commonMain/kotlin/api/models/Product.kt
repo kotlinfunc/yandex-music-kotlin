@@ -18,10 +18,10 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.LicenceTextPart
-import org.openapitools.client.models.Price
+import api.models.LicenceTextPart
+import api.models.Price
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

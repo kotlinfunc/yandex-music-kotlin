@@ -18,10 +18,10 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.DownloadInfo
-import org.openapitools.client.models.InvocationInfo
+import api.models.DownloadInfo
+import api.models.InvocationInfo
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

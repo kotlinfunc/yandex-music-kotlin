@@ -18,11 +18,11 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
-import org.openapitools.client.models.Best
-import org.openapitools.client.models.SearchResult
-import org.openapitools.client.models.SearchType
+import api.models.Best
+import api.models.SearchResult
+import api.models.SearchType
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

@@ -18,7 +18,7 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package api.models
 
 
 import kotlinx.serialization.*
@@ -34,9 +34,9 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class Error (
 
-    @SerialName(value = "name") val name: kotlin.String? = null,
+    @SerialName(value = "name") val name: String,
 
-    @SerialName(value = "message") val message: kotlin.String? = null
+    @SerialName(value = "message") val message: String
 
 )
 
