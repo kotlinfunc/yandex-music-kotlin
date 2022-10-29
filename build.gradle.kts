@@ -4,16 +4,18 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization") version "1.7.20"
     id("org.jetbrains.compose")
 }
 
 group = "ru.pamugk"
-version = "1.0-SNAPSHOT"
+version = "1.0"
+
+val ktor_version = "2.1.3"
 
 repositories {
     google()
     mavenCentral()
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
 kotlin {
@@ -24,6 +26,15 @@ kotlin {
         withJava()
     }
     sourceSets {
+        commonMain {
+            dependencies {
+                implementation("io.ktor:ktor-client-core:$ktor_version")
+                implementation("io.ktor:ktor-client-cio:$ktor_version")
+                implementation("io.ktor:ktor-client-logging:$ktor_version")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+            }
+        }
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
