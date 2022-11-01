@@ -62,57 +62,57 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class Playlist (
 
-    @SerialName(value = "playlistUuid") val playlistUuid: kotlin.String? = null,
+    @SerialName(value = "playlistUuid") val playlistUuid: String? = null,
 
-    @SerialName(value = "description") val description: kotlin.String? = null,
+    @SerialName(value = "description") val description: String? = null,
 
-    @SerialName(value = "descriptionFormatted") val descriptionFormatted: kotlin.String? = null,
+    @SerialName(value = "descriptionFormatted") val descriptionFormatted: String? = null,
 
-    @SerialName(value = "available") val available: kotlin.Boolean? = null,
+    @SerialName(value = "available") val available: Boolean? = null,
 
-    @SerialName(value = "collective") val collective: kotlin.Boolean? = null,
+    @SerialName(value = "collective") val collective: Boolean? = null,
 
     @SerialName(value = "cover") val cover: Cover? = null,
 
-    @SerialName(value = "created") val created: kotlin.String? = null,
+    @SerialName(value = "created") val created: String? = null,
 
-    @SerialName(value = "modified") val modified: kotlin.String? = null,
+    @SerialName(value = "modified") val modified: String? = null,
 
-    @SerialName(value = "backgroundColor") val backgroundColor: kotlin.String? = null,
+    @SerialName(value = "backgroundColor") val backgroundColor: String? = null,
 
     @SerialName(value = "textColor") val textColor: kotlin.String? = null,
 
-    @SerialName(value = "durationMs") val durationMs: kotlin.Double? = null,
+    @SerialName(value = "durationMs") val durationMs: Int? = null,
 
     @SerialName(value = "isBunner") val isBunner: kotlin.Boolean? = null,
 
     @SerialName(value = "isPremiere") val isPremiere: kotlin.Boolean? = null,
 
-    @SerialName(value = "kind") val kind: kotlin.Double? = null,
+    @SerialName(value = "kind") val kind: Double? = null,
 
-    @SerialName(value = "ogImage") val ogImage: kotlin.String? = null,
+    @SerialName(value = "ogImage") val ogImage: String? = null,
 
     @SerialName(value = "owner") val owner: Owner? = null,
 
-    @SerialName(value = "prerolls") val prerolls: kotlin.collections.List<kotlin.String>? = null,
+    @SerialName(value = "prerolls") val prerolls: List<kotlin.String>? = null,
 
-    @SerialName(value = "revision") val revision: kotlin.Double? = null,
+    @SerialName(value = "revision") val revision: Double? = null,
 
-    @SerialName(value = "snapshot") val snapshot: kotlin.Double? = null,
+    @SerialName(value = "snapshot") val snapshot: Double? = null,
 
-    @SerialName(value = "tags") val tags: kotlin.collections.List<PlaylistTagsInner>? = null,
+    @SerialName(value = "tags") val tags: List<PlaylistTagsInner>? = null,
 
-    @SerialName(value = "title") val title: kotlin.String? = null,
+    @SerialName(value = "title") val title: String? = null,
 
-    @SerialName(value = "trackCount") val trackCount: kotlin.Double? = null,
+    @SerialName(value = "trackCount") val trackCount: Int? = null,
 
     @SerialName(value = "uid") val uid: kotlin.Double? = null,
 
     @SerialName(value = "visibility") val visibility: Playlist.Visibility? = null,
 
-    @SerialName(value = "likesCount") val likesCount: kotlin.Double? = null,
+    @SerialName(value = "likesCount") val likesCount: Int? = null,
 
-    @SerialName(value = "tracks") val tracks: kotlin.collections.List<TrackItem>? = null
+    @SerialName(value = "tracks") val tracks: List<TrackItem>? = null
 
 ) {
 

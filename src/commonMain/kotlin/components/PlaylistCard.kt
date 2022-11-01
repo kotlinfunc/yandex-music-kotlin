@@ -1,10 +1,6 @@
 package components
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -16,24 +12,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import api.models.Playlist
 
 @Composable
-@Preview
-fun PlaylistCard() {
+fun PlaylistCard(playlist: Playlist) {
     Card {
         Column {
-            AsyncImage(
-                load = { loadImageBitmap("https://avatars.yandex.net/get-music-user-playlist/51766/139954184.2050.91416ru/200x200") },
-                painterFor = { remember { BitmapPainter(it) } },
-                contentDescription = "",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.width(200.dp).height(200.dp)
-            )
-            Text("Название")
-            Row {
-                Icon(Icons.Outlined.Favorite, contentDescription = null)
-                Text("200")
+            playlist.ogImage?.let { uri ->
+                AsyncImage(
+                    load = { loadImageBitmap("https://" + uri.replace("%%", "200x200")) },
+                    painterFor = { remember { BitmapPainter(it) } },
+                    contentDescription = "",
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp)
+                )
             }
+            Text(playlist.title ?: "Неизвестный")
         }
     }
 }

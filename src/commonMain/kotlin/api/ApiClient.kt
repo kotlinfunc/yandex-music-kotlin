@@ -31,3 +31,7 @@ private val client = HttpClient {
 suspend fun findSuggestions(search: String): Response<Suggestions> {
     return client.get(Search.Suggest(part = search)).body()
 }
+
+suspend fun search(query: String): Response<api.models.Search> {
+    return client.get(Search(query)).body()
+}

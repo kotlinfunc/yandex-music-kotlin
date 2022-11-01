@@ -23,6 +23,8 @@ package api.models
 import api.models.AlbumLabelsInner
 import api.models.Artist
 import api.models.Track
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
@@ -59,13 +61,13 @@ import kotlinx.serialization.encoding.*
 data class Album (
 
     /* Идентификатор альбома */
-    @SerialName(value = "id") val id: kotlin.Double? = null,
+    @SerialName(value = "id") val id: Long,
 
     /* Ошибка получения альбома */
-    @SerialName(value = "error") val error: kotlin.String? = null,
+    @SerialName(value = "error") val error: String? = null,
 
     /* Название альбома */
-    @SerialName(value = "title") val title: kotlin.String? = null,
+    @SerialName(value = "title") val title: String,
 
     /* Тип альбома */
     @SerialName(value = "type") val type: Album.Type? = null,
@@ -74,10 +76,10 @@ data class Album (
     @SerialName(value = "metaType") val metaType: Album.MetaType? = null,
 
     /* Год релиза */
-    @SerialName(value = "year") val year: kotlin.Double? = null,
+    @SerialName(value = "year") val year: Int? = null,
 
     /* Дата релиза в формате ISO 8601 */
-    @SerialName(value = "releaseDate") val releaseDate: kotlin.String? = null,
+    @SerialName(value = "releaseDate") val releaseDate: String? = null,
 
     /* Ссылка на обложку */
     @SerialName(value = "coverUri") val coverUri: kotlin.String? = null,
@@ -86,45 +88,45 @@ data class Album (
     @SerialName(value = "ogImage") val ogImage: kotlin.String? = null,
 
     /* Жанр музыки */
-    @SerialName(value = "genre") val genre: kotlin.String? = null,
+    @SerialName(value = "genre") val genre: String? = null,
 
-    @SerialName(value = "buy") val buy: kotlin.collections.List<kotlin.String>? = null,
+    @SerialName(value = "buy") val buy: List<String>? = null,
 
     /* Количество треков. */
-    @SerialName(value = "trackCount") val trackCount: kotlin.Double? = null,
+    @SerialName(value = "trackCount") val trackCount: Int? = null,
 
     /* Является ли альбом новым */
-    @SerialName(value = "recent") val recent: kotlin.Boolean? = null,
+    @SerialName(value = "recent") val recent: Boolean? = null,
 
     /* Популярен ли альбом у слушателей */
-    @SerialName(value = "veryImportant") val veryImportant: kotlin.Boolean? = null,
+    @SerialName(value = "veryImportant") val veryImportant: Boolean? = null,
 
     /* Артисты */
-    @SerialName(value = "artists") val artists: kotlin.collections.List<Artist>? = null,
+    @SerialName(value = "artists") val artists: List<Artist>? = null,
 
     /* Лейблы */
-    @SerialName(value = "labels") val labels: kotlin.collections.List<AlbumLabelsInner>? = null,
+    //@SerialName(value = "labels") val labels: List<String>? = null,
 
     /* Доступен ли альбом */
-    @SerialName(value = "available") val available: kotlin.Boolean? = null,
+    @SerialName(value = "available") val available: Boolean? = null,
 
     /* Доступен ли альбом для пользователей с подпиской */
-    @SerialName(value = "availableForPremiumUsers") val availableForPremiumUsers: kotlin.Boolean? = null,
+    @SerialName(value = "availableForPremiumUsers") val availableForPremiumUsers: Boolean? = null,
 
     /* Доступен ли альбом из приложения для телефона */
-    @SerialName(value = "availableForMobile") val availableForMobile: kotlin.Boolean? = null,
+    @SerialName(value = "availableForMobile") val availableForMobile: Boolean? = null,
 
     /* Доступен ли альбом частично для пользователей без подписки */
-    @SerialName(value = "availablePartially") val availablePartially: kotlin.Boolean? = null,
+    @SerialName(value = "availablePartially") val availablePartially: Boolean? = null,
 
     /* ID лучших треков альбома */
-    @SerialName(value = "bests") val bests: kotlin.collections.List<kotlin.Double>? = null,
+    @SerialName(value = "bests") val bests: List<Long>? = null,
 
     /* Прероллы */
-    @SerialName(value = "prerolls") val prerolls: kotlin.collections.List<kotlin.String>? = null,
+    @SerialName(value = "prerolls") val prerolls: List<kotlin.String>? = null,
 
     /* Треки альбома, разделенные по дискам. */
-    @SerialName(value = "volumes") val volumes: kotlin.collections.List<kotlin.collections.List<Track>>? = null
+    @SerialName(value = "volumes") val volumes: List<kotlin.collections.List<Track>>? = null
 
 ) {
 
@@ -134,9 +136,10 @@ data class Album (
      * Values: single,podcast
      */
     @Serializable
-    enum class Type(val value: kotlin.String) {
+    enum class Type(val value: String) {
         @SerialName(value = "single") single("single"),
-        @SerialName(value = "podcast") podcast("podcast");
+        @SerialName(value = "podcast") podcast("podcast"),
+        @SerialName(value = "compilation") compilation("compilation");
     }
     /**
      * Мета тип
@@ -144,7 +147,7 @@ data class Album (
      * Values: single,podcast,music
      */
     @Serializable
-    enum class MetaType(val value: kotlin.String) {
+    enum class MetaType(val value: String) {
         @SerialName(value = "single") single("single"),
         @SerialName(value = "podcast") podcast("podcast"),
         @SerialName(value = "music") music("music");

@@ -44,26 +44,26 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class Artist (
 
-    @SerialName(value = "composer") val composer: kotlin.Boolean? = null,
+    @SerialName(value = "composer") val composer: Boolean? = null,
 
     @SerialName(value = "cover") val cover: Cover? = null,
 
-    @SerialName(value = "decomposed") val decomposed: kotlin.collections.List<kotlin.String>? = null,
+    @SerialName(value = "decomposed") val decomposed: List<String>? = null,
 
-    @SerialName(value = "genres") val genres: kotlin.collections.List<kotlin.String>? = null,
+    @SerialName(value = "genres") val genres: List<String>? = null,
 
-    @SerialName(value = "id") val id: kotlin.String? = null,
+    @SerialName(value = "id") val id: Long,
 
-    @SerialName(value = "name") val name: kotlin.String? = null,
+    @SerialName(value = "name") val name: String? = null,
 
-    @SerialName(value = "various") val various: kotlin.Boolean? = null,
+    @SerialName(value = "various") val various: Boolean? = null,
 
-    @SerialName(value = "popularTracks") val popularTracks: kotlin.collections.List<Track>? = null,
+    @SerialName(value = "popularTracks") val popularTracks: List<Track>? = null,
 
     /* Имеются ли в продаже билеты на концерт */
-    @SerialName(value = "ticketsAvailable") val ticketsAvailable: kotlin.Boolean? = null,
+    @SerialName(value = "ticketsAvailable") val ticketsAvailable: Boolean? = null,
 
-    @SerialName(value = "regions") val regions: kotlin.collections.List<kotlin.String>? = null
+    @SerialName(value = "regions") val regions: List<String>? = null
 
 )
 

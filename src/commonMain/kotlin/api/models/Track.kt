@@ -55,9 +55,9 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class Track (
 
-    @SerialName(value = "albums") val albums: kotlin.collections.List<Album>? = null,
+    @SerialName(value = "albums") val albums: List<Album>? = null,
 
-    @SerialName(value = "artists") val artists: kotlin.collections.List<Artist>? = null,
+    @SerialName(value = "artists") val artists: List<Artist>? = null,
 
     @SerialName(value = "available") val available: kotlin.Boolean? = null,
 
@@ -72,7 +72,7 @@ data class Track (
 
     @SerialName(value = "fileSize") val fileSize: kotlin.Double? = null,
 
-    @SerialName(value = "id") val id: kotlin.String? = null,
+    @SerialName(value = "id") val id: Long,
 
     @SerialName(value = "lyricsAvailable") val lyricsAvailable: kotlin.Boolean? = null,
 

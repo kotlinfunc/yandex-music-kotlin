@@ -20,37 +20,29 @@
 
 package api.models
 
-import api.models.BestResult
-
 import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
 
 /**
  * 
  *
- * @param type Тип результата
  * @param total Количество результатов
  * @param perPage Максимальное количество результатов на странице.
  * @param order Позиция блока
  * @param results 
  */
 @Serializable
-data class SearchResult (
-
-    /* Тип результата */
-    @SerialName(value = "type") val type: kotlin.String? = null,
+data class PagingResult<T> (
 
     /* Количество результатов */
-    @SerialName(value = "total") val total: kotlin.Double? = null,
+    @SerialName(value = "total") val total: Int,
 
     /* Максимальное количество результатов на странице. */
-    @SerialName(value = "perPage") val perPage: kotlin.Double? = null,
+    @SerialName(value = "perPage") val perPage: Int,
 
     /* Позиция блока */
-    @SerialName(value = "order") val order: kotlin.Double? = null,
+    @SerialName(value = "order") val order: Int,
 
-    @SerialName(value = "results") val results: kotlin.collections.List<BestResult>? = null
+    @SerialName(value = "results") val results: List<T> = emptyList()
 
 )
 

@@ -1,11 +1,12 @@
 package api.resources
 
+import api.models.SearchType
 import io.ktor.resources.*
 import kotlinx.serialization.Serializable
 
 @Serializable
 @Resource("/search")
-class Search(val text: String? = "", val page: Int? = 0, val type: String? = "all", val nococrrect: Boolean? = false) {
+class Search(val text: String? = "", val page: Int? = 0, val type: SearchType? = SearchType.all, val nococrrect: Boolean? = false) {
 
     @Serializable
     @Resource("suggest")

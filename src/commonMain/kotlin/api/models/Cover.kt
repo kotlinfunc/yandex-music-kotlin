@@ -59,12 +59,14 @@ data class Cover (
     /**
      * 
      *
-     * Values: pic,mosaic
+     * Values: pic,mosaic, from-artist-photos, from-album-cover
      */
     @Serializable
     enum class Type(val value: kotlin.String) {
         @SerialName(value = "pic") pic("pic"),
-        @SerialName(value = "mosaic") mosaic("mosaic");
+        @SerialName(value = "mosaic") mosaic("mosaic"),
+        @SerialName(value = "from-artist-photos") fromArtistPhotos("from-artist-photos"),
+        @SerialName(value = "from-album-cover") fromAlbumCover("from-album-cover");
     }
 }
 

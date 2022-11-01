@@ -20,10 +20,6 @@
 
 package api.models
 
-import api.models.Best
-import api.models.SearchResult
-import api.models.SearchType
-
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -53,45 +49,39 @@ import kotlinx.serialization.encoding.*
 data class Search (
 
     /* ID запроса */
-    @SerialName(value = "searchResultId") val searchResultId: kotlin.String? = null,
+    @SerialName(value = "searchRequestId") val searchRequestId: String,
 
     /* Текст запроса */
-    @SerialName(value = "text") val text: kotlin.String? = null,
+    @SerialName(value = "text") val text: String,
 
-    @SerialName(value = "best") val best: Best? = null,
+    //@SerialName(value = "best") val best: Best? = null,
 
-    @SerialName(value = "albums") val albums: SearchResult? = null,
+    @SerialName(value = "albums") val albums: PagingResult<Album>? = null,
 
-    @SerialName(value = "artists") val artists: SearchResult? = null,
+    @SerialName(value = "artists") val artists: PagingResult<Artist>? = null,
 
-    @SerialName(value = "playlists") val playlists: SearchResult? = null,
+    @SerialName(value = "playlists") val playlists: PagingResult<Playlist>? = null,
 
-    @SerialName(value = "tracks") val tracks: SearchResult? = null,
+    @SerialName(value = "tracks") val tracks: PagingResult<Track>? = null,
 
-    @SerialName(value = "videos") val videos: SearchResult? = null,
+    @SerialName(value = "videos") val videos: PagingResult<Video>? = null,
 
-    @SerialName(value = "users") val users: SearchResult? = null,
+    //@SerialName(value = "users") val users: SearchResult<BestResult>? = null,
 
-    @SerialName(value = "podcasts") val podcasts: SearchResult? = null,
+    //@SerialName(value = "podcasts") val podcasts: SearchResult<BestResult>? = null,
 
-    @SerialName(value = "podcast_episodes") val podcastEpisodes: SearchResult? = null,
+    //@SerialName(value = "podcast_episodes") val podcastEpisodes: SearchResult<BestResult>? = null,
 
     @SerialName(value = "type") val type: SearchType? = SearchType.all,
 
-    /* Текущая страница */
-    @SerialName(value = "page") val page: kotlin.Double? = null,
-
-    /* Результатов на странице */
-    @SerialName(value = "perPage") val perPage: kotlin.Double? = null,
-
     /* Был ли исправлен запрос */
-    @SerialName(value = "misspellCorrected") val misspellCorrected: kotlin.Boolean? = null,
+    @SerialName(value = "misspellCorrected") val misspellCorrected: Boolean,
 
     /* Оригинальный запрос */
-    @SerialName(value = "misspellOriginal") val misspellOriginal: kotlin.String? = null,
+    @SerialName(value = "misspellOriginal") val misspellOriginal: String? = null,
 
     /* Было ли отключено исправление результата */
-    @SerialName(value = "nocorrect") val nocorrect: kotlin.Boolean? = null
+    @SerialName(value = "nocorrect") val nocorrect: Boolean
 
 )
 
