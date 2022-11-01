@@ -17,7 +17,9 @@ import androidx.compose.ui.unit.Density
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xml.sax.InputSource
+import java.io.File
 import java.io.IOException
+import java.io.InputStream
 import java.net.URL
 
 @Composable
@@ -48,6 +50,15 @@ fun <T> AsyncImage(
         )
     } else Box(modifier)
 }
+
+fun loadImageBitmap(inputStream: InputStream): ImageBitmap =
+    inputStream.buffered().use(::loadImageBitmap)
+
+fun loadSvgPainter(inputStream: InputStream, density: Density): Painter =
+    inputStream.buffered().use { loadSvgPainter(it, density) }
+
+fun loadXmlImageVector(inputStream: InputStream, density: Density): ImageVector =
+    inputStream.buffered().use { loadXmlImageVector(InputSource(it), density) }
 
 fun loadImageBitmap(url: String): ImageBitmap =
     URL(url).openStream().buffered().use(::loadImageBitmap)

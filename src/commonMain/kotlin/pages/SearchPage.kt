@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +42,7 @@ fun SearchPage(query: String) {
     } else if (searchResult?.error != null) {
         Text("Ошибка: ${searchResult?.error?.message}")
     } else {
-        Column(Modifier.fillMaxWidth()) {
+        Column {
             TabRow(selectedTab) {
                 titles.forEachIndexed { index, title ->
                     Tab(
