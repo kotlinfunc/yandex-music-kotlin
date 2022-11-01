@@ -1,6 +1,7 @@
 package components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
@@ -45,7 +46,7 @@ fun <T> AsyncImage(
             contentScale = contentScale,
             modifier = modifier
         )
-    }
+    } else Box(modifier)
 }
 
 fun loadImageBitmap(url: String): ImageBitmap =

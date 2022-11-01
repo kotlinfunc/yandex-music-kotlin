@@ -1,5 +1,6 @@
 package components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
@@ -13,7 +14,7 @@ import api.models.Playlist
 @Composable
 fun PlaylistCard(playlist: Playlist) {
     Card {
-        Column {
+        Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             CoverImage(playlist.cover)
             Text(playlist.title ?: "Неизвестный", Modifier.width(200.dp), overflow = TextOverflow.Ellipsis, maxLines = 1)
         }

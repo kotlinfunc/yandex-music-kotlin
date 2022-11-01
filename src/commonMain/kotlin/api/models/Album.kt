@@ -72,6 +72,9 @@ data class Album (
     /* Тип альбома */
     @SerialName(value = "type") val type: Album.Type? = null,
 
+    /* Версия альбома */
+    @SerialName(value = "version") val version: String? = null,
+
     /* Мета тип */
     @SerialName(value = "metaType") val metaType: Album.MetaType? = null,
 

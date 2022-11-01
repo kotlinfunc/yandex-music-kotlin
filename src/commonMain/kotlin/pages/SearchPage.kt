@@ -61,9 +61,9 @@ fun SearchPage(query: String) {
                         Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
                             searchResult?.result?.artists?.let {
                                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text("Исполнители")
+                                    Text("Исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     Button(onClick = { selectedTab = 1 }) {
-                                        Text("Смотреть всех", fontSize = 14.sp, fontWeight = FontWeight.ExtraBold)
+                                        Text("Смотреть всех")
                                     }
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -74,9 +74,9 @@ fun SearchPage(query: String) {
                             }
                             searchResult?.result?.albums?.let {
                                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text("Альбомы")
+                                    Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     Button(onClick = { selectedTab = 2 }) {
-                                        Text("Смотреть всех", fontSize = 14.sp, fontWeight = FontWeight.ExtraBold)
+                                        Text("Смотреть всех")
                                     }
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -87,9 +87,9 @@ fun SearchPage(query: String) {
                             }
                             searchResult?.result?.tracks?.let {
                                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text("Треки")
+                                    Text("Треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     Button(onClick = { selectedTab = 3 }) {
-                                        Text("Смотреть всех", fontSize = 14.sp, fontWeight = FontWeight.ExtraBold)
+                                        Text("Смотреть всех")
                                     }
                                 }
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -99,9 +99,9 @@ fun SearchPage(query: String) {
                                 }
                             }
                             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text("Подкасты")
+                                Text("Подкасты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 Button(onClick = { selectedTab = 4 }) {
-                                    Text("Смотреть всех", fontSize = 14.sp, fontWeight = FontWeight.ExtraBold)
+                                    Text("Смотреть всех")
                                 }
                             }
                             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -112,9 +112,9 @@ fun SearchPage(query: String) {
                                 PodcastCard()
                             }
                             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text("Выпуски")
+                                Text("Выпуски", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 Button(onClick = { selectedTab = 5 }) {
-                                    Text("Смотреть всех", fontSize = 14.sp, fontWeight = FontWeight.ExtraBold)
+                                    Text("Смотреть всех")
                                 }
                             }
                             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -126,9 +126,9 @@ fun SearchPage(query: String) {
                             }
                             searchResult?.result?.playlists?.let {
                                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text("Плейлисты")
+                                    Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     Button(onClick = { selectedTab = 6 }) {
-                                        Text("Смотреть всех", fontSize = 14.sp, fontWeight = FontWeight.ExtraBold)
+                                        Text("Смотреть всех")
                                     }
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {

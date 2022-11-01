@@ -54,7 +54,7 @@ fun App() {
             scaffoldState = scaffoldState,
             topBar = {
                 TopAppBar {
-                    Button(onClick = {}) {
+                    IconButton(onClick = {}) {
                         Icon(
                             Icons.Filled.Menu,
                             contentDescription = null,

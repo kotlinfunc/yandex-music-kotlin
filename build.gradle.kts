@@ -29,6 +29,9 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation("org.jetbrains.compose.material:material-icons-extended:1.2.0")
+                implementation("org.jetbrains.compose.material3:material3:1.2.0")
+
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("io.ktor:ktor-client-cio:$ktor_version")
