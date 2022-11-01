@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import api.models.Album
 
@@ -22,9 +23,10 @@ fun AlbumCard(album: Album) {
                 modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp)
             )
         }
-        Text(album.title)
-        Text(album.artists?.map { artist -> artist.name }?.joinToString(", ") ?: "Неизвестен")
-        Row {
+        Text(album.title, Modifier.width(200.dp), overflow = TextOverflow.Ellipsis, maxLines = 1)
+        Text(album.artists?.map { artist -> artist.name }?.joinToString(", ") ?: "Неизвестен",
+            Modifier.width(200.dp), overflow = TextOverflow.Ellipsis, maxLines = 1)
+        Row(Modifier.width(200.dp)) {
             album.year?.let {
                 Text(it.toString())
             }

@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
@@ -148,8 +150,8 @@ fun SearchPage(query: String) {
                         columns = GridCells.Adaptive(minSize = 200.dp),
                         contentPadding = PaddingValues(10.dp),
                     ) {
-                        searchResult?.result?.artists?.results?.forEach {
-                            item {
+                        searchResult?.result?.artists?.results?.let {
+                            items(it) {
                                 ArtistCard(it)
                             }
                         }
@@ -160,8 +162,8 @@ fun SearchPage(query: String) {
                         columns = GridCells.Adaptive(minSize = 200.dp),
                         contentPadding = PaddingValues(10.dp),
                     ) {
-                        searchResult?.result?.albums?.results?.forEach {
-                            item {
+                        searchResult?.result?.albums?.results?.let {
+                            items(it) {
                                 AlbumCard(it)
                             }
                         }
@@ -171,8 +173,8 @@ fun SearchPage(query: String) {
                     Box(Modifier.fillMaxSize()) {
                         val state = rememberLazyListState()
                         LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp)) {
-                            searchResult?.result?.tracks?.results?.forEach {
-                                item {
+                            searchResult?.result?.tracks?.results?.let {
+                                items(it) {
                                     TrackItem(it)
                                 }
                             }
@@ -246,8 +248,8 @@ fun SearchPage(query: String) {
                         columns = GridCells.Adaptive(minSize = 200.dp),
                         contentPadding = PaddingValues(10.dp),
                     ) {
-                        searchResult?.result?.playlists?.results?.forEach {
-                            item {
+                        searchResult?.result?.playlists?.results?.let {
+                            items(it) {
                                 PlaylistCard(it)
                             }
                         }
