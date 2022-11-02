@@ -22,19 +22,11 @@ import components.AsyncImage
 import components.Player
 import components.loadSvgPainter
 import kotlinx.coroutines.launch
-import pages.HomePage
-import pages.PodcastsPage
-import pages.RadiosPage
-import pages.SearchPage
-
-private enum class Pages {
-    COLLECTION,
-    HOME,
-    PODCASTS,
-    RADIO,
-    SEARCH,
-    SETTINGS,
-}
+import navigation.*
+import navigation.HomeLocation
+import navigation.Location
+import navigation.PodcastsLocation
+import pages.*
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +36,7 @@ fun App() {
 
     val scope = rememberCoroutineScope()
 
-    var page by remember { mutableStateOf(Pages.HOME) }
+    var location by remember { mutableStateOf<Location<*>>(HomeLocation) }
     var searchText by remember { mutableStateOf("") }
     var searchSuggestions by remember { mutableStateOf<Suggestions?>(null) }
     var showSuggestions by remember { mutableStateOf(false) }
@@ -69,11 +61,11 @@ fun App() {
                     modifier = Modifier.height(100.dp).fillMaxWidth().padding(12.dp)
                 )
                 Divider()
-                NavigationDrawerItem({ Text("Главная") }, page == Pages.HOME, { page = Pages.HOME }, icon = { Icon(Icons.Filled.Home, null) })
-                NavigationDrawerItem({ Text("Подкасты и книги") }, page == Pages.PODCASTS, { page = Pages.PODCASTS }, icon = { Icon(Icons.Filled.Podcasts, null) })
-                NavigationDrawerItem({ Text("Радио") }, page == Pages.RADIO, { page = Pages.RADIO }, icon = { Icon(Icons.Filled.Radio, null) })
-                NavigationDrawerItem({ Text("Коллекция") }, page == Pages.COLLECTION, { page = Pages.COLLECTION }, icon = { Icon(Icons.Filled.Collections, null) })
-                NavigationDrawerItem({ Text("Настройки") }, page == Pages.SETTINGS, { page = Pages.SETTINGS }, icon = { Icon(Icons.Filled.Settings, null) })
+                NavigationDrawerItem({ Text("Главная") }, location is HomeLocation, { location = HomeLocation }, icon = { Icon(Icons.Filled.Home, null) })
+                NavigationDrawerItem({ Text("Подкасты и книги") }, location is PodcastsLocation, { location = PodcastsLocation }, icon = { Icon(Icons.Filled.Podcasts, null) })
+                NavigationDrawerItem({ Text("Радио") }, location is RadiosLocation, { location = RadiosLocation }, icon = { Icon(Icons.Filled.Radio, null) })
+                NavigationDrawerItem({ Text("Коллекция") }, location is CollectionLocation, { location = CollectionLocation }, icon = { Icon(Icons.Filled.Collections, null) })
+                NavigationDrawerItem({ Text("Настройки") }, location is SettingsLocation, { location = SettingsLocation }, icon = { Icon(Icons.Filled.Settings, null) })
             }
         ) {
             Column {
@@ -84,7 +76,8 @@ fun App() {
                         TextField(value = searchText, onValueChange = { searchText = it },
                             modifier = Modifier.fillMaxWidth(0.5f).onKeyEvent {
                                 if (it.key == Key.Enter && searchText.isNotBlank()) {
-                                    page = Pages.SEARCH
+                                    location = SearchLocation(searchText)
+                                    searchText = ""
                                 }
                                 false
                             },
@@ -106,12 +99,17 @@ fun App() {
                         }
                     }
                 }
-                when (page) {
-                    Pages.HOME -> HomePage()
-                    Pages.PODCASTS -> PodcastsPage()
-                    Pages.RADIO -> RadiosPage()
-                    Pages.SEARCH -> SearchPage(searchText)
-                    else -> {}
+                when (location) {
+                    is CollectionLocation -> {}
+                    is ArtistLocation -> ArtistPage(location.data as Long)
+                    is AlbumLocation -> AlbumPage(location.data as Long)
+                    is HomeLocation -> HomePage()
+                    is PlaylistLocation -> PlaylistPage(location.data as String)
+                    is PodcastLocation -> PodcastPage(location.data as Long)
+                    is PodcastsLocation -> PodcastsPage()
+                    is RadiosLocation -> RadiosPage()
+                    is SearchLocation -> SearchPage(location.data as String)
+                    is SettingsLocation -> {}
                 }
                 Player()
             }

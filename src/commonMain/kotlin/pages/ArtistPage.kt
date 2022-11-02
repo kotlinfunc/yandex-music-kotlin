@@ -22,11 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import components.AsyncImage
 import components.loadImageBitmap
+import navigation.Location
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun ArtistPage() {
+fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
     Column {
         Row {
             AsyncImage(

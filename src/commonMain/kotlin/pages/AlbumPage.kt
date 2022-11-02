@@ -1,6 +1,5 @@
 package pages
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
@@ -19,10 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import components.AsyncImage
 import components.loadImageBitmap
+import navigation.Location
 
 @Composable
-@Preview
-fun AlbumPage() {
+fun AlbumPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
     Column {
         Row {
             AsyncImage(

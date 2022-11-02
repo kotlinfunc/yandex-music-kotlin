@@ -16,10 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import navigation.Location
 
 @Composable
 @Preview
-fun EpisodeItem() {
+fun EpisodeItem(onLocationChange: (Location<*>) -> Unit = {}) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         AsyncImage(
             load = { loadImageBitmap("https://avatars.yandex.net/get-music-content/2424959/b28d033f.a.10572815-2/200x200") },

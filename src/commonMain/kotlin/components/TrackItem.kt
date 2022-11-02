@@ -16,9 +16,10 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import api.models.Track
+import navigation.Location
 
 @Composable
-fun TrackItem(track:Track) {
+fun TrackItem(track:Track, onLocationChange: (Location<*>) -> Unit = {}) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         track.coverUri?.let { uri ->
             AsyncImage(

@@ -22,9 +22,10 @@ import api.models.Response
 import api.models.Search
 import api.search
 import components.*
+import navigation.Location
 
 @Composable
-fun SearchPage(query: String) {
+fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
     var searchResult by remember { mutableStateOf<Response<Search>?>(null) }
     var selectedTab by remember { mutableStateOf(0) }
     val titles = listOf("Всё", "Исполнители", "Альбомы", "Треки", "Подкасты", "Выпуски", "Плейлисты")

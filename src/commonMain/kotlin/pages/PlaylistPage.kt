@@ -20,10 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import components.AsyncImage
 import components.loadImageBitmap
+import navigation.Location
 
 @Composable
 @Preview
-fun PlaylistPage() {
+fun PlaylistPage(id: String, onLocationChange: (Location<*>) -> Unit = {}) {
     var searchText by remember { mutableStateOf("") }
 
     Column(Modifier.padding(5.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {

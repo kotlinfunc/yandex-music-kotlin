@@ -12,10 +12,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import api.models.Album
+import navigation.Location
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlbumCard(album: Album) {
+fun AlbumCard(album: Album, onLocationChange: (Location<*>) -> Unit = {}) {
     Card {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             album.coverUri?.let { uri ->

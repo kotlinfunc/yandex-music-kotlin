@@ -12,11 +12,12 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import navigation.Location
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun RadioCard() {
+fun RadioCard(onLocationChange: (Location<*>) -> Unit = {}) {
     Card {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             AsyncImage(

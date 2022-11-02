@@ -14,10 +14,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import api.models.Artist
+import navigation.Location
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArtistCard(artist: Artist) {
+fun ArtistCard(artist: Artist, onLocationChange: (Location<*>) -> Unit = {}) {
     Card {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             CoverImage(artist.cover, Icons.Filled.Face)

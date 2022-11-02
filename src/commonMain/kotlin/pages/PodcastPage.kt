@@ -18,10 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import components.AsyncImage
 import components.loadImageBitmap
+import navigation.Location
 
 @Composable
 @Preview
-fun PodcastPage() {
+fun PodcastPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
     var selectedTab by remember { mutableStateOf(0) }
     val titles = listOf("О подкасте", "N эпизодов")
 

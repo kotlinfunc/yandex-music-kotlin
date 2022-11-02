@@ -8,10 +8,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import navigation.Location
 
 @Composable
 @Preview
-fun HomePage() {
+fun HomePage(onLocationChange: (Location<*>) -> Unit = {}) {
     var selectedTab by remember { mutableStateOf(0) }
     val titles = listOf("Всё", "Новые релизы", "Чарт", "Настроения и жанры")
 

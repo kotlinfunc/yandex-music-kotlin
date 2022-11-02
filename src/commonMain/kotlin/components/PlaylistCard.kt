@@ -11,10 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import api.models.Playlist
+import navigation.Location
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlaylistCard(playlist: Playlist) {
+fun PlaylistCard(playlist: Playlist, onLocationChange: (Location<*>) -> Unit = {}) {
     Card {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             CoverImage(playlist.cover)
