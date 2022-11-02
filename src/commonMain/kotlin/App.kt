@@ -22,8 +22,10 @@ import components.AsyncImage
 import components.Player
 import components.loadSvgPainter
 import kotlinx.coroutines.launch
+import pages.HomePage
+import pages.PodcastsPage
+import pages.RadiosPage
 import pages.SearchPage
-import java.io.File
 
 private enum class Pages {
     COLLECTION,
@@ -32,7 +34,6 @@ private enum class Pages {
     RADIO,
     SEARCH,
     SETTINGS,
-
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
@@ -40,7 +41,6 @@ private enum class Pages {
 @Preview
 fun App() {
     val density = LocalDensity.current
-    val drawerState = rememberDrawerState(DrawerValue.Open)
 
     val scope = rememberCoroutineScope()
 
@@ -59,7 +59,7 @@ fun App() {
     }
 
     MaterialTheme {
-        DismissibleNavigationDrawer(
+        PermanentNavigationDrawer(
             {
                 AsyncImage(
                     load = { loadSvgPainter(this.javaClass.getResourceAsStream("/logo_semantic_horizontal_black.svg")!!, density) },
@@ -74,9 +74,7 @@ fun App() {
                 NavigationDrawerItem({ Text("Радио") }, page == Pages.RADIO, { page = Pages.RADIO }, icon = { Icon(Icons.Filled.Radio, null) })
                 NavigationDrawerItem({ Text("Коллекция") }, page == Pages.COLLECTION, { page = Pages.COLLECTION }, icon = { Icon(Icons.Filled.Collections, null) })
                 NavigationDrawerItem({ Text("Настройки") }, page == Pages.SETTINGS, { page = Pages.SETTINGS }, icon = { Icon(Icons.Filled.Settings, null) })
-            },
-            Modifier.padding(horizontal = 12.dp),
-            drawerState
+            }
         ) {
             Column {
                 TopAppBar() {
@@ -90,7 +88,7 @@ fun App() {
                                 }
                                 false
                             },
-                            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null)},
+                            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
                             placeholder = { Text("Поиск") },
                             singleLine = true
                         )
@@ -109,6 +107,9 @@ fun App() {
                     }
                 }
                 when (page) {
+                    Pages.HOME -> HomePage()
+                    Pages.PODCASTS -> PodcastsPage()
+                    Pages.RADIO -> RadiosPage()
                     Pages.SEARCH -> SearchPage(searchText)
                     else -> {}
                 }
