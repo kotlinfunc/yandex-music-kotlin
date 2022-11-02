@@ -1,8 +1,10 @@
 package api
 
+import api.models.Album
 import api.models.Response
+import api.models.Search
 import api.models.Suggestions
-import api.resources.Search
+import api.resources.Albums
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -28,10 +30,18 @@ private val client = HttpClient {
     }
 }
 
-suspend fun findSuggestions(search: String): Response<Suggestions> {
-    return client.get(Search.Suggest(part = search)).body()
+suspend fun getAlbum(id: Long): Response<Album> {
+    return client.get(Albums.Get(id = id)).body()
 }
 
-suspend fun search(query: String): Response<api.models.Search> {
-    return client.get(Search(query)).body()
+suspend fun getAlbumWithTracks(id: Long): Response<Album> {
+    return client.get(Albums.Get.WithTracks(Albums.Get(id = id))).body()
+}
+
+suspend fun findSuggestions(search: String): Response<Suggestions> {
+    return client.get(api.resources.Search.Suggest(part = search)).body()
+}
+
+suspend fun search(query: String): Response<Search> {
+    return client.get(api.resources.Search(query)).body()
 }

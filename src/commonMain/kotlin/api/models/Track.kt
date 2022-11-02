@@ -90,7 +90,7 @@ data class Track (
 
     @SerialName(value = "storageDir") val storageDir: kotlin.String? = null,
 
-    @SerialName(value = "title") val title: kotlin.String? = null,
+    @SerialName(value = "title") val title: String,
 
     @SerialName(value = "type") val type: kotlin.String? = null
 

@@ -125,6 +125,9 @@ data class Album (
     /* ID лучших треков альбома */
     @SerialName(value = "bests") val bests: List<Long>? = null,
 
+    /* Другие версии альбома */
+    @SerialName(value = "duplicates") val duplicates: List<Album>? = null,
+
     /* Прероллы */
     @SerialName(value = "prerolls") val prerolls: List<kotlin.String>? = null,
 

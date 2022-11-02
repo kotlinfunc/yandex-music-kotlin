@@ -21,11 +21,7 @@ import api.models.Suggestions
 import components.AsyncImage
 import components.Player
 import components.loadSvgPainter
-import kotlinx.coroutines.launch
 import navigation.*
-import navigation.HomeLocation
-import navigation.Location
-import navigation.PodcastsLocation
 import pages.*
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
@@ -34,8 +30,6 @@ import pages.*
 fun App() {
     val density = LocalDensity.current
 
-    val scope = rememberCoroutineScope()
-
     var location by remember { mutableStateOf<Location<*>>(HomeLocation) }
     var searchText by remember { mutableStateOf("") }
     var searchSuggestions by remember { mutableStateOf<Suggestions?>(null) }
@@ -43,10 +37,8 @@ fun App() {
 
     LaunchedEffect(searchText) {
         if (searchText.isNotBlank()) {
-            scope.launch {
-                searchSuggestions = findSuggestions(searchText).result
-                showSuggestions = true
-            }
+            searchSuggestions = findSuggestions(searchText).result
+            showSuggestions = true
         }
     }
 
