@@ -62,7 +62,7 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class Playlist (
 
-    @SerialName(value = "playlistUuid") val playlistUuid: String? = null,
+    @SerialName(value = "playlistUuid") val playlistUuid: String,
 
     @SerialName(value = "description") val description: String? = null,
 

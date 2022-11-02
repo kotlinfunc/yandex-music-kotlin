@@ -1,13 +1,15 @@
 package components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.onClick
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -16,10 +18,13 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import api.models.Track
+import navigation.AlbumLocation
+import navigation.ArtistLocation
 import navigation.Location
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TrackItem(track:Track, onLocationChange: (Location<*>) -> Unit = {}) {
+fun TrackItem(track: Track, onLocationChange: (Location<*>) -> Unit = {}) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         track.coverUri?.let { uri ->
             AsyncImage(
@@ -32,8 +37,13 @@ fun TrackItem(track:Track, onLocationChange: (Location<*>) -> Unit = {}) {
         }
         Spacer(Modifier.size(5.dp))
         Column {
-            Text(track.title ?: "Неизвестный")
-            Text(track.artists?.map { artist -> artist.name }?.joinToString(", ") ?: "Неизвестен")
+            Text(track.title ?: "Неизвестный", Modifier.onClick { onLocationChange(AlbumLocation(track.albums!![0].id)) })
+            Row {
+                track.artists?.map { artist ->
+                    Text(artist.name!!,
+                        Modifier.onClick { onLocationChange(ArtistLocation(artist.id)) }) }
+                    ?: Text("Неизвестен")
+            }
         }
         Spacer(Modifier.fillMaxWidth())
         Button(onClick = {}) {

@@ -101,17 +101,17 @@ fun App() {
                 }
                 when (location) {
                     is CollectionLocation -> {}
-                    is ArtistLocation -> ArtistPage(location.data as Long)
-                    is AlbumLocation -> AlbumPage(location.data as Long)
-                    is HomeLocation -> HomePage()
-                    is PlaylistLocation -> PlaylistPage(location.data as String)
-                    is PodcastLocation -> PodcastPage(location.data as Long)
-                    is PodcastsLocation -> PodcastsPage()
-                    is RadiosLocation -> RadiosPage()
-                    is SearchLocation -> SearchPage(location.data as String)
+                    is ArtistLocation -> ArtistPage(location.data as Long) { location = it }
+                    is AlbumLocation -> AlbumPage(location.data as Long) { location = it }
+                    is HomeLocation -> HomePage() { location = it }
+                    is PlaylistLocation -> PlaylistPage(location.data as String) { location = it }
+                    is PodcastLocation -> PodcastPage(location.data as Long) { location = it }
+                    is PodcastsLocation -> PodcastsPage() { location = it }
+                    is RadiosLocation -> RadiosPage() { location = it }
+                    is SearchLocation -> SearchPage(location.data as String) { location = it }
                     is SettingsLocation -> {}
                 }
-                Player()
+                Player() { location = it }
             }
         }
     }

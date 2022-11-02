@@ -69,7 +69,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                                     it.results.forEach {
-                                        ArtistCard(it)
+                                        ArtistCard(it) { onLocationChange(it) }
                                     }
                                 }
                             }
@@ -82,7 +82,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                                     it.results.forEach {
-                                        AlbumCard(it)
+                                        AlbumCard(it) { onLocationChange(it) }
                                     }
                                 }
                             }
@@ -95,7 +95,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 }
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                     it.results.forEach {
-                                        TrackItem(it)
+                                        TrackItem(it) { onLocationChange(it) }
                                     }
                                 }
                             }
@@ -106,11 +106,11 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 }
                             }
                             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                                PodcastCard()
-                                PodcastCard()
-                                PodcastCard()
-                                PodcastCard()
-                                PodcastCard()
+                                PodcastCard() { onLocationChange(it) }
+                                PodcastCard() { onLocationChange(it) }
+                                PodcastCard() { onLocationChange(it) }
+                                PodcastCard() { onLocationChange(it) }
+                                PodcastCard() { onLocationChange(it) }
                             }
                             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                 Text("Выпуски", fontWeight = FontWeight.Bold, fontSize = 20.sp)
@@ -119,11 +119,11 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 }
                             }
                             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                EpisodeItem()
-                                EpisodeItem()
-                                EpisodeItem()
-                                EpisodeItem()
-                                EpisodeItem()
+                                EpisodeItem() { onLocationChange(it) }
+                                EpisodeItem() { onLocationChange(it) }
+                                EpisodeItem() { onLocationChange(it) }
+                                EpisodeItem() { onLocationChange(it) }
+                                EpisodeItem() { onLocationChange(it) }
                             }
                             searchResult?.result?.playlists?.let {
                                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -134,7 +134,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                                     it.results.take(5).forEach {
-                                        PlaylistCard(it)
+                                        PlaylistCard(it) { onLocationChange(it) }
                                     }
                                 }
                             }
@@ -153,7 +153,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                     ) {
                         searchResult?.result?.artists?.results?.let {
                             items(it) {
-                                ArtistCard(it)
+                                ArtistCard(it) { onLocationChange(it) }
                             }
                         }
                     }
@@ -165,7 +165,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                     ) {
                         searchResult?.result?.albums?.results?.let {
                             items(it) {
-                                AlbumCard(it)
+                                AlbumCard(it) { onLocationChange(it) }
                             }
                         }
                     }
@@ -176,7 +176,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                         LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp)) {
                             searchResult?.result?.tracks?.results?.let {
                                 items(it) {
-                                    TrackItem(it)
+                                    TrackItem(it) { onLocationChange(it) }
                                 }
                             }
                         }
@@ -194,22 +194,22 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                         contentPadding = PaddingValues(10.dp),
                     ) {
                         item {
-                            PodcastCard()
+                            PodcastCard() { onLocationChange(it) }
                         }
                         item {
-                            PodcastCard()
+                            PodcastCard() { onLocationChange(it) }
                         }
                         item {
-                            PodcastCard()
+                            PodcastCard() { onLocationChange(it) }
                         }
                         item {
-                            PodcastCard()
+                            PodcastCard() { onLocationChange(it) }
                         }
                         item {
-                            PodcastCard()
+                            PodcastCard() { onLocationChange(it) }
                         }
                         item {
-                            PodcastCard()
+                            PodcastCard() { onLocationChange(it) }
                         }
                     }
                 }
@@ -218,22 +218,22 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                         val state = rememberLazyListState()
                         LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp)) {
                             item {
-                                EpisodeItem()
+                                EpisodeItem() { onLocationChange(it) }
                             }
                             item {
-                                EpisodeItem()
+                                EpisodeItem() { onLocationChange(it) }
                             }
                             item {
-                                EpisodeItem()
+                                EpisodeItem() { onLocationChange(it) }
                             }
                             item {
-                                EpisodeItem()
+                                EpisodeItem() { onLocationChange(it) }
                             }
                             item {
-                                EpisodeItem()
+                                EpisodeItem() { onLocationChange(it) }
                             }
                             item {
-                                EpisodeItem()
+                                EpisodeItem() { onLocationChange(it) }
                             }
                         }
                         VerticalScrollbar(
@@ -251,7 +251,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                     ) {
                         searchResult?.result?.playlists?.results?.let {
                             items(it) {
-                                PlaylistCard(it)
+                                PlaylistCard(it) { onLocationChange(it) }
                             }
                         }
                     }
