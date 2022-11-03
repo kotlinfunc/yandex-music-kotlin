@@ -20,12 +20,7 @@
 
 package api.models
 
-import api.models.UserSettings
-import api.models.VisibilityEnum
-
 import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
 
 /**
  * 
@@ -47,7 +42,7 @@ import kotlinx.serialization.encoding.*
  * @param syncQueueEnabled 
  */
 @Serializable
-data class AccountSettingsGet200Response1Result (
+data class AccountSettings (
 
     @SerialName(value = "uid") val uid: kotlin.Double? = null,
 
@@ -72,7 +67,7 @@ data class AccountSettingsGet200Response1Result (
     @SerialName(value = "rbtDisabled") val rbtDisabled: kotlin.String? = null,
 
     /* Тема оформления. */
-    @SerialName(value = "theme") val theme: AccountSettingsGet200Response1Result.Theme? = null,
+    @SerialName(value = "theme") val theme: AccountSettings.Theme? = null,
 
     @SerialName(value = "promosDisabled") val promosDisabled: kotlin.Boolean? = null,
 

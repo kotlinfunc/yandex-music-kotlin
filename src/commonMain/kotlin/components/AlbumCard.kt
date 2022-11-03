@@ -39,7 +39,8 @@ fun AlbumCard(album: Album, onLocationChange: (Location<*>) -> Unit = {}) {
             }
             Row {
                 album.artists?.map { artist ->
-                    Text(artist.name!!,
+                    Text(
+                        artist.name,
                         Modifier.width(200.dp).onClick { onLocationChange(ArtistLocation(artist.id)) },
                         overflow = TextOverflow.Ellipsis, maxLines = 1) }
                     ?: Text("Неизвестен")

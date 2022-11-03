@@ -54,7 +54,7 @@ data class Artist (
 
     @SerialName(value = "id") val id: Long,
 
-    @SerialName(value = "name") val name: String? = null,
+    @SerialName(value = "name") val name: String,
 
     @SerialName(value = "various") val various: Boolean? = null,
 

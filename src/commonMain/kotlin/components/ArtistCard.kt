@@ -25,7 +25,8 @@ fun ArtistCard(artist: Artist, onLocationChange: (Location<*>) -> Unit = {}) {
     Card {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             CoverImage(artist.cover, Icons.Filled.Face)
-            Text(artist.name ?: "Неизвестный", Modifier.width(200.dp).onClick { onLocationChange(ArtistLocation(artist.id)) },
+            Text(
+                artist.name, Modifier.width(200.dp).onClick { onLocationChange(ArtistLocation(artist.id)) },
                 textAlign = TextAlign.Center, overflow = TextOverflow.Ellipsis, maxLines = 1)
             Text(artist.genres?.joinToString(", ") ?: "", Modifier.width(200.dp),
                 textAlign = TextAlign.Center, overflow = TextOverflow.Ellipsis, maxLines = 1)

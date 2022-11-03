@@ -40,7 +40,8 @@ fun TrackItem(track: Track, onLocationChange: (Location<*>) -> Unit = {}) {
             Text(track.title ?: "Неизвестный", Modifier.onClick { onLocationChange(AlbumLocation(track.albums!![0].id)) })
             Row {
                 track.artists?.map { artist ->
-                    Text(artist.name!!,
+                    Text(
+                        artist.name,
                         Modifier.onClick { onLocationChange(ArtistLocation(artist.id)) }) }
                     ?: Text("Неизвестен")
             }

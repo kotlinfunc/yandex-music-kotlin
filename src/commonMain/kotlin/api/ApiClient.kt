@@ -1,10 +1,8 @@
 package api
 
-import api.models.Album
-import api.models.Response
-import api.models.Search
-import api.models.Suggestions
+import api.models.*
 import api.resources.Albums
+import api.resources.Artists
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -36,6 +34,14 @@ suspend fun getAlbum(id: Long): Response<Album> {
 
 suspend fun getAlbumWithTracks(id: Long): Response<Album> {
     return client.get(Albums.Get.WithTracks(Albums.Get(id = id))).body()
+}
+
+suspend fun getArtist(id: Long): Response<ArtistInfo> {
+    return client.get(Artists.Get(id = id)).body()
+}
+
+suspend fun getArtistBriefInfo(id: Long): Response<ArtistInfo> {
+    return client.get(Artists.Get.BriefInfo(Artists.Get(id = id))).body()
 }
 
 suspend fun findSuggestions(search: String): Response<Suggestions> {
