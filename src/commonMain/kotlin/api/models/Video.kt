@@ -44,36 +44,36 @@ import kotlinx.serialization.encoding.*
 data class Video (
 
     /* Название видео */
-    @SerialName(value = "title") val title: kotlin.String? = null,
+    @SerialName(value = "title") val title: String,
 
     /* Ссылка на изображение */
-    @SerialName(value = "cover") val cover: kotlin.String? = null,
+    @SerialName(value = "cover") val cover: String,
 
     /* Ссылка на видео */
-    @SerialName(value = "embedUrl") val embedUrl: kotlin.String? = null,
+    @SerialName(value = "embedUrl") val embedUrl: String,
 
     /* Сервис поставляющий видео */
-    @SerialName(value = "provider") val provider: kotlin.String? = null,
+    @SerialName(value = "provider") val provider: String,
 
     /* Уникальный идентификатор видео на сервисе. */
-    @SerialName(value = "providerVideoId") val providerVideoId: kotlin.String? = null,
+    @SerialName(value = "providerVideoId") val providerVideoId: String,
 
     /* Ссылка на видео Youtube */
-    @SerialName(value = "youtubeUrl") val youtubeUrl: kotlin.String? = null,
+    @SerialName(value = "youtubeUrl") val youtubeUrl: String? = null,
 
     /* Ссылка на изображение */
-    @SerialName(value = "thumbnailUrl") val thumbnailUrl: kotlin.String? = null,
+    @SerialName(value = "thumbnailUrl") val thumbnailUrl: String? = null,
 
     /* Длительность видео в секундах */
-    @SerialName(value = "duration") val duration: kotlin.Double? = null,
+    @SerialName(value = "duration") val duration: Double? = null,
 
     /* Текст */
-    @SerialName(value = "text") val text: kotlin.String? = null,
+    @SerialName(value = "text") val text: String? = null,
 
     /* HTML тег для встраивания в разметку страницы */
-    @SerialName(value = "htmlAutoPlayVideoPlayer") val htmlAutoPlayVideoPlayer: kotlin.String? = null,
+    @SerialName(value = "htmlAutoPlayVideoPlayer") val htmlAutoPlayVideoPlayer: String? = null,
 
-    @SerialName(value = "regions") val regions: kotlin.collections.List<kotlin.String>? = null
+    @SerialName(value = "regions") val regions: List<String>? = null
 
 )
 

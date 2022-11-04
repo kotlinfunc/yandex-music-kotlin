@@ -29,7 +29,7 @@ import kotlinx.serialization.*
  * Values: artist,album,track,podcast,all
  */
 @Serializable
-enum class SearchType(val value: kotlin.String) {
+enum class SearchType(val value: String) {
 
     @SerialName(value = "artist")
     artist("artist"),

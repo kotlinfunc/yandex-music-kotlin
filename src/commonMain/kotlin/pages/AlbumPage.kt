@@ -23,6 +23,7 @@ import api.models.Album
 import api.models.Response
 import components.AlbumCard
 import components.AsyncImage
+import components.SimpleTrackItem
 import components.loadImageBitmap
 import navigation.ArtistLocation
 import navigation.Location
@@ -108,14 +109,14 @@ fun AlbumPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         album.volumes?.let {
                             Column {
                                 if (it.size == 1) {
-                                    it[0].forEach { track ->
-                                        Text(track.title)
+                                    it[0].forEachIndexed() { idx, track ->
+                                        SimpleTrackItem(track, idx + 1)
                                     }
                                 } else {
                                     it.forEachIndexed { volumeIdx, volume ->
                                         Text("Диск №${volumeIdx + 1}")
-                                        volume.forEach { track ->
-                                            Text(track.title)
+                                        volume.forEachIndexed() { idx, track ->
+                                            SimpleTrackItem(track, idx + 1)
                                         }
                                     }
                                 }

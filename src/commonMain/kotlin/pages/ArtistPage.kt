@@ -1,158 +1,317 @@
 package pages
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.NotInterested
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Radio
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import components.AsyncImage
-import components.loadImageBitmap
+import api.getArtistBriefInfo
+import api.models.ArtistInfo
+import api.models.Link
+import api.models.Response
+import components.*
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Brands
+import compose.icons.fontawesomeicons.brands.Facebook
+import compose.icons.fontawesomeicons.brands.Twitter
+import compose.icons.fontawesomeicons.brands.Youtube
 import navigation.Location
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
-    Column {
-        Row {
-            AsyncImage(
-                load = { loadImageBitmap("https://avatars.mds.yandex.net/get-music-misc/34161/img.5c64538de638960072f990b4/orig") },
-                painterFor = { remember { BitmapPainter(it) } },
-                contentDescription = "",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp)
-            )
-            Column(Modifier.height(200.dp)) {
-                Text("Исполнитель")
-                Text("Имя исполнителя", fontWeight = FontWeight.Bold, fontSize = 45.sp)
-                Text("Нравится слушателям: исполнитель 1, исполнитель 2")
-                Row {
-                    Button({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
-                        Icon(
-                            Icons.Filled.PlayArrow,
-                            contentDescription = null,
-                            modifier = Modifier.size(ButtonDefaults.IconSize)
-                        )
-                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        Text("Слушать")
-                    }
-                    OutlinedButton({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
-                        Icon(
-                            Icons.Outlined.Favorite,
-                            contentDescription = null,
-                            modifier = Modifier.size(ButtonDefaults.IconSize)
-                        )
-                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        Text("1543562")
-                    }
-                    OutlinedButton({}, shape = CircleShape) {
-                        Icon(
-                            Icons.Filled.Share,
-                            contentDescription = null,
-                            modifier = Modifier.size(ButtonDefaults.IconSize)
-                        )
-                    }
-                    OutlinedButton({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
-                        Icon(
-                            Icons.Filled.Radio,
-                            contentDescription = null,
-                            modifier = Modifier.size(ButtonDefaults.IconSize)
-                        )
-                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                        Text("Поток")
-                    }
-                    OutlinedButton({}, shape = CircleShape) {
-                        Icon(
-                            Icons.Filled.NotInterested,
-                            contentDescription = null,
-                            modifier = Modifier.size(ButtonDefaults.IconSize)
-                        )
-                    }
-                }
-            }
-        }
+    var artistResponse by remember { mutableStateOf<Response<ArtistInfo>?>(null) }
 
-        var selectedTab by remember { mutableStateOf(0) }
-        val titles = listOf("Главное", "Треки", "Альбомы", "Клипы", "Концерты", "Похожие", "Инфо")
-        TabRow(selectedTab) {
-            titles.forEachIndexed { index, title ->
-                Tab(
-                    text = { Text(title) },
-                    selected = selectedTab == index,
-                    onClick = { selectedTab = index }
-                )
-            }
+    LaunchedEffect(id) {
+        artistResponse = getArtistBriefInfo(id)
+    }
+
+    if (artistResponse == null) {
+        Column(Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
+            CircularProgressIndicator()
         }
-        when (selectedTab) {
-            0 -> {
-                Text("Популярные треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Text("Популярные альбомы и сборники", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Text("Концерты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Text("Концерты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Text("Похожие исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            }
-            1 -> {
-                Text("Треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            }
-            2 -> {
-                Text("Исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 200.dp),
-                    contentPadding = PaddingValues(10.dp),
-                ) {
-                }
-            }
-            3 -> {
-                Text("Исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            }
-            4 -> {
-                Text("Концерты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            }
-            5 -> {
-                Text("Похожие исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 200.dp),
-                    contentPadding = PaddingValues(10.dp),
-                ) {
-                }
-            }
-            6 -> {
-                Column {
-                    Row {
-                        // Images?
-                    }
-                    Row {
-                        // Popularity
-                    }
-                    Row {
-                        Card {
-                            Column {
-                                Text("Об исполнителе")
-                                Text("Армяно-американская альтернатив-метал-группа, образованная в 1992 году в Лос-Анджелесе Сержем Танкяном и Дароном Малакяном под названием Soil, а в 1995 принявшая нынешнее название. Все участники группы имеют армянское происхождение. В период с 1998 по 2005 год группа выпустила пять студийных альбомов, каждый из которых стал платиновым. Было продано более 40 миллионов копий альбомов по всему миру. В 2006 году участники System of a Down решили временно приостановить совместную деятельность и заняться сольными проектами. 29 ноября 2010 года группа объявила о воссоединении и проведении европейского турне в 2011 году. Изначально группа должна была называться «Victims of the Down» - по стихотворению, написанному Дароном Малакяном..")
+    } else if (artistResponse?.error != null) {
+        Text("Ошибка: ${artistResponse?.error?.message}")
+    } else {
+        artistResponse?.result?.let { artistInfo ->
+            Column {
+                Row {
+                    CoverImage(artistInfo.artist.cover, Icons.Filled.Face)
+                    Column(Modifier.height(200.dp)) {
+                        Text("Исполнитель")
+                        Text(artistInfo.artist.name, fontWeight = FontWeight.Bold, fontSize = 45.sp)
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                            Text("Нравится слушателям: ")
+                            artistInfo.similarArtists.forEach {
+                                Text(it.name)
                             }
                         }
-                        Card {
-                            Column {
-                                Text("Twitter")
-                                Text("Youtube")
-                                Text("Custom web-site")
+                        Row {
+                            Button({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
+                                Icon(
+                                    Icons.Filled.PlayArrow,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                                )
+                                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                                Text("Слушать")
                             }
+                            OutlinedButton({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
+                                Icon(
+                                    Icons.Outlined.Favorite,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                                )
+                                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                                Text("1543562")
+                            }
+                            OutlinedButton({}, shape = CircleShape) {
+                                Icon(
+                                    Icons.Filled.Share,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                                )
+                            }
+                            OutlinedButton({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
+                                Icon(
+                                    Icons.Filled.Radio,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                                )
+                                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                                Text("Поток")
+                            }
+                            OutlinedButton({}, shape = CircleShape) {
+                                Icon(
+                                    Icons.Filled.NotInterested,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                var selectedTab by remember { mutableStateOf(0) }
+                val titles = listOf("Главное", "Треки", "Альбомы", "Клипы", "Концерты", "Похожие", "Инфо")
+                TabRow(selectedTab) {
+                    titles.forEachIndexed { index, title ->
+                        Tab(
+                            text = { Text(title) },
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index }
+                        )
+                    }
+                }
+                when (selectedTab) {
+                    0 -> {
+                        val stateVertical = rememberScrollState(0)
+                        Box(Modifier.fillMaxSize()) {
+                            Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
+                                if (artistInfo.popularTracks.isNotEmpty()) {
+                                    Text("Популярные треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    artistInfo.popularTracks.forEach {
+                                        TrackItem(it) { onLocationChange(it) }
+                                    }
+                                }
+                                if (artistInfo.albums.isNotEmpty()) {
+                                    Text("Популярные альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row {
+                                        artistInfo.albums.take(5).forEach {
+                                            AlbumCard(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+                                if (artistInfo.alsoAlbums.isNotEmpty()) {
+                                    Text("Популярные альбомы и сборники", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row {
+                                        artistInfo.alsoAlbums.take(5).forEach {
+                                            AlbumCard(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+                                if (artistInfo.playlists?.isNotEmpty() == true) {
+                                    Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row {
+                                        artistInfo.playlists.take(5).forEach {
+                                            PlaylistCard(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+                                if (artistInfo.videos.isNotEmpty()) {
+                                    Text("Клипы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row {
+                                        artistInfo.videos.take(5).forEach {
+                                            VideoCard(it)
+                                        }
+                                    }
+                                }
+                                if (artistInfo.concerts.isNotEmpty()) {
+                                    Text("Концерты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row {
+                                        artistInfo.concerts.take(5).forEach {
+                                            ConcertCard(it)
+                                        }
+                                    }
+                                }
+                                if (artistInfo.similarArtists.isNotEmpty()) {
+                                    Text("Похожие исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row {
+                                        artistInfo.similarArtists.take(5).forEach {
+                                            ArtistCard(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+                            }
+                            VerticalScrollbar(
+                                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                                adapter = rememberScrollbarAdapter(stateVertical)
+                            )
+                        }
+                    }
+                    1 -> {
+                        val state = rememberLazyListState()
+                        Text("Треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        Box(Modifier.fillMaxSize()) {
+                            LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp)) {
+                                itemsIndexed(artistInfo.popularTracks) { number, track ->
+                                    SimpleTrackItem(track, number + 1) { onLocationChange(it) }
+                                }
+                            }
+                            VerticalScrollbar(
+                                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                                adapter = rememberScrollbarAdapter(
+                                    scrollState = state
+                                )
+                            )
+                        }
+                    }
+                    2 -> {
+                        Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(minSize = 200.dp),
+                            contentPadding = PaddingValues(10.dp),
+                        ) {
+                            items(artistInfo.albums) {
+                                AlbumCard(it) { onLocationChange(it) }
+                            }
+                        }
+                    }
+                    3 -> {
+                        Text("Клипы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(minSize = 200.dp),
+                            contentPadding = PaddingValues(10.dp),
+                        ) {
+                            items(artistInfo.videos) {
+                                VideoCard(it)
+                            }
+                        }
+                    }
+                    4 -> {
+                        Text("Концерты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(minSize = 278.dp),
+                            contentPadding = PaddingValues(10.dp),
+                        ) {
+                            items(artistInfo.concerts) {
+                                ConcertCard(it)
+                            }
+                        }
+                    }
+                    5 -> {
+                        Text("Похожие исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(minSize = 200.dp),
+                            contentPadding = PaddingValues(10.dp),
+                        ) {
+                            items(artistInfo.similarArtists) {
+                                ArtistCard(it) { onLocationChange(it) }
+                            }
+                        }
+                    }
+                    6 -> {
+                        val stateVertical = rememberScrollState(0)
+                        Box(Modifier.fillMaxSize()) {
+                            Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
+                                if (artistInfo.allCovers.size > 1) {
+                                    Row {
+                                        artistInfo.allCovers.forEach {
+                                            AsyncImage(
+                                                load = { loadImageBitmap("https://" + it.uri!!.replace("%%", "290x185")) },
+                                                painterFor = { remember { BitmapPainter(it) } },
+                                                contentDescription = "",
+                                                contentScale = ContentScale.Fit,
+                                                modifier = Modifier.width(290.dp).height(185.dp)
+                                            )
+                                        }
+                                    }
+                                }
+                                artistInfo.stats?.let {
+                                    Text("Слушателей за предыдущий месяц: ${it.lastMonthListeners}")
+                                }
+                                Row(Modifier.fillMaxWidth()) {
+                                    artistInfo.artist.description?.let {
+                                        Card(Modifier.fillMaxWidth(0.5f)) {
+                                            Column {
+                                                Text("Об исполнителе", fontWeight = FontWeight.Bold)
+                                                Text(it.text)
+                                            }
+                                        }
+                                    }
+                                    artistInfo.artist.links?.let {
+                                        Card(Modifier.fillMaxWidth(0.5f)) {
+                                            Column() {
+                                                it.forEach {
+                                                    OutlinedButton({}) {
+                                                        Icon(
+                                                            if (it.type == Link.Type.SOCIAL)
+                                                                when (it.socialNetwork!!) {
+                                                                    Link.SocialNetwork.FACEBOOK -> FontAwesomeIcons.Brands.Facebook
+                                                                    Link.SocialNetwork.TWITTER -> FontAwesomeIcons.Brands.Twitter
+                                                                    Link.SocialNetwork.YOUTUBE -> FontAwesomeIcons.Brands.Youtube
+                                                                }
+                                                            else Icons.Filled.Language,
+                                                            contentDescription = null,
+                                                            modifier = Modifier.size(ButtonDefaults.IconSize)
+                                                        )
+                                                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                                                        Text(it.title)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            VerticalScrollbar(
+                                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                                adapter = rememberScrollbarAdapter(stateVertical)
+                            )
                         }
                     }
                 }

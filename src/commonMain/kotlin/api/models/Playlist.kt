@@ -62,7 +62,7 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class Playlist (
 
-    @SerialName(value = "playlistUuid") val playlistUuid: String,
+    @SerialName(value = "playlistUuid") val playlistUuid: String? = null,
 
     @SerialName(value = "description") val description: String? = null,
 
@@ -106,7 +106,7 @@ data class Playlist (
 
     @SerialName(value = "trackCount") val trackCount: Int? = null,
 
-    @SerialName(value = "uid") val uid: kotlin.Double? = null,
+    @SerialName(value = "uid") val uid: Long? = null,
 
     @SerialName(value = "visibility") val visibility: Playlist.Visibility? = null,
 

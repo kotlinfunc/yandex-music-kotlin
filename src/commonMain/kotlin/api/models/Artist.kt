@@ -48,7 +48,7 @@ data class Artist (
 
     @SerialName(value = "cover") val cover: Cover? = null,
 
-    @SerialName(value = "decomposed") val decomposed: List<String>? = null,
+    //@SerialName(value = "decomposed") val decomposed: List<String>? = null,
 
     @SerialName(value = "genres") val genres: List<String>? = null,
 
@@ -63,7 +63,11 @@ data class Artist (
     /* Имеются ли в продаже билеты на концерт */
     @SerialName(value = "ticketsAvailable") val ticketsAvailable: Boolean? = null,
 
-    @SerialName(value = "regions") val regions: List<String>? = null
+    @SerialName(value = "regions") val regions: List<String>? = null,
+
+    val links: List<Link>? = null,
+
+    val description: Description? = null
 
 )
 

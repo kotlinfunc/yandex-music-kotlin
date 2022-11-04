@@ -23,7 +23,7 @@ fun PlaylistCard(playlist: Playlist, onLocationChange: (Location<*>) -> Unit = {
     Card {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             CoverImage(playlist.cover)
-            Text(playlist.title ?: "Неизвестный", Modifier.width(200.dp).onClick { onLocationChange(PlaylistLocation(playlist.playlistUuid)) }, overflow = TextOverflow.Ellipsis, maxLines = 1)
+            Text(playlist.title ?: "Неизвестный", Modifier.width(200.dp).onClick { onLocationChange(PlaylistLocation(playlist.playlistUuid!!)) }, overflow = TextOverflow.Ellipsis, maxLines = 1)
         }
     }
 }

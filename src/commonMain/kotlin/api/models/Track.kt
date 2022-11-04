@@ -59,40 +59,40 @@ data class Track (
 
     @SerialName(value = "artists") val artists: List<Artist>? = null,
 
-    @SerialName(value = "available") val available: kotlin.Boolean? = null,
+    @SerialName(value = "available") val available: Boolean? = null,
 
-    @SerialName(value = "availableForPremiumUsers") val availableForPremiumUsers: kotlin.Boolean? = null,
+    @SerialName(value = "availableForPremiumUsers") val availableForPremiumUsers: Boolean? = null,
 
-    @SerialName(value = "availableFullWithoutPermission") val availableFullWithoutPermission: kotlin.Boolean? = null,
+    @SerialName(value = "availableFullWithoutPermission") val availableFullWithoutPermission: Boolean? = null,
 
     /* Cover uri template */
-    @SerialName(value = "coverUri") val coverUri: kotlin.String? = null,
+    @SerialName(value = "coverUri") val coverUri: String? = null,
 
-    @SerialName(value = "durationMs") val durationMs: kotlin.Double? = null,
+    @SerialName(value = "durationMs") val durationMs: Int? = null,
 
     @SerialName(value = "fileSize") val fileSize: kotlin.Double? = null,
 
     @SerialName(value = "id") val id: Long,
 
-    @SerialName(value = "lyricsAvailable") val lyricsAvailable: kotlin.Boolean? = null,
+    @SerialName(value = "lyricsAvailable") val lyricsAvailable: Boolean? = null,
 
     @SerialName(value = "major") val major: AlbumLabelsInner? = null,
 
     @SerialName(value = "normalization") val normalization: TrackNormalization? = null,
 
-    @SerialName(value = "ogImage") val ogImage: kotlin.String? = null,
+    @SerialName(value = "ogImage") val ogImage: String? = null,
 
-    @SerialName(value = "previewDurationMs") val previewDurationMs: kotlin.Double? = null,
+    @SerialName(value = "previewDurationMs") val previewDurationMs: Double? = null,
 
-    @SerialName(value = "realId") val realId: kotlin.String? = null,
+    @SerialName(value = "realId") val realId: String? = null,
 
     @SerialName(value = "rememberPosition") val rememberPosition: kotlin.Boolean? = null,
 
-    @SerialName(value = "storageDir") val storageDir: kotlin.String? = null,
+    @SerialName(value = "storageDir") val storageDir: String? = null,
 
     @SerialName(value = "title") val title: String,
 
-    @SerialName(value = "type") val type: kotlin.String? = null
+    @SerialName(value = "type") val type: String? = null
 
 )
 
