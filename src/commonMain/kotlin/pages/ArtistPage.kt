@@ -37,6 +37,7 @@ import compose.icons.fontawesomeicons.brands.Facebook
 import compose.icons.fontawesomeicons.brands.Twitter
 import compose.icons.fontawesomeicons.brands.Youtube
 import navigation.Location
+import util.openInBrowser
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -197,7 +198,8 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         val state = rememberLazyListState()
                         Text("Треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                         Box(Modifier.fillMaxSize()) {
-                            LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp)) {
+                            LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                 itemsIndexed(artistInfo.popularTracks) { number, track ->
                                     SimpleTrackItem(track, number + 1) { onLocationChange(it) }
                                 }
@@ -215,6 +217,8 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         LazyVerticalGrid(
                             columns = GridCells.Adaptive(minSize = 200.dp),
                             contentPadding = PaddingValues(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(artistInfo.albums) {
                                 AlbumCard(it) { onLocationChange(it) }
@@ -226,6 +230,8 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         LazyVerticalGrid(
                             columns = GridCells.Adaptive(minSize = 200.dp),
                             contentPadding = PaddingValues(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(artistInfo.videos) {
                                 VideoCard(it)
@@ -237,6 +243,8 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         LazyVerticalGrid(
                             columns = GridCells.Adaptive(minSize = 278.dp),
                             contentPadding = PaddingValues(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(artistInfo.concerts) {
                                 ConcertCard(it)
@@ -248,6 +256,8 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         LazyVerticalGrid(
                             columns = GridCells.Adaptive(minSize = 200.dp),
                             contentPadding = PaddingValues(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(artistInfo.similarArtists) {
                                 ArtistCard(it) { onLocationChange(it) }
@@ -259,13 +269,13 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         Box(Modifier.fillMaxSize()) {
                             Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
                                 if (artistInfo.allCovers.size > 1) {
-                                    Row {
+                                    Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                                         artistInfo.allCovers.forEach {
                                             AsyncImage(
-                                                load = { loadImageBitmap("https://" + it.uri!!.replace("%%", "290x185")) },
+                                                load = { loadImageBitmap("https://" + it.uri!!.replace("%%", "1000x1000")) },
                                                 painterFor = { remember { BitmapPainter(it) } },
                                                 contentDescription = "",
-                                                contentScale = ContentScale.Fit,
+                                                contentScale = ContentScale.FillBounds,
                                                 modifier = Modifier.width(290.dp).height(185.dp)
                                             )
                                         }
@@ -287,7 +297,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                         Card(Modifier.fillMaxWidth(0.5f)) {
                                             Column() {
                                                 it.forEach {
-                                                    OutlinedButton({}) {
+                                                    OutlinedButton({ openInBrowser(it.href) }) {
                                                         Icon(
                                                             if (it.type == Link.Type.SOCIAL)
                                                                 when (it.socialNetwork!!) {

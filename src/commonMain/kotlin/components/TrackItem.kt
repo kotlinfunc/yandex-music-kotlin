@@ -4,18 +4,16 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.NotInterested
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import api.models.Track
 import navigation.AlbumLocation
@@ -27,37 +25,38 @@ import kotlin.time.Duration.Companion.milliseconds
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TrackItem(track: Track, onLocationChange: (Location<*>) -> Unit = {}) {
-    Row(horizontalArrangement = Arrangement.spacedBy(5.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
         track.coverUri?.let { uri ->
             AsyncImage(
-                load = { loadImageBitmap("https://" + uri.replace("%%", "200x200")) },
+                load = { loadImageBitmap("https://" + uri.replace("%%", "50x50")) },
                 painterFor = { remember { BitmapPainter(it) } },
                 contentDescription = "",
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.defaultMinSize(50.dp, 50.dp).width(50.dp).height(50.dp)
             )
         }
-        Column {
-            Text(track.title ?: "Неизвестный", Modifier.onClick { onLocationChange(AlbumLocation(track.albums!![0].id)) })
+        Column(Modifier.weight(1f)) {
+            Text(track.title, Modifier.onClick { onLocationChange(AlbumLocation(track.albums!![0].id)) },
+                overflow = TextOverflow.Ellipsis, maxLines = 1)
             Row {
                 track.artists?.map { artist ->
                     Text(
                         artist.name,
-                        Modifier.onClick { onLocationChange(ArtistLocation(artist.id)) }) }
+                        Modifier.onClick { onLocationChange(ArtistLocation(artist.id)) },
+                        overflow = TextOverflow.Ellipsis, maxLines = 1) }
                     ?: Text("Неизвестен")
             }
         }
-        Spacer(Modifier.fillMaxWidth())
-        Button(onClick = {}) {
+        IconButton(onClick = {}) {
             Icon(
                 Icons.Filled.Favorite,
                 contentDescription = null,
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
         }
-        Button(onClick = {}) {
+        IconButton(onClick = {}) {
             Icon(
-                Icons.Filled.Delete,
+                Icons.Filled.NotInterested,
                 contentDescription = null,
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )

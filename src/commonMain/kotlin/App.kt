@@ -96,7 +96,7 @@ fun App() {
                     is ArtistLocation -> ArtistPage(location.data as Long) { location = it }
                     is AlbumLocation -> AlbumPage(location.data as Long) { location = it }
                     is HomeLocation -> HomePage() { location = it }
-                    is PlaylistLocation -> PlaylistPage(location.data as String) { location = it }
+                    is PlaylistLocation -> PlaylistPage(location.data as Long) { location = it }
                     is PodcastLocation -> PodcastPage(location.data as Long) { location = it }
                     is PodcastsLocation -> PodcastsPage() { location = it }
                     is RadiosLocation -> RadiosPage() { location = it }

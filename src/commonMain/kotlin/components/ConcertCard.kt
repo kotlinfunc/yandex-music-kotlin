@@ -22,7 +22,7 @@ fun ConcertCard(concert: Concert) {
               load = { loadImageBitmap(concert.images[0].replace("%%", "278x180")) },
               painterFor = { remember { BitmapPainter(it) } },
               contentDescription = "",
-              contentScale = ContentScale.Fit,
+              contentScale = ContentScale.FillBounds,
               modifier = Modifier.defaultMinSize(278.dp, 180.dp).width(278.dp).height(180.dp)
           )
           Row(Modifier.width(278.dp)) {

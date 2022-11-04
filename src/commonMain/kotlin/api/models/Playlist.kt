@@ -106,7 +106,7 @@ data class Playlist (
 
     @SerialName(value = "trackCount") val trackCount: Int? = null,
 
-    @SerialName(value = "uid") val uid: Long? = null,
+    @SerialName(value = "uid") val uid: Long,
 
     @SerialName(value = "visibility") val visibility: Playlist.Visibility? = null,
 

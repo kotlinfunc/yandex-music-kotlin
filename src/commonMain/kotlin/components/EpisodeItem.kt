@@ -21,7 +21,7 @@ import navigation.Location
 @Composable
 @Preview
 fun EpisodeItem(onLocationChange: (Location<*>) -> Unit = {}) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.height(IntrinsicSize.Min).fillMaxWidth(), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
         AsyncImage(
             load = { loadImageBitmap("https://avatars.yandex.net/get-music-content/2424959/b28d033f.a.10572815-2/200x200") },
             painterFor = { remember { BitmapPainter(it) } },
@@ -29,12 +29,10 @@ fun EpisodeItem(onLocationChange: (Location<*>) -> Unit = {}) {
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.width(50.dp).height(50.dp)
         )
-        Spacer(Modifier.size(5.dp))
-        Column {
+        Column(Modifier.weight(1f)) {
             Text("Название")
             Text("Подкаст")
         }
-        Spacer(Modifier.fillMaxWidth())
         Button(onClick = {}) {
             Icon(
                 Icons.Filled.Favorite,
@@ -42,7 +40,6 @@ fun EpisodeItem(onLocationChange: (Location<*>) -> Unit = {}) {
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
         }
-        Spacer(Modifier.size(5.dp))
         Button(onClick = {}) {
             Icon(
                 Icons.Filled.Delete,
@@ -50,7 +47,6 @@ fun EpisodeItem(onLocationChange: (Location<*>) -> Unit = {}) {
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
         }
-        Spacer(Modifier.size(5.dp))
         Text("3:03")
     }
 }

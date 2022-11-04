@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 @Preview
 fun RadioCard() {
-    Card {
+    Card(Modifier.height(IntrinsicSize.Min).width(IntrinsicSize.Min)) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             AsyncImage(
                 load = { loadImageBitmap("https://avatars.mds.yandex.net/get-music-misc/34161/img.5c64538de638960072f990b4/orig") },
@@ -26,7 +26,7 @@ fun RadioCard() {
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp)
             )
-            Text("Название", Modifier.width(200.dp), overflow = TextOverflow.Ellipsis, maxLines = 1)
+            Text("Название", Modifier.fillMaxWidth(), overflow = TextOverflow.Ellipsis, maxLines = 1)
             Text("Сейчас играет")
         }
     }

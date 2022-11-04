@@ -24,7 +24,7 @@ import navigation.Location
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun AlbumCard(album: Album, onLocationChange: (Location<*>) -> Unit = {}) {
-    Card {
+    Card(Modifier.height(IntrinsicSize.Min).width(IntrinsicSize.Min)) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             AsyncImage(
                 load = { loadImageBitmap("https://" + album.coverUri?.replace("%%", "200x200")) },
@@ -33,15 +33,15 @@ fun AlbumCard(album: Album, onLocationChange: (Location<*>) -> Unit = {}) {
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp)
             )
-            Row(Modifier.width(200.dp)) {
+            Row(Modifier.fillMaxWidth()) {
                 Text(album.title, Modifier.onClick { onLocationChange(AlbumLocation(album.id)) }, overflow = TextOverflow.Ellipsis, maxLines = 1)
                 Icon(Icons.Filled.Explicit, null)
             }
-            Row {
+            Row(Modifier.fillMaxWidth()) {
                 album.artists?.map { artist ->
                     Text(
                         artist.name,
-                        Modifier.width(200.dp).onClick { onLocationChange(ArtistLocation(artist.id)) },
+                        Modifier.onClick { onLocationChange(ArtistLocation(artist.id)) },
                         overflow = TextOverflow.Ellipsis, maxLines = 1) }
                     ?: Text("Неизвестен")
             }
@@ -53,7 +53,7 @@ fun AlbumCard(album: Album, onLocationChange: (Location<*>) -> Unit = {}) {
                     Text(it.toString(), overflow = TextOverflow.Ellipsis)
                 }
                 album.version?.let {
-                    Text(it.toString(), overflow = TextOverflow.Ellipsis, maxLines = 1)
+                    Text(it, overflow = TextOverflow.Ellipsis, maxLines = 1)
                 }
             }
         }

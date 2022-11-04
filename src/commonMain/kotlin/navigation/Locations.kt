@@ -10,7 +10,7 @@ object CollectionLocation: Location<Unit>(Unit)
 
 object HomeLocation: Location<Unit>(Unit)
 
-class PlaylistLocation(id: String): Location<String>(id)
+class PlaylistLocation(id: Long): Location<Long>(id)
 
 class PodcastLocation(id: Long): Location<Long>(id)
 

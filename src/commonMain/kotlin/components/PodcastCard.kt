@@ -21,7 +21,7 @@ import navigation.Location
 @Composable
 @Preview
 fun PodcastCard(onLocationChange: (Location<*>) -> Unit = {}) {
-    Card {
+    Card(Modifier.height(IntrinsicSize.Min).width(IntrinsicSize.Min)) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             AsyncImage(
                 load = { loadImageBitmap("https://avatars.yandex.net/get-music-content/2424959/b28d033f.a.10572815-2/200x200") },
@@ -31,7 +31,7 @@ fun PodcastCard(onLocationChange: (Location<*>) -> Unit = {}) {
                 modifier = Modifier.width(200.dp).height(200.dp)
             )
             Text("Название")
-            Row(Modifier.width(200.dp), Arrangement.spacedBy(5.dp)) {
+            Row(Modifier.fillMaxWidth(), Arrangement.spacedBy(5.dp)) {
                 Icon(Icons.Outlined.Favorite, contentDescription = null)
                 Text("200", overflow = TextOverflow.Ellipsis, maxLines = 1)
             }

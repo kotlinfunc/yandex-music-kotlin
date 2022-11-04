@@ -150,6 +150,8 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                         modifier = Modifier.fillMaxSize(),
                         columns = GridCells.Adaptive(minSize = 200.dp),
                         contentPadding = PaddingValues(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(15.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         searchResult?.result?.artists?.results?.let {
                             items(it) {
@@ -162,6 +164,8 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                     LazyVerticalGrid(
                         columns = GridCells.Adaptive(minSize = 200.dp),
                         contentPadding = PaddingValues(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(15.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         searchResult?.result?.albums?.results?.let {
                             items(it) {
@@ -173,7 +177,8 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                 3 -> {
                     Box(Modifier.fillMaxSize()) {
                         val state = rememberLazyListState()
-                        LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp)) {
+                        LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             searchResult?.result?.tracks?.results?.let {
                                 items(it) {
                                     TrackItem(it) { onLocationChange(it) }
@@ -192,6 +197,8 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                     LazyVerticalGrid(
                         columns = GridCells.Adaptive(minSize = 200.dp),
                         contentPadding = PaddingValues(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(15.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         item {
                             PodcastCard() { onLocationChange(it) }
@@ -216,7 +223,8 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                 5 -> {
                     Box {
                         val state = rememberLazyListState()
-                        LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp)) {
+                        LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             item {
                                 EpisodeItem() { onLocationChange(it) }
                             }
@@ -248,6 +256,8 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                     LazyVerticalGrid(
                         columns = GridCells.Adaptive(minSize = 200.dp),
                         contentPadding = PaddingValues(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(15.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         searchResult?.result?.playlists?.results?.let {
                             items(it) {

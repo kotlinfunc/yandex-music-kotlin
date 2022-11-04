@@ -1,10 +1,7 @@
 package components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -87,6 +84,7 @@ fun Player(onLocationChange: (Location<*>) -> Unit = {}) {
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
         }
+        Spacer(Modifier.weight(1f))
         IconButton({}) {
             Icon(
                 Icons.Filled.HighQuality,
