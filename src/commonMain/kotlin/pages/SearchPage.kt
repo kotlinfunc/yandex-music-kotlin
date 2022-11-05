@@ -54,214 +54,190 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                 }
             }
 
-            when(selectedTab) {
-                0 -> {
-                    Box(Modifier.fillMaxSize()) {
+            searchResult?.result?.let {
+                when(selectedTab) {
+                    0 -> {
                         val stateVertical = rememberScrollState(0)
 
-                        Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
-                            searchResult?.result?.artists?.let {
-                                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text("Исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                    Button(onClick = { selectedTab = 1 }) {
-                                        Text("Смотреть всех")
+                        Box(Modifier.fillMaxSize()) {
+                            Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
+                                it.artists?.let {
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        Button(onClick = { selectedTab = 1 }) {
+                                            Text("Смотреть всех")
+                                        }
+                                    }
+                                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                        it.results.forEach {
+                                            ArtistCard(it) { onLocationChange(it) }
+                                        }
                                     }
                                 }
-                                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    it.results.forEach {
-                                        ArtistCard(it) { onLocationChange(it) }
+                                it.albums?.let {
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        Button(onClick = { selectedTab = 2 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
+                                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                        it.results.forEach {
+                                            AlbumCard(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+                                it.tracks?.let {
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        Button(onClick = { selectedTab = 3 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
+                                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                        it.results.forEach {
+                                            TrackItem(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+                                it.podcasts?.let {
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Подкасты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        Button(onClick = { selectedTab = 4 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
+                                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                        it.results.forEach {
+                                            PodcastCard(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+                                it.podcastEpisodes?.let {
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Выпуски", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        Button(onClick = { selectedTab = 5 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
+                                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                        it.results.take(5).forEach {
+                                            EpisodeItem(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+                                it.playlists?.let {
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        Button(onClick = { selectedTab = 6 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
+                                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                        it.results.take(5).forEach {
+                                            PlaylistCard(it) { onLocationChange(it) }
+                                        }
                                     }
                                 }
                             }
-                            searchResult?.result?.albums?.let {
-                                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                    Button(onClick = { selectedTab = 2 }) {
-                                        Text("Смотреть всех")
-                                    }
-                                }
-                                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    it.results.forEach {
-                                        AlbumCard(it) { onLocationChange(it) }
-                                    }
+                            VerticalScrollbar(
+                                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                                adapter = rememberScrollbarAdapter(stateVertical)
+                            )
+                        }
+                    }
+                    1 -> {
+                        LazyVerticalGrid(
+                            modifier = Modifier.fillMaxSize(),
+                            columns = GridCells.Adaptive(minSize = 200.dp),
+                            contentPadding = PaddingValues(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                           it.artists?.results?.let {
+                                items(it) {
+                                    ArtistCard(it) { onLocationChange(it) }
                                 }
                             }
-                            searchResult?.result?.tracks?.let {
-                                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text("Треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                    Button(onClick = { selectedTab = 3 }) {
-                                        Text("Смотреть всех")
-                                    }
+                        }
+                    }
+                    2 -> {
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(minSize = 200.dp),
+                            contentPadding = PaddingValues(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            it.albums?.results?.let {
+                                items(it) {
+                                    AlbumCard(it) { onLocationChange(it) }
                                 }
-                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    it.results.forEach {
+                            }
+                        }
+                    }
+                    3 -> {
+                        Box(Modifier.fillMaxSize()) {
+                            val state = rememberLazyListState()
+                            LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                it.tracks?.results?.let {
+                                    items(it) {
                                         TrackItem(it) { onLocationChange(it) }
                                     }
                                 }
                             }
-                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text("Подкасты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                Button(onClick = { selectedTab = 4 }) {
-                                    Text("Смотреть всех")
-                                }
-                            }
-                            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                                PodcastCard() { onLocationChange(it) }
-                                PodcastCard() { onLocationChange(it) }
-                                PodcastCard() { onLocationChange(it) }
-                                PodcastCard() { onLocationChange(it) }
-                                PodcastCard() { onLocationChange(it) }
-                            }
-                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text("Выпуски", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                Button(onClick = { selectedTab = 5 }) {
-                                    Text("Смотреть всех")
-                                }
-                            }
-                            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                EpisodeItem() { onLocationChange(it) }
-                                EpisodeItem() { onLocationChange(it) }
-                                EpisodeItem() { onLocationChange(it) }
-                                EpisodeItem() { onLocationChange(it) }
-                                EpisodeItem() { onLocationChange(it) }
-                            }
-                            searchResult?.result?.playlists?.let {
-                                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                    Button(onClick = { selectedTab = 6 }) {
-                                        Text("Смотреть всех")
-                                    }
-                                }
-                                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    it.results.take(5).forEach {
-                                        PlaylistCard(it) { onLocationChange(it) }
-                                    }
-                                }
-                            }
-                        }
-                        VerticalScrollbar(
-                            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-                            adapter = rememberScrollbarAdapter(stateVertical)
-                        )
-                    }
-                }
-                1 -> {
-                    LazyVerticalGrid(
-                        modifier = Modifier.fillMaxSize(),
-                        columns = GridCells.Adaptive(minSize = 200.dp),
-                        contentPadding = PaddingValues(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        searchResult?.result?.artists?.results?.let {
-                            items(it) {
-                                ArtistCard(it) { onLocationChange(it) }
-                            }
+                            VerticalScrollbar(
+                                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                                adapter = rememberScrollbarAdapter(
+                                    scrollState = state
+                                )
+                            )
                         }
                     }
-                }
-                2 -> {
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(minSize = 200.dp),
-                        contentPadding = PaddingValues(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        searchResult?.result?.albums?.results?.let {
-                            items(it) {
-                                AlbumCard(it) { onLocationChange(it) }
-                            }
-                        }
-                    }
-                }
-                3 -> {
-                    Box(Modifier.fillMaxSize()) {
-                        val state = rememberLazyListState()
-                        LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                            searchResult?.result?.tracks?.results?.let {
+                    4 -> {
+                        it.podcasts?.results?.let {
+                            LazyVerticalGrid(
+                                columns = GridCells.Adaptive(minSize = 200.dp),
+                                contentPadding = PaddingValues(10.dp),
+                                horizontalArrangement = Arrangement.spacedBy(15.dp),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
                                 items(it) {
-                                    TrackItem(it) { onLocationChange(it) }
+                                    PodcastCard(it) { onLocationChange(it) }
                                 }
                             }
                         }
-                        VerticalScrollbar(
-                            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-                            adapter = rememberScrollbarAdapter(
-                                scrollState = state
-                            )
-                        )
                     }
-                }
-                4 -> {
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(minSize = 200.dp),
-                        contentPadding = PaddingValues(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        item {
-                            PodcastCard() { onLocationChange(it) }
-                        }
-                        item {
-                            PodcastCard() { onLocationChange(it) }
-                        }
-                        item {
-                            PodcastCard() { onLocationChange(it) }
-                        }
-                        item {
-                            PodcastCard() { onLocationChange(it) }
-                        }
-                        item {
-                            PodcastCard() { onLocationChange(it) }
-                        }
-                        item {
-                            PodcastCard() { onLocationChange(it) }
+                    5 -> {
+                        it.podcastEpisodes?.let {
+                            Box {
+                                val state = rememberLazyListState()
+                                LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
+                                    verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    items(it.results) {
+                                        EpisodeItem(it) {onLocationChange(it) }
+                                    }
+                                }
+                                VerticalScrollbar(
+                                    modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                                    adapter = rememberScrollbarAdapter(
+                                        scrollState = state
+                                    )
+                                )
+                            }
                         }
                     }
-                }
-                5 -> {
-                    Box {
-                        val state = rememberLazyListState()
-                        LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                            item {
-                                EpisodeItem() { onLocationChange(it) }
-                            }
-                            item {
-                                EpisodeItem() { onLocationChange(it) }
-                            }
-                            item {
-                                EpisodeItem() { onLocationChange(it) }
-                            }
-                            item {
-                                EpisodeItem() { onLocationChange(it) }
-                            }
-                            item {
-                                EpisodeItem() { onLocationChange(it) }
-                            }
-                            item {
-                                EpisodeItem() { onLocationChange(it) }
-                            }
-                        }
-                        VerticalScrollbar(
-                            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-                            adapter = rememberScrollbarAdapter(
-                                scrollState = state
-                            )
-                        )
-                    }
-                }
-                6 -> {
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(minSize = 200.dp),
-                        contentPadding = PaddingValues(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        searchResult?.result?.playlists?.results?.let {
-                            items(it) {
-                                PlaylistCard(it) { onLocationChange(it) }
+                    6 -> {
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(minSize = 200.dp),
+                            contentPadding = PaddingValues(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            it.playlists?.results?.let {
+                                items(it) {
+                                    PlaylistCard(it) { onLocationChange(it) }
+                                }
                             }
                         }
                     }

@@ -20,14 +20,7 @@
 
 package api.models
 
-import api.models.Album
-import api.models.AlbumLabelsInner
-import api.models.Artist
-import api.models.TrackNormalization
-
 import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
 
 /**
  * 
@@ -76,7 +69,7 @@ data class Track (
 
     @SerialName(value = "lyricsAvailable") val lyricsAvailable: Boolean? = null,
 
-    @SerialName(value = "major") val major: AlbumLabelsInner? = null,
+    @SerialName(value = "major") val major: Label? = null,
 
     @SerialName(value = "normalization") val normalization: TrackNormalization? = null,
 

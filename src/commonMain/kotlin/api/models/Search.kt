@@ -68,9 +68,9 @@ data class Search (
 
     //@SerialName(value = "users") val users: SearchResult<BestResult>? = null,
 
-    //@SerialName(value = "podcasts") val podcasts: SearchResult<BestResult>? = null,
+    @SerialName(value = "podcasts") val podcasts: PagingResult<Podcast>? = null,
 
-    //@SerialName(value = "podcast_episodes") val podcastEpisodes: SearchResult<BestResult>? = null,
+    @SerialName(value = "podcast_episodes") val podcastEpisodes: PagingResult<Episode>? = null,
 
     @SerialName(value = "type") val type: SearchType? = SearchType.all,
 

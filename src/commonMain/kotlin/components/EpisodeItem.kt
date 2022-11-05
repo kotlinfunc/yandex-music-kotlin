@@ -16,22 +16,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import api.models.Episode
 import navigation.Location
+import util.time
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 @Preview
-fun EpisodeItem(onLocationChange: (Location<*>) -> Unit = {}) {
+fun EpisodeItem(episode: Episode, onLocationChange: (Location<*>) -> Unit = {}) {
     Row(Modifier.height(IntrinsicSize.Min).fillMaxWidth(), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
         AsyncImage(
-            load = { loadImageBitmap("https://avatars.yandex.net/get-music-content/2424959/b28d033f.a.10572815-2/200x200") },
+            load = { loadImageBitmap("https://" + episode.coverUri.replace("%%", "50x50")) },
             painterFor = { remember { BitmapPainter(it) } },
             contentDescription = "",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.width(50.dp).height(50.dp)
         )
         Column(Modifier.weight(1f)) {
-            Text("Название")
-            Text("Подкаст")
+            Text(episode.title)
+            Text(episode.albums[0].title)
         }
         Button(onClick = {}) {
             Icon(
@@ -47,6 +50,6 @@ fun EpisodeItem(onLocationChange: (Location<*>) -> Unit = {}) {
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
         }
-        Text("3:03")
+        Text(episode.durationMs.milliseconds.time())
     }
 }

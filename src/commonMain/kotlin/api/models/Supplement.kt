@@ -20,12 +20,7 @@
 
 package api.models
 
-import api.models.Lyrics
-import api.models.VideoSupplement
-
 import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
 
 /**
  * дополнительная информация о треке
@@ -44,7 +39,7 @@ data class Supplement (
 
     @SerialName(value = "lyrics") val lyrics: Lyrics? = null,
 
-    @SerialName(value = "videos") val videos: VideoSupplement? = null,
+    @SerialName(value = "videos") val videos: Video? = null,
 
     /* Доступно ли радио. */
     @SerialName(value = "radioIsAvailable") val radioIsAvailable: kotlin.Boolean? = null,

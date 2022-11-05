@@ -21,8 +21,6 @@
 package api.models
 
 import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
 
 /**
  * 
@@ -31,7 +29,7 @@ import kotlinx.serialization.encoding.*
  * @param name 
  */
 @Serializable
-data class AlbumLabelsInner (
+data class Label (
     @SerialName(value = "id") val id: Long,
     @SerialName(value = "name") val name: String
 )
