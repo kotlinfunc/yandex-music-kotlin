@@ -50,6 +50,10 @@ suspend fun getPlaylists(playlistIds: List<PlaylistId>): Response<List<Playlist>
     return client.post(Playlists(playlistIds.map { "${it.uid}:${it.kind}" })).body()
 }
 
+suspend fun getPodcastWithEpisodes(id: Long): Response<Podcast> {
+    return client.get(Albums.Get.WithTracks(Albums.Get(id = id))).body()
+}
+
 suspend fun getUserPlaylist(playlistId: PlaylistId): Response<Playlist> {
     return client.get(Users.Get.Playlists.ByKind(Users.Get.Playlists(Users.Get(id = playlistId.uid)), playlistId.kind)).body()
 }

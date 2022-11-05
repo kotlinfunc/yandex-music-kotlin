@@ -10,6 +10,8 @@ data class Podcast(
 
     val coverUri: String,
 
+    val description: String? = null,
+
     val id: Long,
 
     val likesCount: Int? = null,
@@ -22,11 +24,15 @@ data class Podcast(
 
     val releaseDate: String? = null,
 
+    val shortDescription: String? = null,
+
     val title: String,
 
     val tracksCount: Int? = null,
 
     val veryImportant: Boolean,
+
+    val volumes: List<List<Episode>>? = null,
 
     val year: Int? = null
 )

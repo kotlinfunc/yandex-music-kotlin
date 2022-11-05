@@ -1,5 +1,6 @@
 package api.models
 
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,9 +15,11 @@ data class Episode(
 
     val coverUri: String,
 
+    val description: String? = null,
+
     val durationMs: Int,
 
-    val explicit: Boolean,
+    val explicit: Boolean? = null,
 
     val fileSize: Int,
 
@@ -30,11 +33,15 @@ data class Episode(
 
     val previewDurationMs: Int,
 
+    val pubDate: LocalDate? = null,
+
     val r128: R128,
 
     val realId: String,
 
-    val regions: List<String>,
+    val regions: List<String>? = null,
+
+    val shortDescription: String? = null,
 
     val title: String,
 )

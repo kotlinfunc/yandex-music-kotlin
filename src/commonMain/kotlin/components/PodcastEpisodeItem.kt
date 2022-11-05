@@ -24,10 +24,9 @@ import navigation.PodcastLocation
 import util.time
 import kotlin.time.Duration.Companion.milliseconds
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
-fun EpisodeItem(episode: Episode, onLocationChange: (Location<*>) -> Unit = {}) {
+fun PodcastEpisodeItem(episode: Episode) {
     Row(Modifier.height(IntrinsicSize.Min).fillMaxWidth(), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
         AsyncImage(
             load = { loadImageBitmap("https://" + episode.coverUri.replace("%%", "50x50")) },
@@ -38,7 +37,9 @@ fun EpisodeItem(episode: Episode, onLocationChange: (Location<*>) -> Unit = {}) 
         )
         Column(Modifier.weight(1f)) {
             Text(episode.title)
-            Text(episode.albums[0].title, Modifier.onClick { onLocationChange(PodcastLocation(episode.albums[0].id)) })
+            episode.pubDate.let {
+                Text(it.toString())
+            }
         }
         Button(onClick = {}) {
             Icon(

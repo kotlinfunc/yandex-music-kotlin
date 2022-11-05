@@ -1,7 +1,9 @@
 package components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.onClick
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -17,8 +19,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import api.models.Podcast
 import navigation.Location
+import navigation.PodcastLocation
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun PodcastCard(podcast: Podcast, onLocationChange: (Location<*>) -> Unit = {}) {
@@ -31,7 +34,7 @@ fun PodcastCard(podcast: Podcast, onLocationChange: (Location<*>) -> Unit = {}) 
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.width(200.dp).height(200.dp)
             )
-            Text(podcast.title)
+            Text(podcast.title, Modifier.onClick { onLocationChange(PodcastLocation(podcast.id)) })
             podcast.likesCount?.let {
                 Row(Modifier.fillMaxWidth(), Arrangement.spacedBy(5.dp)) {
                     Icon(Icons.Outlined.Favorite, contentDescription = null)
