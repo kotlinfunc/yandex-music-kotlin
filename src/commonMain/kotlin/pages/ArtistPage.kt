@@ -305,7 +305,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                                 load = { loadImageBitmap("https://" + it.uri!!.replace("%%", "1000x1000")) },
                                                 painterFor = { remember { BitmapPainter(it) } },
                                                 contentDescription = "",
-                                                contentScale = ContentScale.FillBounds,
+                                                contentScale = ContentScale.FillWidth,
                                                 modifier = Modifier.width(290.dp).height(185.dp)
                                             )
                                         }
@@ -325,7 +325,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                     artistInfo.artist.links?.let {
                                         Card(Modifier.fillMaxWidth(0.5f)) {
-                                            Column() {
+                                            Column {
                                                 it.forEach {
                                                     OutlinedButton({ openInBrowser(it.href) }) {
                                                         Icon(
