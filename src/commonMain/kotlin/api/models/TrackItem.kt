@@ -38,15 +38,15 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class TrackItem (
 
-    @SerialName(value = "id") val id: kotlin.Double? = null,
+    @SerialName(value = "id") val id: Long,
 
-    @SerialName(value = "playCount") val playCount: kotlin.Double? = null,
+    @SerialName(value = "playCount") val playCount: Int? = null,
 
-    @SerialName(value = "recent") val recent: kotlin.Boolean? = null,
+    @SerialName(value = "recent") val recent: Boolean? = null,
 
-    @SerialName(value = "timestamp") val timestamp: kotlin.String? = null,
+    @SerialName(value = "timestamp") val timestamp: String? = null,
 
-    @SerialName(value = "track") val track: Track? = null
+    @SerialName(value = "track") val track: Track
 
 )
 

@@ -37,15 +37,15 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class Owner (
 
-    @SerialName(value = "login") val login: kotlin.String? = null,
+    @SerialName(value = "login") val login: String,
 
-    @SerialName(value = "name") val name: kotlin.String? = null,
+    @SerialName(value = "name") val name: String,
 
-    @SerialName(value = "sex") val sex: kotlin.String? = null,
+    @SerialName(value = "sex") val sex: String,
 
-    @SerialName(value = "uid") val uid: kotlin.Double? = null,
+    @SerialName(value = "uid") val uid: Long,
 
-    @SerialName(value = "verified") val verified: kotlin.Boolean? = null
+    @SerialName(value = "verified") val verified: Boolean
 
 )
 

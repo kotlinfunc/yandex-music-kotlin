@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import api.findSuggestions
+import api.models.PlaylistId
 import api.models.Suggestions
 import components.AsyncImage
 import components.Player
@@ -96,7 +97,7 @@ fun App() {
                     is ArtistLocation -> ArtistPage(location.data as Long) { location = it }
                     is AlbumLocation -> AlbumPage(location.data as Long) { location = it }
                     is HomeLocation -> HomePage() { location = it }
-                    is PlaylistLocation -> PlaylistPage(location.data as Long) { location = it }
+                    is PlaylistLocation -> PlaylistPage(location.data as PlaylistId) { location = it }
                     is PodcastLocation -> PodcastPage(location.data as Long) { location = it }
                     is PodcastsLocation -> PodcastsPage() { location = it }
                     is RadiosLocation -> RadiosPage() { location = it }

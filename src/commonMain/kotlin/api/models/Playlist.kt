@@ -74,7 +74,7 @@ data class Playlist (
 
     @SerialName(value = "cover") val cover: Cover? = null,
 
-    @SerialName(value = "created") val created: String? = null,
+    @SerialName(value = "created") val created: String,
 
     @SerialName(value = "modified") val modified: String? = null,
 
@@ -88,31 +88,35 @@ data class Playlist (
 
     @SerialName(value = "isPremiere") val isPremiere: kotlin.Boolean? = null,
 
-    @SerialName(value = "kind") val kind: Double? = null,
+    @SerialName(value = "kind") val kind: Long,
 
     @SerialName(value = "ogImage") val ogImage: String? = null,
 
-    @SerialName(value = "owner") val owner: Owner? = null,
+    @SerialName(value = "owner") val owner: Owner,
 
-    @SerialName(value = "prerolls") val prerolls: List<kotlin.String>? = null,
+    @SerialName(value = "prerolls") val prerolls: List<String>? = null,
 
-    @SerialName(value = "revision") val revision: Double? = null,
+    @SerialName(value = "revision") val revision: Int? = null,
 
-    @SerialName(value = "snapshot") val snapshot: Double? = null,
+    @SerialName(value = "snapshot") val snapshot: Int? = null,
 
     @SerialName(value = "tags") val tags: List<PlaylistTagsInner>? = null,
 
-    @SerialName(value = "title") val title: String? = null,
+    @SerialName(value = "title") val title: String,
 
     @SerialName(value = "trackCount") val trackCount: Int? = null,
 
     @SerialName(value = "uid") val uid: Long,
 
-    @SerialName(value = "visibility") val visibility: Playlist.Visibility? = null,
+    @SerialName(value = "visibility") val visibility: Visibility? = null,
 
     @SerialName(value = "likesCount") val likesCount: Int? = null,
 
-    @SerialName(value = "tracks") val tracks: List<TrackItem>? = null
+    @SerialName(value = "tracks") val tracks: List<TrackItem>? = null,
+
+    val similarPlaylists: List<Playlist>? = null,
+
+    val lastOwnerPlaylists: List<Playlist>? = null
 
 ) {
 
@@ -122,7 +126,7 @@ data class Playlist (
      * Values: `public`,`private`
      */
     @Serializable
-    enum class Visibility(val value: kotlin.String) {
+    enum class Visibility(val value: String) {
         @SerialName(value = "public") `public`("public"),
         @SerialName(value = "private") `private`("private");
     }

@@ -3,6 +3,8 @@ package api
 import api.models.*
 import api.resources.Albums
 import api.resources.Artists
+import api.resources.Playlists
+import api.resources.Users
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -42,6 +44,18 @@ suspend fun getArtist(id: Long): Response<ArtistInfo> {
 
 suspend fun getArtistBriefInfo(id: Long): Response<ArtistInfo> {
     return client.get(Artists.Get.BriefInfo(Artists.Get(id = id))).body()
+}
+
+suspend fun getPlaylists(playlistIds: List<PlaylistId>): Response<List<Playlist>> {
+    return client.post(Playlists(playlistIds.map { "${it.uid}:${it.kind}" })).body()
+}
+
+suspend fun getUserPlaylist(playlistId: PlaylistId): Response<Playlist> {
+    return client.get(Users.Get.Playlists.ByKind(Users.Get.Playlists(Users.Get(id = playlistId.uid)), playlistId.kind)).body()
+}
+
+suspend fun getUserPlaylists(uid: Long): Response<List<Playlist>> {
+    return client.get(Users.Get.Playlists.List(Users.Get.Playlists(Users.Get(id = uid)))).body()
 }
 
 suspend fun findSuggestions(search: String): Response<Suggestions> {

@@ -1,5 +1,7 @@
 package navigation
 
+import api.models.PlaylistId
+
 sealed class Location<T>(val data: T)
 
 class ArtistLocation(id: Long): Location<Long>(id)
@@ -10,7 +12,7 @@ object CollectionLocation: Location<Unit>(Unit)
 
 object HomeLocation: Location<Unit>(Unit)
 
-class PlaylistLocation(id: Long): Location<Long>(id)
+class PlaylistLocation(id: PlaylistId): Location<PlaylistId>(id)
 
 class PodcastLocation(id: Long): Location<Long>(id)
 

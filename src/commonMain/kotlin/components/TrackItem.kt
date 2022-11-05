@@ -33,11 +33,11 @@ fun TrackItem(track: Track, onLocationChange: (Location<*>) -> Unit = {}) {
                 contentDescription = "",
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.defaultMinSize(50.dp, 50.dp).width(50.dp).height(50.dp)
+                    .onClick { onLocationChange(AlbumLocation(track.albums!![0].id)) }
             )
         }
         Column(Modifier.weight(1f)) {
-            Text(track.title, Modifier.onClick { onLocationChange(AlbumLocation(track.albums!![0].id)) },
-                overflow = TextOverflow.Ellipsis, maxLines = 1)
+            Text(track.title, overflow = TextOverflow.Ellipsis, maxLines = 1)
             Row {
                 track.artists?.map { artist ->
                     Text(

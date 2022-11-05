@@ -35,10 +35,10 @@ import kotlinx.serialization.encoding.*
 data class PlaylistId (
 
     /* Уникальный идентификатор пользователя владеющим плейлистом */
-    @SerialName(value = "uid") val uid: kotlin.Int? = null,
+    @SerialName(value = "uid") val uid: Long,
 
     /* Уникальный идентификатор плейлиста */
-    @SerialName(value = "kind") val kind: kotlin.Int? = null
+    @SerialName(value = "kind") val kind: Long
 
 )
 

@@ -36,9 +36,9 @@ import kotlinx.serialization.encoding.*
 @Serializable
 data class TagResult (
 
-    @SerialName(value = "tag") val tag: Tag? = null,
+    @SerialName(value = "tag") val tag: Tag,
 
-    @SerialName(value = "ids") val ids: kotlin.collections.List<PlaylistId>? = null
+    @SerialName(value = "ids") val ids: List<PlaylistId>? = null
 
 )
 

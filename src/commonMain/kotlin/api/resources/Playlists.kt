@@ -4,6 +4,5 @@ import io.ktor.resources.*
 import kotlinx.serialization.Serializable
 
 @Serializable
-@Resource("/playlists")
-class Playlists {
-}
+@Resource("/playlists/list")
+class Playlists(val playlistIds: List<String>)
