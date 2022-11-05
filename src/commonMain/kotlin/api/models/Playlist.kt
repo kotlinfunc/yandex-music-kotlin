@@ -74,7 +74,7 @@ data class Playlist (
 
     @SerialName(value = "cover") val cover: Cover? = null,
 
-    @SerialName(value = "created") val created: String,
+    @SerialName(value = "created") val created: String? = null,
 
     @SerialName(value = "modified") val modified: String? = null,
 
@@ -92,7 +92,7 @@ data class Playlist (
 
     @SerialName(value = "ogImage") val ogImage: String? = null,
 
-    @SerialName(value = "owner") val owner: Owner,
+    @SerialName(value = "owner") val owner: Owner? = null,
 
     @SerialName(value = "prerolls") val prerolls: List<String>? = null,
 

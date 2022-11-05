@@ -134,13 +134,23 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         Box(Modifier.fillMaxSize()) {
                             Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
                                 if (artistInfo.popularTracks.isNotEmpty()) {
-                                    Text("Популярные треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Популярные треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        TextButton(onClick = { selectedTab = 1 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
                                     artistInfo.popularTracks.forEach {
                                         TrackItem(it) { onLocationChange(it) }
                                     }
                                 }
                                 if (artistInfo.albums.isNotEmpty()) {
-                                    Text("Популярные альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Популярные альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        TextButton(onClick = { selectedTab = 2 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
                                     Row {
                                         artistInfo.albums.take(5).forEach {
                                             AlbumCard(it) { onLocationChange(it) }
@@ -148,7 +158,12 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                 }
                                 if (artistInfo.alsoAlbums.isNotEmpty()) {
-                                    Text("Популярные альбомы и сборники", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Популярные сборники", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        TextButton(onClick = { selectedTab = 2 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
                                     Row {
                                         artistInfo.alsoAlbums.take(5).forEach {
                                             AlbumCard(it) { onLocationChange(it) }
@@ -164,7 +179,12 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                 }
                                 if (artistInfo.videos.isNotEmpty()) {
-                                    Text("Клипы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Клипы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        TextButton(onClick = { selectedTab = 3 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
                                     Row {
                                         artistInfo.videos.take(5).forEach {
                                             VideoCard(it)
@@ -172,7 +192,12 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                 }
                                 if (artistInfo.concerts.isNotEmpty()) {
-                                    Text("Концерты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Концерты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        TextButton(onClick = { selectedTab = 4 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
                                     Row {
                                         artistInfo.concerts.take(5).forEach {
                                             ConcertCard(it)
@@ -180,7 +205,12 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                 }
                                 if (artistInfo.similarArtists.isNotEmpty()) {
-                                    Text("Похожие исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text("Похожие исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                        TextButton(onClick = { selectedTab = 5 }) {
+                                            Text("Смотреть все")
+                                        }
+                                    }
                                     Row {
                                         artistInfo.similarArtists.take(5).forEach {
                                             ArtistCard(it) { onLocationChange(it) }

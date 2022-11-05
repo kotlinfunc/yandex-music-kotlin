@@ -64,7 +64,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 it.artists?.let {
                                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         Text("Исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                        Button(onClick = { selectedTab = 1 }) {
+                                        TextButton(onClick = { selectedTab = 1 }) {
                                             Text("Смотреть всех")
                                         }
                                     }
@@ -77,7 +77,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 it.albums?.let {
                                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                        Button(onClick = { selectedTab = 2 }) {
+                                        TextButton(onClick = { selectedTab = 2 }) {
                                             Text("Смотреть все")
                                         }
                                     }
@@ -90,7 +90,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 it.tracks?.let {
                                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         Text("Треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                        Button(onClick = { selectedTab = 3 }) {
+                                        TextButton(onClick = { selectedTab = 3 }) {
                                             Text("Смотреть все")
                                         }
                                     }
@@ -103,7 +103,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 it.podcasts?.let {
                                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         Text("Подкасты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                        Button(onClick = { selectedTab = 4 }) {
+                                        TextButton(onClick = { selectedTab = 4 }) {
                                             Text("Смотреть все")
                                         }
                                     }
@@ -116,7 +116,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 it.podcastEpisodes?.let {
                                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         Text("Выпуски", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                        Button(onClick = { selectedTab = 5 }) {
+                                        TextButton(onClick = { selectedTab = 5 }) {
                                             Text("Смотреть все")
                                         }
                                     }
@@ -129,7 +129,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                 it.playlists?.let {
                                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                        Button(onClick = { selectedTab = 6 }) {
+                                        TextButton(onClick = { selectedTab = 6 }) {
                                             Text("Смотреть все")
                                         }
                                     }

@@ -57,6 +57,7 @@ fun App() {
                 NavigationDrawerItem({ Text("Главная") }, location is HomeLocation, { location = HomeLocation }, icon = { Icon(Icons.Filled.Home, null) })
                 NavigationDrawerItem({ Text("Подкасты и книги") }, location is PodcastsLocation, { location = PodcastsLocation }, icon = { Icon(Icons.Filled.Podcasts, null) })
                 NavigationDrawerItem({ Text("Радио") }, location is RadiosLocation, { location = RadiosLocation }, icon = { Icon(Icons.Filled.Radio, null) })
+                Spacer(Modifier.weight(1f))
                 NavigationDrawerItem({ Text("Коллекция") }, location is CollectionLocation, { location = CollectionLocation }, icon = { Icon(Icons.Filled.Collections, null) })
                 NavigationDrawerItem({ Text("Настройки") }, location is SettingsLocation, { location = SettingsLocation }, icon = { Icon(Icons.Filled.Settings, null) })
             }

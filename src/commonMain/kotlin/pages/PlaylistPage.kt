@@ -66,8 +66,12 @@ fun PlaylistPage(id: PlaylistId, onLocationChange: (Location<*>) -> Unit = {}) {
                             Text(it)
                         }
                         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                            Text(it.owner.name)
-                            Text(it.modified ?: it.created)
+                            it.owner?.let {
+                                Text(it.name)
+                            }
+                            it.modified?.let {
+                                Text(it)
+                            }
                         }
                         Row {
                             Button({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
