@@ -80,13 +80,13 @@ data class Playlist (
 
     @SerialName(value = "backgroundColor") val backgroundColor: String? = null,
 
-    @SerialName(value = "textColor") val textColor: kotlin.String? = null,
+    @SerialName(value = "textColor") val textColor: String? = null,
 
     @SerialName(value = "durationMs") val durationMs: Int? = null,
 
-    @SerialName(value = "isBunner") val isBunner: kotlin.Boolean? = null,
+    @SerialName(value = "isBunner") val isBunner: Boolean? = null,
 
-    @SerialName(value = "isPremiere") val isPremiere: kotlin.Boolean? = null,
+    @SerialName(value = "isPremiere") val isPremiere: Boolean? = null,
 
     @SerialName(value = "kind") val kind: Long,
 

@@ -1,10 +1,8 @@
 package api
 
 import api.models.*
-import api.resources.Albums
-import api.resources.Artists
-import api.resources.Playlists
-import api.resources.Users
+import api.models.Search
+import api.resources.*
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -44,6 +42,10 @@ suspend fun getArtist(id: Long): Response<ArtistInfo> {
 
 suspend fun getArtistBriefInfo(id: Long): Response<ArtistInfo> {
     return client.get(Artists.Get.BriefInfo(Artists.Get(id = id))).body()
+}
+
+suspend fun getChart(chartType: ChartScope): Response<Chart> {
+    return client.get(Landing.Chart(chartType = chartType)).body()
 }
 
 suspend fun getPlaylists(playlistIds: List<PlaylistId>): Response<List<Playlist>> {

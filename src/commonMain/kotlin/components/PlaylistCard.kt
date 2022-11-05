@@ -17,10 +17,10 @@ import navigation.PlaylistLocation
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun PlaylistCard(playlist: Playlist, onLocationChange: (Location<*>) -> Unit = {}) {
-    Card(Modifier.height(IntrinsicSize.Min).width(IntrinsicSize.Min)) {
+    Card(Modifier.width(IntrinsicSize.Min)) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             CoverImage(playlist.cover)
-            Text( playlist.title, Modifier.fillMaxWidth()
+            Text(playlist.title, Modifier.fillMaxWidth()
                 .onClick { onLocationChange(PlaylistLocation(PlaylistId(playlist.uid, playlist.kind))) })
         }
     }
