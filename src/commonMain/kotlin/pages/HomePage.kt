@@ -4,10 +4,12 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,8 +29,7 @@ fun HomePage(onLocationChange: (Location<*>) -> Unit = {}) {
     val titles = listOf("Всё", "Новые релизы", "Чарт", "Настроения и жанры")
 
     var chartResponse by remember { mutableStateOf<Response<Chart>?>(null) }
-
-    LaunchedEffect(true) {
+    LaunchedEffect(ChartScope.RUSSIA) {
         chartResponse = getChart(ChartScope.RUSSIA)
     }
 
@@ -49,19 +50,28 @@ fun HomePage(onLocationChange: (Location<*>) -> Unit = {}) {
             1 -> {
             }
             2 -> {
-                chartResponse?.result?.let {
+                val chartInfo = chartResponse?.result
+                if (chartInfo == null) {
+                    Column(Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        CircularProgressIndicator()
+                    }
+                } else {
                     val stateVertical = rememberScrollState(0)
 
                     Box(Modifier.fillMaxSize()) {
                         Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
-                            Text(it.chart.title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                            Text(it.title)
-                            it.chart.tracks?.let {
-                                it.forEach {
-                                    TrackItem(it.track) { onLocationChange(it) }
+                            Text(chartInfo.chart.title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                            Text(chartInfo.title)
+                            Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                                chartInfo.chart.tracks?.let {
+                                    it.forEach {
+                                        TrackItem(it.track) { onLocationChange(it) }
+                                    }
                                 }
                             }
-                            it.chart.similarPlaylists?.let {
+                            chartInfo.chart.similarPlaylists?.let {
                                 Text("Плейлисты с другими чартами", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 Row {
                                     it.forEach {

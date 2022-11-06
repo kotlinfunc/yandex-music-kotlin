@@ -48,6 +48,10 @@ suspend fun getChart(chartType: ChartScope): Response<Chart> {
     return client.get(Landing.Chart(chartType = chartType)).body()
 }
 
+suspend fun getGenres(): Response<List<Genre>> {
+    return client.get(Genres()).body()
+}
+
 suspend fun getPlaylists(playlistIds: List<PlaylistId>): Response<List<Playlist>> {
     return client.post(Playlists(playlistIds.map { "${it.uid}:${it.kind}" })).body()
 }
