@@ -31,7 +31,16 @@ import pages.*
 fun App() {
     val density = LocalDensity.current
 
+    val previousLocations = mutableStateListOf<Location<*>>()
     var location by remember { mutableStateOf<Location<*>>(HomeLocation) }
+    val changeLocation: (Location<*>) -> Unit = {
+        previousLocations.add(it)
+        if (previousLocations.size > 100) {
+            previousLocations.removeFirst()
+        }
+        location = it
+    }
+
     var searchText by remember { mutableStateOf("") }
     var searchSuggestions by remember { mutableStateOf<Suggestions?>(null) }
     var showSuggestions by remember { mutableStateOf(false) }
@@ -54,23 +63,44 @@ fun App() {
                     modifier = Modifier.height(100.dp).fillMaxWidth().padding(12.dp)
                 )
                 Divider()
-                NavigationDrawerItem({ Text("Главная") }, location is HomeLocation, { location = HomeLocation }, icon = { Icon(Icons.Filled.Home, null) })
-                NavigationDrawerItem({ Text("Подкасты и книги") }, location is PodcastsLocation, { location = PodcastsLocation }, icon = { Icon(Icons.Filled.Podcasts, null) })
-                NavigationDrawerItem({ Text("Радио") }, location is RadiosLocation, { location = RadiosLocation }, icon = { Icon(Icons.Filled.Radio, null) })
+                NavigationDrawerItem({ Text("Главная") }, location is HomeLocation,
+                    {
+                        changeLocation(HomeLocation)
+                    }, icon = { Icon(Icons.Filled.Home, null) })
+                NavigationDrawerItem({ Text("Подкасты и книги") }, location is PodcastsLocation,
+                    {
+                        changeLocation(PodcastsLocation)
+                    },
+                    icon = { Icon(Icons.Filled.Podcasts, null) })
+                NavigationDrawerItem({ Text("Радио") }, location is RadiosLocation,
+                    {
+                        changeLocation(RadiosLocation)
+                    }, icon = { Icon(Icons.Filled.Radio, null) })
                 Spacer(Modifier.weight(1f))
-                NavigationDrawerItem({ Text("Коллекция") }, location is CollectionLocation, { location = CollectionLocation }, icon = { Icon(Icons.Filled.Collections, null) })
-                NavigationDrawerItem({ Text("Настройки") }, location is SettingsLocation, { location = SettingsLocation }, icon = { Icon(Icons.Filled.Settings, null) })
+                NavigationDrawerItem({ Text("Коллекция") }, location is CollectionLocation,
+                    {
+                        changeLocation(CollectionLocation)
+                    }, icon = { Icon(Icons.Filled.Collections, null) })
+                NavigationDrawerItem({ Text("Настройки") }, location is SettingsLocation,
+                    { changeLocation(SettingsLocation) }, icon = { Icon(Icons.Filled.Settings, null) })
             }
         ) {
             Column {
                 TopAppBar() {
+                    IconButton({ location = previousLocations.removeLast() }, enabled = previousLocations.isNotEmpty()) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = null,
+                            modifier = Modifier.size(ButtonDefaults.IconSize)
+                        )
+                    }
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally) {
                         TextField(value = searchText, onValueChange = { searchText = it },
                             modifier = Modifier.fillMaxWidth(0.5f).onKeyEvent {
                                 if (it.key == Key.Enter && searchText.isNotBlank()) {
-                                    location = SearchLocation(searchText)
+                                    changeLocation(SearchLocation(searchText))
                                     searchText = ""
                                 }
                                 false
@@ -95,17 +125,17 @@ fun App() {
                 }
                 when (location) {
                     is CollectionLocation -> {}
-                    is ArtistLocation -> ArtistPage(location.data as Long) { location = it }
-                    is AlbumLocation -> AlbumPage(location.data as Long) { location = it }
-                    is HomeLocation -> HomePage { location = it }
-                    is PlaylistLocation -> PlaylistPage(location.data as PlaylistId) { location = it }
-                    is PodcastLocation -> PodcastPage(location.data as Long) { location = it }
-                    is PodcastsLocation -> PodcastsPage() { location = it }
-                    is RadiosLocation -> RadiosPage() { location = it }
-                    is SearchLocation -> SearchPage(location.data as String) { location = it }
+                    is ArtistLocation -> ArtistPage(location.data as Long) { changeLocation(it) }
+                    is AlbumLocation -> AlbumPage(location.data as Long) { changeLocation(it) }
+                    is HomeLocation -> HomePage { changeLocation(it) }
+                    is PlaylistLocation -> PlaylistPage(location.data as PlaylistId) { changeLocation(it) }
+                    is PodcastLocation -> PodcastPage(location.data as Long) { changeLocation(it) }
+                    is PodcastsLocation -> PodcastsPage() { changeLocation(it) }
+                    is RadiosLocation -> RadiosPage() { changeLocation(it) }
+                    is SearchLocation -> SearchPage(location.data as String) { changeLocation(it) }
                     is SettingsLocation -> {}
                 }
-                Player() { location = it }
+                Player() { changeLocation(it) }
             }
         }
     }
