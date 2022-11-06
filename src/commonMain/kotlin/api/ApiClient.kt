@@ -1,6 +1,7 @@
 package api
 
 import api.models.*
+import api.models.Feed
 import api.models.Search
 import api.resources.*
 import io.ktor.client.*
@@ -46,6 +47,10 @@ suspend fun getArtistBriefInfo(id: Long): Response<ArtistInfo> {
 
 suspend fun getChart(chartType: ChartScope): Response<Chart> {
     return client.get(Landing.Chart(chartType = chartType)).body()
+}
+
+suspend fun getFeed(): Response<Feed> {
+    return client.get(api.resources.Feed()).body()
 }
 
 suspend fun getGenres(): Response<List<Genre>> {

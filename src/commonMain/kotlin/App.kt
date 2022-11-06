@@ -115,8 +115,7 @@ fun App() {
                             placeholder = { Text("Поиск") },
                             singleLine = true
                         )
-                        DropdownMenu(showSuggestions, { showSuggestions = false },
-                            modifier = Modifier.fillMaxHeight(0.75f)) {
+                        DropdownMenu(showSuggestions, { showSuggestions = false }) {
                             searchSuggestions!!.suggestions.forEach { option ->
                                 DropdownMenuItem(
                                     onClick = {
