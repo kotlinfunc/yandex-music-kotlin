@@ -29,7 +29,7 @@ fun VideoCard(video: Video, onClick: () -> Unit = { openInBrowser(video.embedUrl
                     painterFor = { remember { BitmapPainter(it) } },
                     contentDescription = "",
                     contentScale = ContentScale.FillBounds,
-                    modifier = Modifier.defaultMinSize(200.dp, 112.dp).width(200.dp).height(112.dp)
+                    modifier = Modifier.requiredSize(200.dp, 112.dp)
                 )
                 Icon(Icons.Filled.PlayArrow, null, modifier = Modifier.size(ButtonDefaults.IconSize))
             }

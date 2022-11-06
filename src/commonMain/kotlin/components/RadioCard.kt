@@ -24,7 +24,7 @@ fun RadioCard() {
                 painterFor = { remember { BitmapPainter(it) } },
                 contentDescription = "",
                 contentScale = ContentScale.FillWidth,
-                modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp)
+                modifier = Modifier.requiredSize(200.dp)
             )
             Text("Название", Modifier.fillMaxWidth(), overflow = TextOverflow.Ellipsis, maxLines = 1)
             Text("Сейчас играет")

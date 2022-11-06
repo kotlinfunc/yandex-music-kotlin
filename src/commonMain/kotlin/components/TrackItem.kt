@@ -32,7 +32,7 @@ fun TrackItem(track: Track, onLocationChange: (Location<*>) -> Unit = {}) {
                 painterFor = { remember { BitmapPainter(it) } },
                 contentDescription = "",
                 contentScale = ContentScale.FillWidth,
-                modifier = Modifier.defaultMinSize(50.dp, 50.dp).width(50.dp).height(50.dp)
+                modifier = Modifier.requiredSize(50.dp)
                     .onClick { onLocationChange(AlbumLocation(track.albums!![0].id)) }
             )
         }

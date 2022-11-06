@@ -35,7 +35,7 @@ fun GenreCard(genre: Genre) {
                     painterFor = { remember { BitmapPainter(it) } },
                     contentDescription = "",
                     contentScale = ContentScale.FillWidth,
-                    modifier = Modifier.background(it.backgroundColor.toColor(), CircleShape).width(50.dp).height(50.dp)
+                    modifier = Modifier.background(it.backgroundColor.toColor(), CircleShape).requiredSize(50.dp)
                 )
             }
             Text(genre.title, Modifier.weight(1f))

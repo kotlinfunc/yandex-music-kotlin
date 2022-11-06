@@ -31,7 +31,7 @@ fun AlbumCard(album: Album, onLocationChange: (Location<*>) -> Unit = {}) {
                 painterFor = { remember { BitmapPainter(it) } },
                 contentDescription = "",
                 contentScale = ContentScale.FillWidth,
-                modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp)
+                modifier = Modifier.size(200.dp)
             )
             Row(Modifier.fillMaxWidth()) {
                 Text(album.title, Modifier.onClick { onLocationChange(AlbumLocation(album.id)) }, overflow = TextOverflow.Ellipsis, maxLines = 1)

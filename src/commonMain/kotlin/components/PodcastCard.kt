@@ -32,7 +32,7 @@ fun PodcastCard(podcast: Podcast, onLocationChange: (Location<*>) -> Unit = {}) 
                 painterFor = { remember { BitmapPainter(it) } },
                 contentDescription = "",
                 contentScale = ContentScale.FillWidth,
-                modifier = Modifier.width(200.dp).height(200.dp)
+                modifier = Modifier.requiredSize(200.dp)
             )
             Text(podcast.title, Modifier.onClick { onLocationChange(PodcastLocation(podcast.id)) })
             podcast.likesCount?.let {

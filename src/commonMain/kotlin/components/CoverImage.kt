@@ -22,7 +22,7 @@ fun CoverImage(cover: Cover?, defaultImage: ImageVector? = null) {
                         painterFor = { remember { BitmapPainter(it) } },
                         contentDescription = "",
                         contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.defaultMinSize(100.dp, 100.dp).width(100.dp).height(100.dp)
+                        modifier = Modifier.requiredSize(100.dp)
                     )
                 }
             }
@@ -33,7 +33,7 @@ fun CoverImage(cover: Cover?, defaultImage: ImageVector? = null) {
                         painterFor = { remember { BitmapPainter(it) } },
                         contentDescription = "",
                         contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.defaultMinSize(100.dp, 100.dp).width(100.dp).height(100.dp)
+                        modifier = Modifier.requiredSize(100.dp)
                     )
                 }
             }
@@ -44,13 +44,13 @@ fun CoverImage(cover: Cover?, defaultImage: ImageVector? = null) {
             painterFor = { remember { BitmapPainter(it) } },
             contentDescription = "",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp)
+            modifier = Modifier.requiredSize(200.dp)
         )
     } else {
         if (defaultImage == null) {
-            Box(Modifier.size(200.dp, 200.dp))
+            Box(Modifier.requiredSize(200.dp, 200.dp))
         } else {
-            Image(defaultImage, "", modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp))
+            Image(defaultImage, "", modifier = Modifier.requiredSize(200.dp))
         }
     }
 }

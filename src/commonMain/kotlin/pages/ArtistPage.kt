@@ -36,6 +36,8 @@ import compose.icons.fontawesomeicons.Brands
 import compose.icons.fontawesomeicons.brands.Facebook
 import compose.icons.fontawesomeicons.brands.Twitter
 import compose.icons.fontawesomeicons.brands.Youtube
+import layouts.Flow
+import layouts.TruncatedRow
 import navigation.Location
 import util.openInBrowser
 
@@ -65,12 +67,15 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                     Column(Modifier.height(200.dp)) {
                         Text("Исполнитель")
                         Text(artistInfo.artist.name, fontWeight = FontWeight.Bold, fontSize = 45.sp)
-                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                            Text("Нравится слушателям: ")
-                            artistInfo.similarArtists.forEach {
-                                Text(it.name)
+                        if (artistInfo.similarArtists.isNotEmpty()) {
+                            Flow(horizontalSpacing = 5.dp, verticalSpacing = 5.dp) {
+                                Text("Нравится слушателям: ")
+                                artistInfo.similarArtists.forEach {
+                                    Text(it.name)
+                                }
                             }
                         }
+                        Spacer(Modifier.weight(1f))
                         Row {
                             Button({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
                                 Icon(
@@ -151,7 +156,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                             Text("Смотреть все")
                                         }
                                     }
-                                    Row {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.albums.take(5).forEach {
                                             AlbumCard(it) { onLocationChange(it) }
                                         }
@@ -164,7 +169,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                             Text("Смотреть все")
                                         }
                                     }
-                                    Row {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.alsoAlbums.take(5).forEach {
                                             AlbumCard(it) { onLocationChange(it) }
                                         }
@@ -172,7 +177,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                 }
                                 if (artistInfo.playlists?.isNotEmpty() == true) {
                                     Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                    Row {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.playlists.take(5).forEach {
                                             PlaylistCard(it) { onLocationChange(it) }
                                         }
@@ -185,7 +190,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                             Text("Смотреть все")
                                         }
                                     }
-                                    Row {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.videos.take(5).forEach {
                                             VideoCard(it)
                                         }
@@ -198,7 +203,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                             Text("Смотреть все")
                                         }
                                     }
-                                    Row {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.concerts.take(5).forEach {
                                             ConcertCard(it)
                                         }
@@ -211,7 +216,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                             Text("Смотреть все")
                                         }
                                     }
-                                    Row {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.similarArtists.take(5).forEach {
                                             ArtistCard(it) { onLocationChange(it) }
                                         }
@@ -243,16 +248,31 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         }
                     }
                     2 -> {
-                        Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                        LazyVerticalGrid(
-                            columns = GridCells.Adaptive(minSize = 200.dp),
-                            contentPadding = PaddingValues(10.dp),
-                            horizontalArrangement = Arrangement.spacedBy(15.dp),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            items(artistInfo.albums) {
-                                AlbumCard(it) { onLocationChange(it) }
+                        val stateVertical = rememberScrollState(0)
+                        Box(Modifier.fillMaxSize()) {
+                            Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
+                                if (artistInfo.albums.isNotEmpty()) {
+                                    Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
+                                        artistInfo.albums.forEach {
+                                            AlbumCard(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+                                if (artistInfo.alsoAlbums.isNotEmpty()) {
+                                    Text("Сборники", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
+                                        artistInfo.alsoAlbums.forEach {
+                                            AlbumCard(it) { onLocationChange(it) }
+                                        }
+                                    }
+                                }
+
                             }
+                            VerticalScrollbar(
+                                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                                adapter = rememberScrollbarAdapter(stateVertical)
+                            )
                         }
                     }
                     3 -> {

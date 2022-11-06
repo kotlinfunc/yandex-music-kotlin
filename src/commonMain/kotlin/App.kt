@@ -33,12 +33,12 @@ fun App() {
 
     val previousLocations = mutableStateListOf<Location<*>>()
     var location by remember { mutableStateOf<Location<*>>(HomeLocation) }
-    val changeLocation: (Location<*>) -> Unit = {
-        previousLocations.add(it)
+    fun changeLocation(newLocation: Location<*>) {
+        previousLocations.add(location)
         if (previousLocations.size > 100) {
             previousLocations.removeFirst()
         }
-        location = it
+        location = newLocation
     }
 
     var searchText by remember { mutableStateOf("") }
@@ -94,11 +94,9 @@ fun App() {
                             modifier = Modifier.size(ButtonDefaults.IconSize)
                         )
                     }
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally) {
-                        TextField(value = searchText, onValueChange = { searchText = it },
-                            modifier = Modifier.fillMaxWidth(0.5f).onKeyEvent {
+                    Row(Modifier.weight(0.5f).wrapContentSize(Alignment.TopStart)) {
+                        TextField(searchText, { searchText = it },
+                            Modifier.fillMaxWidth().onKeyEvent {
                                 if (it.key == Key.Enter && searchText.isNotBlank()) {
                                     changeLocation(SearchLocation(searchText))
                                     searchText = ""
@@ -106,10 +104,19 @@ fun App() {
                                 false
                             },
                             leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+                            trailingIcon = {
+                                IconButton({ searchText = "" }, enabled = searchText.isNotEmpty()) {
+                                    Icon(
+                                        Icons.Filled.Clear,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(ButtonDefaults.IconSize)
+                                    )
+                                } },
                             placeholder = { Text("Поиск") },
                             singleLine = true
                         )
-                        DropdownMenu(expanded = showSuggestions, onDismissRequest = { showSuggestions = false }) {
+                        DropdownMenu(showSuggestions, { showSuggestions = false },
+                            modifier = Modifier.fillMaxHeight(0.75f)) {
                             searchSuggestions!!.suggestions.forEach { option ->
                                 DropdownMenuItem(
                                     onClick = {
@@ -122,20 +129,32 @@ fun App() {
                             }
                         }
                     }
+                    Spacer(Modifier.weight(0.5f))
+                    IconButton({ location = previousLocations.removeLast() }, enabled = previousLocations.isNotEmpty()) {
+                        Icon(
+                            Icons.Filled.Login,
+                            contentDescription = null,
+                            modifier = Modifier.size(ButtonDefaults.IconSize)
+                        )
+                    }
                 }
-                when (location) {
-                    is CollectionLocation -> {}
-                    is ArtistLocation -> ArtistPage(location.data as Long) { changeLocation(it) }
-                    is AlbumLocation -> AlbumPage(location.data as Long) { changeLocation(it) }
-                    is HomeLocation -> HomePage { changeLocation(it) }
-                    is PlaylistLocation -> PlaylistPage(location.data as PlaylistId) { changeLocation(it) }
-                    is PodcastLocation -> PodcastPage(location.data as Long) { changeLocation(it) }
-                    is PodcastsLocation -> PodcastsPage() { changeLocation(it) }
-                    is RadiosLocation -> RadiosPage() { changeLocation(it) }
-                    is SearchLocation -> SearchPage(location.data as String) { changeLocation(it) }
-                    is SettingsLocation -> {}
+                Column(Modifier.weight(1f)) {
+                    when (location) {
+                        is CollectionLocation -> {}
+                        is ArtistLocation -> ArtistPage(location.data as Long) { changeLocation(it) }
+                        is AlbumLocation -> AlbumPage(location.data as Long) { changeLocation(it) }
+                        is HomeLocation -> HomePage { changeLocation(it) }
+                        is PlaylistLocation -> PlaylistPage(location.data as PlaylistId) { changeLocation(it) }
+                        is PodcastLocation -> PodcastPage(location.data as Long) { changeLocation(it) }
+                        is PodcastsLocation -> PodcastsPage() { changeLocation(it) }
+                        is RadiosLocation -> RadiosPage() { changeLocation(it) }
+                        is SearchLocation -> SearchPage(location.data as String) { changeLocation(it) }
+                        is SettingsLocation -> {}
+                    }
                 }
-                Player() { changeLocation(it) }
+                BottomAppBar {
+                    Player() { changeLocation(it) }
+                }
             }
         }
     }

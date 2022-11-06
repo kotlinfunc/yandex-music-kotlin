@@ -55,7 +55,7 @@ fun AlbumPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         painterFor = { remember { BitmapPainter(it) } },
                         contentDescription = "",
                         contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.defaultMinSize(200.dp, 200.dp).width(200.dp).height(200.dp)
+                        modifier = Modifier.size(200.dp)
                     )
                     Column {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {

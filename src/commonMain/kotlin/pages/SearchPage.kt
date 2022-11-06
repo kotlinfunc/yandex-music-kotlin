@@ -22,6 +22,7 @@ import api.models.Response
 import api.models.Search
 import api.search
 import components.*
+import layouts.TruncatedRow
 import navigation.Location
 
 @Composable
@@ -68,7 +69,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                             Text("Смотреть всех")
                                         }
                                     }
-                                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         it.results.forEach {
                                             ArtistCard(it) { onLocationChange(it) }
                                         }
@@ -81,7 +82,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                             Text("Смотреть все")
                                         }
                                     }
-                                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         it.results.forEach {
                                             AlbumCard(it) { onLocationChange(it) }
                                         }
@@ -107,7 +108,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                             Text("Смотреть все")
                                         }
                                     }
-                                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         it.results.forEach {
                                             PodcastCard(it) { onLocationChange(it) }
                                         }
@@ -133,7 +134,7 @@ fun SearchPage(query: String, onLocationChange: (Location<*>) -> Unit = {}) {
                                             Text("Смотреть все")
                                         }
                                     }
-                                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                    TruncatedRow(horizontalSpacing = 10.dp) {
                                         it.results.take(5).forEach {
                                             PlaylistCard(it) { onLocationChange(it) }
                                         }

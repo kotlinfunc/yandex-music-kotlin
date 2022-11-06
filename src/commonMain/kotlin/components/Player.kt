@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,7 +19,7 @@ import navigation.Location
 @Composable
 @Preview
 fun Player(onLocationChange: (Location<*>) -> Unit = {}) {
-    BottomAppBar {
+    Row {
         IconButton({}) {
             Icon(
                 Icons.Filled.SkipPrevious,

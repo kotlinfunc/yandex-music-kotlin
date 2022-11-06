@@ -33,7 +33,7 @@ fun PodcastEpisodeItem(episode: Episode) {
             painterFor = { remember { BitmapPainter(it) } },
             contentDescription = "",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.width(50.dp).height(50.dp)
+            modifier = Modifier.requiredSize(50.dp)
         )
         Column(Modifier.weight(1f)) {
             Text(episode.title)
