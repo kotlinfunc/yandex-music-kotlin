@@ -1,6 +1,7 @@
 package components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
 import androidx.compose.material.icons.Icons
@@ -24,8 +25,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TrackItem(track: Track, onLocationChange: (Location<*>) -> Unit = {}) {
-    Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
+fun TrackItem(track: Track, onClick: () -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
+    Row(Modifier.clickable(onClick = onClick).fillMaxWidth().height(IntrinsicSize.Min), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
         track.coverUri?.let { uri ->
             AsyncImage(
                 load = { loadImageBitmap("https://" + uri.replace("%%", "50x50")) },

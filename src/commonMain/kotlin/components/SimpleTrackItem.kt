@@ -1,6 +1,7 @@
 package components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
 import androidx.compose.material.icons.Icons
@@ -21,8 +22,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SimpleTrackItem(track: Track, number: Int, onLocationChange: (Location<*>) -> Unit = {}) {
-    Row(Modifier.height(IntrinsicSize.Min), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
+fun SimpleTrackItem(track: Track, number: Int, onClick: () -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
+    Row(Modifier.clickable(onClick = onClick).height(IntrinsicSize.Min), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
         Text(number.toString(), textAlign = TextAlign.End)
         Text(track.title, Modifier.weight(0.4f), overflow = TextOverflow.Ellipsis, maxLines = 1)
         Text(track.albums!![0].title, Modifier.weight(0.6f).onClick { onLocationChange(AlbumLocation(track.albums[0].id)) },

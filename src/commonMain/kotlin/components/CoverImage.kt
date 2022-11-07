@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import api.models.Cover
 
 @Composable
-fun CoverImage(cover: Cover?, customShape: Shape = RoundedCornerShape(0), defaultImage: ImageVector? = null) {
+fun CoverImage(cover: Cover?, modifier: Modifier = Modifier, customShape: Shape = RoundedCornerShape(0), defaultImage: ImageVector? = null) {
     if (cover?.itemsUri != null) {
-        Column(Modifier.clip(customShape).height(200.dp)) {
+        Column(modifier.clip(customShape).height(200.dp)) {
             Row(Modifier.width(200.dp)) {
                 cover.itemsUri.take(2).forEach { uri ->
                     AsyncImage(
@@ -47,13 +47,13 @@ fun CoverImage(cover: Cover?, customShape: Shape = RoundedCornerShape(0), defaul
             painterFor = { remember { BitmapPainter(it) } },
             contentDescription = "",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.clip(customShape).requiredSize(200.dp)
+            modifier = modifier.clip(customShape).requiredSize(200.dp)
         )
     } else {
         if (defaultImage == null) {
-            Box(Modifier.requiredSize(200.dp, 200.dp))
+            Box(modifier.requiredSize(200.dp, 200.dp))
         } else {
-            Image(defaultImage, "", modifier = Modifier.clip(customShape).requiredSize(200.dp))
+            Image(defaultImage, "", modifier = modifier.clip(customShape).requiredSize(200.dp))
         }
     }
 }

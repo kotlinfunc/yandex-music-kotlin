@@ -1,6 +1,7 @@
 package components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
 import androidx.compose.material.icons.Icons
@@ -23,7 +24,7 @@ import navigation.Location
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun AlbumCard(album: Album, onLocationChange: (Location<*>) -> Unit = {}) {
+fun AlbumCard(album: Album, onClick: () -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     Card(Modifier.height(IntrinsicSize.Min).width(IntrinsicSize.Min)) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             AsyncImage(
@@ -31,7 +32,7 @@ fun AlbumCard(album: Album, onLocationChange: (Location<*>) -> Unit = {}) {
                 painterFor = { remember { BitmapPainter(it) } },
                 contentDescription = "",
                 contentScale = ContentScale.FillWidth,
-                modifier = Modifier.size(200.dp)
+                modifier = Modifier.clickable(onClick = onClick).requiredSize(200.dp)
             )
             Row(Modifier.fillMaxWidth()) {
                 Text(album.title, Modifier.onClick { onLocationChange(AlbumLocation(album.id)) }, overflow = TextOverflow.Ellipsis, maxLines = 1)

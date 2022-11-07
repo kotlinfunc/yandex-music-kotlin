@@ -1,6 +1,7 @@
 package components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
 import androidx.compose.foundation.shape.CircleShape
@@ -20,10 +21,10 @@ import navigation.Location
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun ArtistCard(artist: Artist, onLocationChange: (Location<*>) -> Unit = {}) {
+fun ArtistCard(artist: Artist, onClick: () -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     Card(Modifier.height(IntrinsicSize.Min).width(IntrinsicSize.Min)) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-            CoverImage(artist.cover, CircleShape, Icons.Filled.Face)
+            CoverImage(artist.cover, Modifier.clickable(onClick = onClick), CircleShape, Icons.Filled.Face)
             Text(
                 artist.name, Modifier.fillMaxWidth().onClick { onLocationChange(ArtistLocation(artist.id)) },
                 textAlign = TextAlign.Center, overflow = TextOverflow.Ellipsis, maxLines = 1)

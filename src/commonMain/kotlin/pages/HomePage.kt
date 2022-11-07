@@ -25,11 +25,11 @@ import components.PlaylistCard
 import components.TrackItem
 import layouts.Flow
 import layouts.TruncatedRow
-import navigation.Location
+import navigation.*
 
 @Composable
 @Preview
-fun HomePage(onLocationChange: (Location<*>) -> Unit = {}) {
+fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     var selectedTab by remember { mutableStateOf(0) }
     val titles = listOf("Всё", "Новые релизы", "Чарт", "Настроения и жанры")
 
@@ -84,7 +84,7 @@ fun HomePage(onLocationChange: (Location<*>) -> Unit = {}) {
                             }
                             TruncatedRow(horizontalSpacing = 10.dp) {
                                 newAlbums.take(5).forEach {
-                                    AlbumCard(it) { onLocationChange(it) }
+                                    AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
                                 }
                             }
 
@@ -100,7 +100,7 @@ fun HomePage(onLocationChange: (Location<*>) -> Unit = {}) {
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                                 chartInfo.chart.tracks?.take(10)?.let {
                                     it.forEach {
-                                        TrackItem(it.track) { onLocationChange(it) }
+                                        TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }) { onLocationChange(it) }
                                     }
                                 }
                             }
@@ -133,7 +133,7 @@ fun HomePage(onLocationChange: (Location<*>) -> Unit = {}) {
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(newAlbums) {
-                                AlbumCard(it) { onLocationChange(it) }
+                                AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
                             }
                         }
                     }
@@ -157,7 +157,7 @@ fun HomePage(onLocationChange: (Location<*>) -> Unit = {}) {
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                                 chartInfo.chart.tracks?.let {
                                     it.forEach {
-                                        TrackItem(it.track) { onLocationChange(it) }
+                                        TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }) { onLocationChange(it) }
                                     }
                                 }
                             }
@@ -165,7 +165,7 @@ fun HomePage(onLocationChange: (Location<*>) -> Unit = {}) {
                                 Text("Плейлисты с другими чартами", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                     it.forEach {
-                                        PlaylistCard(it) { onLocationChange(it) }
+                                        PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }) { onLocationChange(it) }
                                     }
                                 }
                             }

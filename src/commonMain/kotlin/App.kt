@@ -1,5 +1,9 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.TopAppBar
@@ -31,6 +35,8 @@ import pages.*
 fun App() {
     val density = LocalDensity.current
 
+    var requestedInfo by remember { mutableStateOf<Info<*>?>(null) }
+
     val previousLocations = mutableStateListOf<Location<*>>()
     var location by remember { mutableStateOf<Location<*>>(HomeLocation) }
     fun changeLocation(newLocation: Location<*>) {
@@ -38,10 +44,9 @@ fun App() {
         if (previousLocations.size > 100) {
             previousLocations.removeFirst()
         }
+        requestedInfo = null
         location = newLocation
     }
-
-    var info by remember { mutableStateOf<Info<*>?>(null) }
 
     var searchText by remember { mutableStateOf("") }
     var searchSuggestions by remember { mutableStateOf<Suggestions?>(null) }
@@ -139,18 +144,49 @@ fun App() {
                         )
                     }
                 }
-                Column(Modifier.weight(1f)) {
-                    when (location) {
-                        is CollectionLocation -> {}
-                        is ArtistLocation -> ArtistPage(location.data as Long) { changeLocation(it) }
-                        is AlbumLocation -> AlbumPage(location.data as Long) { changeLocation(it) }
-                        is HomeLocation -> HomePage { changeLocation(it) }
-                        is PlaylistLocation -> PlaylistPage(location.data as PlaylistId) { changeLocation(it) }
-                        is PodcastLocation -> PodcastPage(location.data as Long) { changeLocation(it) }
-                        is PodcastsLocation -> PodcastsPage() { changeLocation(it) }
-                        is RadiosLocation -> RadiosPage() { changeLocation(it) }
-                        is SearchLocation -> SearchPage(location.data as String) { changeLocation(it) }
-                        is SettingsLocation -> {}
+                Row(Modifier.weight(1f)) {
+                    Column(Modifier.weight(1f)) {
+                        when (location) {
+                            is CollectionLocation -> {}
+                            is ArtistLocation -> ArtistPage(location.data as Long, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
+                            is AlbumLocation -> AlbumPage(location.data as Long, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
+                            is HomeLocation -> HomePage(onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
+                            is PlaylistLocation -> PlaylistPage(location.data as PlaylistId, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
+                            is PodcastLocation -> PodcastPage(location.data as Long, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
+                            is PodcastsLocation -> PodcastsPage(onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
+                            is RadiosLocation -> RadiosPage() { changeLocation(it) }
+                            is SearchLocation -> SearchPage(location.data as String, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
+                            is SettingsLocation -> {}
+                        }
+                    }
+
+                    requestedInfo?.let {
+                        val stateVertical = rememberScrollState(0)
+                        Column(Modifier.padding(15.dp, 30.dp).width(300.dp), horizontalAlignment = Alignment.End) {
+                            IconButton({ requestedInfo = null }) {
+                                Icon(
+                                    Icons.Filled.Close,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                                )
+                            }
+
+                            Box(Modifier.fillMaxSize()) {
+                                Column(Modifier.fillMaxWidth().verticalScroll(stateVertical)) {
+                                    when (it) {
+                                        is AlbumInfo -> Text("Album")
+                                        is ArtistInfo -> Text("Artist")
+                                        is PlaylistInfo -> Text("Playlist")
+                                        is PodcastInfo -> Text("Podcast")
+                                        is TrackInfo -> Text("Track")
+                                    }
+                                }
+                                VerticalScrollbar(
+                                    modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+                                    adapter = rememberScrollbarAdapter(stateVertical)
+                                )
+                            }
+                        }
                     }
                 }
                 BottomAppBar {

@@ -22,8 +22,12 @@ data class Link(
     enum class SocialNetwork(val value: String) {
         @SerialName(value = "facebook")
         FACEBOOK("facebook"),
+        @SerialName(value = "tiktok")
+        TIKTOK("tiktok"),
         @SerialName(value = "twitter")
         TWITTER("twitter"),
+        @SerialName(value = "vk")
+        VK("vk"),
         @SerialName(value = "youtube")
         YOUTUBE("youtube"),
     }

@@ -27,8 +27,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation("org.jetbrains.compose.material:material-icons-extended:1.2.0")
-                implementation("org.jetbrains.compose.material3:material3:1.2.0")
+                implementation("org.jetbrains.compose.material:material-icons-extended:1.2.1")
+                implementation("org.jetbrains.compose.material3:material3:1.2.1")
                 implementation("br.com.devsrsouza.compose.icons.jetbrains:font-awesome:1.0.0")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")

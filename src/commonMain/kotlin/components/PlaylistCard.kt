@@ -1,6 +1,7 @@
 package components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
 import androidx.compose.material3.Card
@@ -16,10 +17,10 @@ import navigation.PlaylistLocation
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun PlaylistCard(playlist: Playlist, onLocationChange: (Location<*>) -> Unit = {}) {
+fun PlaylistCard(playlist: Playlist, onClick: () -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     Card(Modifier.width(IntrinsicSize.Min)) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-            CoverImage(playlist.cover)
+            CoverImage(playlist.cover, Modifier.clickable(onClick = onClick))
             Text(playlist.title, Modifier.fillMaxWidth()
                 .onClick { onLocationChange(PlaylistLocation(PlaylistId(playlist.uid, playlist.kind))) })
         }

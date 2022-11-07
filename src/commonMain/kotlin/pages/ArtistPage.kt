@@ -29,22 +29,21 @@ import androidx.compose.ui.unit.sp
 import api.getArtistBriefInfo
 import api.models.ArtistInfo
 import api.models.Link
+import api.models.PlaylistId
 import api.models.Response
 import components.*
 import compose.icons.FontAwesomeIcons
 import compose.icons.fontawesomeicons.Brands
-import compose.icons.fontawesomeicons.brands.Facebook
-import compose.icons.fontawesomeicons.brands.Twitter
-import compose.icons.fontawesomeicons.brands.Youtube
+import compose.icons.fontawesomeicons.brands.*
 import layouts.Flow
 import layouts.TruncatedRow
-import navigation.Location
+import navigation.*
 import util.openInBrowser
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     var artistResponse by remember { mutableStateOf<Response<ArtistInfo>?>(null) }
 
     LaunchedEffect(id) {
@@ -63,7 +62,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
         artistResponse?.result?.let { artistInfo ->
             Column {
                 Row {
-                    CoverImage(artistInfo.artist.cover, CircleShape, Icons.Filled.Face)
+                    CoverImage(artistInfo.artist.cover, customShape = CircleShape, defaultImage = Icons.Filled.Face)
                     Column(Modifier.height(200.dp)) {
                         Text("Исполнитель")
                         Text(artistInfo.artist.name, fontWeight = FontWeight.Bold, fontSize = 45.sp)
@@ -146,7 +145,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                         }
                                     }
                                     artistInfo.popularTracks.forEach {
-                                        TrackItem(it) { onLocationChange(it) }
+                                        TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }) { onLocationChange(it) }
                                     }
                                 }
                                 if (artistInfo.albums.isNotEmpty()) {
@@ -158,7 +157,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.albums.take(5).forEach {
-                                            AlbumCard(it) { onLocationChange(it) }
+                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
                                         }
                                     }
                                 }
@@ -171,7 +170,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.alsoAlbums.take(5).forEach {
-                                            AlbumCard(it) { onLocationChange(it) }
+                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
                                         }
                                     }
                                 }
@@ -179,7 +178,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.playlists.take(5).forEach {
-                                            PlaylistCard(it) { onLocationChange(it) }
+                                            PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }) { onLocationChange(it) }
                                         }
                                     }
                                 }
@@ -192,7 +191,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.videos.take(5).forEach {
-                                            VideoCard(it)
+                                            VideoCard(it, onClick = { openInBrowser(it.embedUrl) })
                                         }
                                     }
                                 }
@@ -205,7 +204,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.concerts.take(5).forEach {
-                                            ConcertCard(it)
+                                            ConcertCard(it, onClick = { openInBrowser(it.afishaUrl) })
                                         }
                                     }
                                 }
@@ -218,7 +217,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.similarArtists.take(5).forEach {
-                                            ArtistCard(it) { onLocationChange(it) }
+                                            ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }) { onLocationChange(it) }
                                         }
                                     }
                                 }
@@ -236,7 +235,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                             LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
                                 verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                 itemsIndexed(artistInfo.popularTracks) { number, track ->
-                                    SimpleTrackItem(track, number + 1) { onLocationChange(it) }
+                                    SimpleTrackItem(track, number + 1, onClick = { onInfoRequest(TrackInfo(track.id)) }) { onLocationChange(it) }
                                 }
                             }
                             VerticalScrollbar(
@@ -255,7 +254,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                         artistInfo.albums.forEach {
-                                            AlbumCard(it) { onLocationChange(it) }
+                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
                                         }
                                     }
                                 }
@@ -263,7 +262,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                     Text("Сборники", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                         artistInfo.alsoAlbums.forEach {
-                                            AlbumCard(it) { onLocationChange(it) }
+                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
                                         }
                                     }
                                 }
@@ -284,7 +283,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(artistInfo.videos) {
-                                VideoCard(it)
+                                VideoCard(it, onClick = { openInBrowser(it.embedUrl) })
                             }
                         }
                     }
@@ -297,7 +296,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(artistInfo.concerts) {
-                                ConcertCard(it)
+                                ConcertCard(it, onClick = { openInBrowser(it.afishaUrl) })
                             }
                         }
                     }
@@ -310,7 +309,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(artistInfo.similarArtists) {
-                                ArtistCard(it) { onLocationChange(it) }
+                                ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }) { onLocationChange(it) }
                             }
                         }
                     }
@@ -319,7 +318,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                         Box(Modifier.fillMaxSize()) {
                             Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
                                 if (artistInfo.allCovers.size > 1) {
-                                    Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                    Flow(horizontalSpacing = 5.dp) {
                                         artistInfo.allCovers.forEach {
                                             AsyncImage(
                                                 load = { loadImageBitmap("https://" + it.uri!!.replace("%%", "1000x1000")) },
@@ -352,7 +351,9 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                                             if (it.type == Link.Type.SOCIAL)
                                                                 when (it.socialNetwork!!) {
                                                                     Link.SocialNetwork.FACEBOOK -> FontAwesomeIcons.Brands.Facebook
+                                                                    Link.SocialNetwork.TIKTOK -> FontAwesomeIcons.Brands.Tiktok
                                                                     Link.SocialNetwork.TWITTER -> FontAwesomeIcons.Brands.Twitter
+                                                                    Link.SocialNetwork.VK -> FontAwesomeIcons.Brands.Vk
                                                                     Link.SocialNetwork.YOUTUBE -> FontAwesomeIcons.Brands.Youtube
                                                                 }
                                                             else Icons.Filled.Language,

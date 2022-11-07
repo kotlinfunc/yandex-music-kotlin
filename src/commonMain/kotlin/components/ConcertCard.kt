@@ -1,5 +1,6 @@
 package components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,7 +16,7 @@ import api.models.Concert
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConcertCard(concert: Concert) {
+fun ConcertCard(concert: Concert, onClick: () -> Unit = {}) {
     Card {
       Column {
           AsyncImage(
@@ -23,7 +24,7 @@ fun ConcertCard(concert: Concert) {
               painterFor = { remember { BitmapPainter(it) } },
               contentDescription = "",
               contentScale = ContentScale.FillBounds,
-              modifier = Modifier.defaultMinSize(278.dp, 180.dp).width(278.dp).height(180.dp)
+              modifier = Modifier.clickable(onClick = onClick).defaultMinSize(278.dp, 180.dp).width(278.dp).height(180.dp)
           )
           Row(Modifier.width(278.dp)) {
               Text(concert.dateTime)

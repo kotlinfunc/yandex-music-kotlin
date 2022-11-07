@@ -2,6 +2,7 @@ package components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.onClick
 import androidx.compose.material3.Button
@@ -27,8 +28,8 @@ import kotlin.time.Duration.Companion.milliseconds
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
-fun EpisodeItem(episode: Episode, onLocationChange: (Location<*>) -> Unit = {}) {
-    Row(Modifier.height(IntrinsicSize.Min).fillMaxWidth(), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
+fun EpisodeItem(episode: Episode, onClick: () -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
+    Row(Modifier.clickable(onClick = onClick).height(IntrinsicSize.Min).fillMaxWidth(), Arrangement.spacedBy(5.dp), Alignment.CenterVertically) {
         AsyncImage(
             load = { loadImageBitmap("https://" + episode.coverUri.replace("%%", "50x50")) },
             painterFor = { remember { BitmapPainter(it) } },

@@ -27,13 +27,17 @@ import api.models.Response
 import components.CoverImage
 import components.PlaylistCard
 import components.TrackItem
+import layouts.Flow
+import navigation.Info
 import navigation.Location
+import navigation.PlaylistInfo
+import navigation.TrackInfo
 import util.time
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 @Preview
-fun PlaylistPage(id: PlaylistId, onLocationChange: (Location<*>) -> Unit = {}) {
+fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     var playlistResponse by remember { mutableStateOf<Response<Playlist>?>(null) }
     var searchText by remember { mutableStateOf("") }
 
@@ -116,15 +120,15 @@ fun PlaylistPage(id: PlaylistId, onLocationChange: (Location<*>) -> Unit = {}) {
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                                 it.filter { it.track.title.contains(searchText)
                                         || it.track.artists?.any { it.name.contains(searchText) } == true }.forEach {
-                                    TrackItem(it.track)
+                                    TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) })
                                 }
                             }
                         }
                         it.similarPlaylists?.let {
                             Text("Похожие плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                            Row {
-                                it.take(4).forEach {
-                                    PlaylistCard(it) { onLocationChange(it) }
+                            Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
+                                it.forEach {
+                                    PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }) { onLocationChange(it) }
                                 }
                             }
                         }

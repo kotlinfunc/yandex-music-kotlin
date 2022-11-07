@@ -26,11 +26,13 @@ import api.models.Response
 import components.AsyncImage
 import components.PodcastEpisodeItem
 import components.loadImageBitmap
+import navigation.Info
 import navigation.Location
+import navigation.TrackInfo
 
 @Composable
 @Preview
-fun PodcastPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+fun PodcastPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     var podcastResponse by remember { mutableStateOf<Response<Podcast>?>(null) }
     var selectedTab by remember { mutableStateOf(0) }
     val titles = listOf("О подкасте", "Выпуски")
@@ -116,7 +118,7 @@ fun PodcastPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                 //Text("Чтецы")
                                 //Text("Продолжительность")
                                 //Text("Возрастное ограничение")
-                                Text("Последние выпуски", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                //Text("Последние выпуски", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 //Text("Популярно в \"Раздел подкаста\"", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                             }
                             VerticalScrollbar(
@@ -133,13 +135,13 @@ fun PodcastPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                                 Column(Modifier.fillMaxWidth().verticalScroll(stateVertical)) {
                                     if (it.size == 1) {
                                         it[0].forEach {
-                                            PodcastEpisodeItem(it)
+                                            PodcastEpisodeItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) })
                                         }
                                     } else {
                                         it.forEachIndexed { idx, episodes ->
                                             Text("Сезон ${idx + 1}")
                                             episodes.forEach {
-                                                PodcastEpisodeItem(it)
+                                                PodcastEpisodeItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) })
                                             }
                                         }
                                     }

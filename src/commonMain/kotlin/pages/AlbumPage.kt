@@ -25,12 +25,11 @@ import components.AlbumCard
 import components.AsyncImage
 import components.SimpleTrackItem
 import components.loadImageBitmap
-import navigation.ArtistLocation
-import navigation.Location
+import navigation.*
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AlbumPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+fun AlbumPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     var albumResponse by remember { mutableStateOf<Response<Album>?>(null) }
     val stateVertical = rememberScrollState(0)
 
@@ -110,13 +109,13 @@ fun AlbumPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                             Column {
                                 if (it.size == 1) {
                                     it[0].forEachIndexed() { idx, track ->
-                                        SimpleTrackItem(track, idx + 1)
+                                        SimpleTrackItem(track, idx + 1, onClick = { onInfoRequest(TrackInfo(track.id)) })
                                     }
                                 } else {
                                     it.forEachIndexed { volumeIdx, volume ->
                                         Text("Диск №${volumeIdx + 1}")
                                         volume.forEachIndexed() { idx, track ->
-                                            SimpleTrackItem(track, idx + 1)
+                                            SimpleTrackItem(track, idx + 1, onClick = { onInfoRequest(TrackInfo(track.id)) })
                                         }
                                     }
                                 }
@@ -131,7 +130,7 @@ fun AlbumPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
                             Text("Другие версии альбома", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                             Row(Modifier.wrapContentWidth(), Arrangement.spacedBy(10.dp)) {
                                 it.forEach {
-                                    AlbumCard(it) { onLocationChange(it) }
+                                    AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
                                 }
                             }
                         }
