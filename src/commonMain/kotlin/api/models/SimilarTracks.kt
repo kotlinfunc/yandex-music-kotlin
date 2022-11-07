@@ -34,11 +34,8 @@ import kotlinx.serialization.encoding.*
  */
 @Serializable
 data class SimilarTracks (
-
-    @SerialName(value = "track") val track: Track? = null,
-
+    val track: Track,
     /* Похожие треки */
-    @SerialName(value = "similarTracks") val similarTracks: kotlin.collections.List<Track>? = null
-
+    val similarTracks: List<Track>
 )
 

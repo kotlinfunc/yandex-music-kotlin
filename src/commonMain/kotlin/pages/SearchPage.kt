@@ -72,7 +72,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         it.results.forEach {
-                                            ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }) { onLocationChange(it) }
+                                            ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -85,7 +85,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         it.results.forEach {
-                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
+                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -98,7 +98,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                         it.results.forEach {
-                                            TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }) { onLocationChange(it) }
+                                            TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -111,7 +111,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         it.results.forEach {
-                                            PodcastCard(it, onClick = { onInfoRequest(PodcastInfo(it.id)) }) { onLocationChange(it) }
+                                            PodcastCard(it, onClick = { onInfoRequest(PodcastInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -124,7 +124,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                         it.results.take(5).forEach {
-                                            EpisodeItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }) { onLocationChange(it) }
+                                            EpisodeItem(it, onClick = { onInfoRequest(EpisodeInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -137,7 +137,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         it.results.take(5).forEach {
-                                            PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }) { onLocationChange(it) }
+                                            PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -158,7 +158,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         ) {
                            it.artists?.results?.let {
                                 items(it) {
-                                    ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }) { onLocationChange(it) }
+                                    ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }
@@ -172,7 +172,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         ) {
                             it.albums?.results?.let {
                                 items(it) {
-                                    AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
+                                    AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }
@@ -184,7 +184,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                 verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                 it.tracks?.results?.let {
                                     items(it) {
-                                        TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }) { onLocationChange(it) }
+                                        TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                     }
                                 }
                             }
@@ -205,7 +205,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                 verticalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
                                 items(it) {
-                                    PodcastCard(it, onClick = { onInfoRequest(PodcastInfo(it.id)) }) { onLocationChange(it) }
+                                    PodcastCard(it, onClick = { onInfoRequest(PodcastInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }
@@ -217,7 +217,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                 LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
                                     verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                     items(it.results) {
-                                        EpisodeItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }) {onLocationChange(it) }
+                                        EpisodeItem(it, onClick = { onInfoRequest(EpisodeInfo(it.id)) }, onLocationChange = onLocationChange)
                                     }
                                 }
                                 VerticalScrollbar(
@@ -238,7 +238,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         ) {
                             it.playlists?.results?.let {
                                 items(it) {
-                                    PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }) { onLocationChange(it) }
+                                    PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }

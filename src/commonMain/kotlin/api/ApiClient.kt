@@ -49,6 +49,14 @@ suspend fun getChart(chartType: ChartScope): Response<Chart> {
     return client.get(Landing.Chart(chartType = chartType)).body()
 }
 
+suspend fun getEpisode(id: Long): Response<List<Episode>> {
+    return client.get(Tracks.Get(id = id)).body()
+}
+
+suspend fun getEpisodeSupplement(id: Long): Response<EpisodeSupplement> {
+    return client.get(Tracks.Get.Supplement(Tracks.Get(id = id))).body()
+}
+
 suspend fun getFeed(): Response<Feed> {
     return client.get(api.resources.Feed()).body()
 }
@@ -65,12 +73,32 @@ suspend fun getPodcastWithEpisodes(id: Long): Response<Podcast> {
     return client.get(Albums.Get.WithTracks(Albums.Get(id = id))).body()
 }
 
+suspend fun getTrack(id: Long): Response<List<Track>> {
+    return client.get(Tracks.Get(id = id)).body()
+}
+
+suspend fun getTrackDownloadInfo(id: Long): Response<DownloadInfo> {
+    return client.get(Tracks.Get.DownloadInfo(Tracks.Get(id = id))).body()
+}
+
+suspend fun getTrackSimilar(id: Long): Response<SimilarTracks> {
+    return client.get(Tracks.Get.Similar(Tracks.Get(id = id))).body()
+}
+
+suspend fun getTrackSupplement(id: Long): Response<TrackSupplement> {
+    return client.get(Tracks.Get.Supplement(Tracks.Get(id = id))).body()
+}
+
 suspend fun getUserPlaylist(playlistId: PlaylistId): Response<Playlist> {
     return client.get(Users.Get.Playlists.ByKind(Users.Get.Playlists(Users.Get(id = playlistId.uid)), playlistId.kind)).body()
 }
 
 suspend fun getUserPlaylists(uid: Long): Response<List<Playlist>> {
     return client.get(Users.Get.Playlists.List(Users.Get.Playlists(Users.Get(id = uid)))).body()
+}
+
+suspend fun getVideo(id: Long): Response<Video> {
+    return client.get(Clips.Get(id = id)).body()
 }
 
 suspend fun findSuggestions(search: String): Response<Suggestions> {

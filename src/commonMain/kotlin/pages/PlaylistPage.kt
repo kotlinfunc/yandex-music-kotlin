@@ -58,7 +58,7 @@ fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocati
             val stateVertical = rememberScrollState(0)
 
             Column {
-                Row(Modifier.fillMaxWidth().padding(10.dp)) {
+                Row(Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     CoverImage(it.cover)
                     Column {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -120,7 +120,7 @@ fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocati
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                                 it.filter { it.track.title.contains(searchText)
                                         || it.track.artists?.any { it.name.contains(searchText) } == true }.forEach {
-                                    TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) })
+                                    TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }
@@ -128,7 +128,7 @@ fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocati
                             Text("Похожие плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                             Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                 it.forEach {
-                                    PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }) { onLocationChange(it) }
+                                    PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }

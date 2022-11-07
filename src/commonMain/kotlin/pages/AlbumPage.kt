@@ -25,6 +25,7 @@ import components.AlbumCard
 import components.AsyncImage
 import components.SimpleTrackItem
 import components.loadImageBitmap
+import layouts.Flow
 import navigation.*
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -48,7 +49,7 @@ fun AlbumPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange:
     } else {
         albumResponse?.result?.let { album ->
             Column {
-                Row {
+                Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     AsyncImage(
                         load = { loadImageBitmap("https://" + album.coverUri?.replace("%%", "200x200")) },
                         painterFor = { remember { BitmapPainter(it) } },
@@ -64,7 +65,8 @@ fun AlbumPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange:
                             }
                         }
                         Text(album.title, fontWeight = FontWeight.Bold, fontSize = 45.sp)
-                        Row {
+                        Flow(horizontalSpacing = 10.dp, verticalSpacing = 5.dp) {
+                            Text("Исполнитель: ")
                             album.artists?.map { artist ->
                                 Text(
                                     artist.name,
@@ -104,7 +106,7 @@ fun AlbumPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange:
                     }
                 }
                 Box(Modifier.fillMaxSize()) {
-                    Column(Modifier.fillMaxWidth().verticalScroll(stateVertical)) {
+                    Column(Modifier.padding(10.dp).fillMaxWidth().verticalScroll(stateVertical)) {
                         album.volumes?.let {
                             Column {
                                 if (it.size == 1) {
@@ -130,7 +132,7 @@ fun AlbumPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange:
                             Text("Другие версии альбома", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                             Row(Modifier.wrapContentWidth(), Arrangement.spacedBy(10.dp)) {
                                 it.forEach {
-                                    AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
+                                    AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }

@@ -85,7 +85,9 @@ data class Track (
 
     @SerialName(value = "title") val title: String,
 
-    @SerialName(value = "type") val type: String? = null
+    @SerialName(value = "type") val type: String? = null,
+
+    val clips: List<Long>? = null
 
 )
 

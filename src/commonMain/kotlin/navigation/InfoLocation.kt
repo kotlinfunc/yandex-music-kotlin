@@ -8,6 +8,8 @@ class ArtistInfo(id: Long): Info<Long>(id)
 
 class AlbumInfo(id: Long): Info<Long>(id)
 
+class EpisodeInfo(id: Long): Info<Long>(id)
+
 class PlaylistInfo(id: PlaylistId): Info<PlaylistId>(id)
 
 class PodcastInfo(id: Long): Info<Long>(id)

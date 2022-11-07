@@ -28,6 +28,7 @@ import components.Player
 import components.loadSvgPainter
 import navigation.*
 import pages.*
+import panels.*
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -172,13 +173,14 @@ fun App() {
                             }
 
                             Box(Modifier.fillMaxSize()) {
-                                Column(Modifier.fillMaxWidth().verticalScroll(stateVertical)) {
+                                Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
                                     when (it) {
-                                        is AlbumInfo -> Text("Album")
-                                        is ArtistInfo -> Text("Artist")
-                                        is PlaylistInfo -> Text("Playlist")
-                                        is PodcastInfo -> Text("Podcast")
-                                        is TrackInfo -> Text("Track")
+                                        is AlbumInfo -> AlbumInfoPanel(it.data) { changeLocation(it) }
+                                        is ArtistInfo -> ArtistInfoPanel(it.data) { changeLocation(it) }
+                                        is EpisodeInfo -> EpisodeInfoPanel(it.data) { changeLocation(it) }
+                                        is PlaylistInfo -> PlaylistInfoPanel(it.data) { changeLocation(it) }
+                                        is PodcastInfo -> PodcastInfoPanel(it.data) { changeLocation(it) }
+                                        is TrackInfo -> TrackInfoPanel(it.data) { changeLocation(it) }
                                     }
                                 }
                                 VerticalScrollbar(

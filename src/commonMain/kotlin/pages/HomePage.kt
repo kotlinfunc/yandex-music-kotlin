@@ -76,6 +76,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                     val stateVertical = rememberScrollState(0)
                     Box(Modifier.fillMaxSize()) {
                         Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical), Arrangement.spacedBy(10.dp)) {
+                            Text("Главное", fontWeight = FontWeight.Bold, fontSize = 45.sp)
                             Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
                                 Text("Новые релизы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 TextButton({ selectedTab = 0 }) {
@@ -84,7 +85,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                             }
                             TruncatedRow(horizontalSpacing = 10.dp) {
                                 newAlbums.take(5).forEach {
-                                    AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
+                                    AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
 
@@ -100,7 +101,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                                 chartInfo.chart.tracks?.take(10)?.let {
                                     it.forEach {
-                                        TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }) { onLocationChange(it) }
+                                        TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                     }
                                 }
                             }
@@ -133,7 +134,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(newAlbums) {
-                                AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
+                                AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                             }
                         }
                     }
@@ -157,7 +158,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                                 chartInfo.chart.tracks?.let {
                                     it.forEach {
-                                        TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }) { onLocationChange(it) }
+                                        TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                     }
                                 }
                             }
@@ -165,7 +166,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                                 Text("Плейлисты с другими чартами", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                     it.forEach {
-                                        PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }) { onLocationChange(it) }
+                                        PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }, onLocationChange = onLocationChange)
                                     }
                                 }
                             }

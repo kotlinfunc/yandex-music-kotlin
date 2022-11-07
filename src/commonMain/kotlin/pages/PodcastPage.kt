@@ -26,9 +26,9 @@ import api.models.Response
 import components.AsyncImage
 import components.PodcastEpisodeItem
 import components.loadImageBitmap
+import navigation.EpisodeInfo
 import navigation.Info
 import navigation.Location
-import navigation.TrackInfo
 
 @Composable
 @Preview
@@ -52,7 +52,7 @@ fun PodcastPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChang
     } else {
         podcastResponse?.result?.let {
             Column {
-                Row {
+                Row(Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     AsyncImage(
                         load = { loadImageBitmap("https://" + it.coverUri.replace("%%", "200x200")) },
                         painterFor = { remember { BitmapPainter(it) } },
@@ -135,13 +135,13 @@ fun PodcastPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChang
                                 Column(Modifier.fillMaxWidth().verticalScroll(stateVertical)) {
                                     if (it.size == 1) {
                                         it[0].forEach {
-                                            PodcastEpisodeItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) })
+                                            PodcastEpisodeItem(it, onClick = { onInfoRequest(EpisodeInfo(it.id)) })
                                         }
                                     } else {
                                         it.forEachIndexed { idx, episodes ->
-                                            Text("Сезон ${idx + 1}")
+                                            Text("Сезон ${it.size - idx}")
                                             episodes.forEach {
-                                                PodcastEpisodeItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) })
+                                                PodcastEpisodeItem(it, onClick = { onInfoRequest(EpisodeInfo(it.id)) })
                                             }
                                         }
                                     }

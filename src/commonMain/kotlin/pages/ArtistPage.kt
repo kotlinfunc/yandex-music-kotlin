@@ -61,7 +61,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
     } else {
         artistResponse?.result?.let { artistInfo ->
             Column {
-                Row {
+                Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     CoverImage(artistInfo.artist.cover, customShape = CircleShape, defaultImage = Icons.Filled.Face)
                     Column(Modifier.height(200.dp)) {
                         Text("Исполнитель")
@@ -101,6 +101,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     modifier = Modifier.size(ButtonDefaults.IconSize)
                                 )
                             }
+                            Spacer(Modifier.weight(1f))
                             OutlinedButton({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
                                 Icon(
                                     Icons.Filled.Radio,
@@ -144,8 +145,8 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                             Text("Смотреть все")
                                         }
                                     }
-                                    artistInfo.popularTracks.forEach {
-                                        TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }) { onLocationChange(it) }
+                                    artistInfo.popularTracks.take(5).forEach {
+                                        TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                     }
                                 }
                                 if (artistInfo.albums.isNotEmpty()) {
@@ -157,7 +158,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.albums.take(5).forEach {
-                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
+                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -170,7 +171,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.alsoAlbums.take(5).forEach {
-                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
+                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -178,7 +179,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.playlists.take(5).forEach {
-                                            PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }) { onLocationChange(it) }
+                                            PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -217,7 +218,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.similarArtists.take(5).forEach {
-                                            ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }) { onLocationChange(it) }
+                                            ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -235,7 +236,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                             LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
                                 verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                 itemsIndexed(artistInfo.popularTracks) { number, track ->
-                                    SimpleTrackItem(track, number + 1, onClick = { onInfoRequest(TrackInfo(track.id)) }) { onLocationChange(it) }
+                                    SimpleTrackItem(track, number + 1, onClick = { onInfoRequest(TrackInfo(track.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
                             VerticalScrollbar(
@@ -254,7 +255,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                         artistInfo.albums.forEach {
-                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
+                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -262,7 +263,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     Text("Сборники", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                         artistInfo.alsoAlbums.forEach {
-                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }) { onLocationChange(it) }
+                                            AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -309,7 +310,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(artistInfo.similarArtists) {
-                                ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }) { onLocationChange(it) }
+                                ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
                             }
                         }
                     }
