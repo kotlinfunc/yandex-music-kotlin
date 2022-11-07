@@ -2,9 +2,12 @@ package components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -12,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import api.models.Cover
 
 @Composable
-fun CoverImage(cover: Cover?, defaultImage: ImageVector? = null) {
+fun CoverImage(cover: Cover?, customShape: Shape = RoundedCornerShape(0), defaultImage: ImageVector? = null) {
     if (cover?.itemsUri != null) {
-        Column(Modifier.height(200.dp)) {
+        Column(Modifier.clip(customShape).height(200.dp)) {
             Row(Modifier.width(200.dp)) {
                 cover.itemsUri.take(2).forEach { uri ->
                     AsyncImage(
@@ -44,13 +47,13 @@ fun CoverImage(cover: Cover?, defaultImage: ImageVector? = null) {
             painterFor = { remember { BitmapPainter(it) } },
             contentDescription = "",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.requiredSize(200.dp)
+            modifier = Modifier.clip(customShape).requiredSize(200.dp)
         )
     } else {
         if (defaultImage == null) {
             Box(Modifier.requiredSize(200.dp, 200.dp))
         } else {
-            Image(defaultImage, "", modifier = Modifier.requiredSize(200.dp))
+            Image(defaultImage, "", modifier = Modifier.clip(customShape).requiredSize(200.dp))
         }
     }
 }

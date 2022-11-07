@@ -63,7 +63,7 @@ fun ArtistPage(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
         artistResponse?.result?.let { artistInfo ->
             Column {
                 Row {
-                    CoverImage(artistInfo.artist.cover, Icons.Filled.Face)
+                    CoverImage(artistInfo.artist.cover, CircleShape, Icons.Filled.Face)
                     Column(Modifier.height(200.dp)) {
                         Text("Исполнитель")
                         Text(artistInfo.artist.name, fontWeight = FontWeight.Bold, fontSize = 45.sp)

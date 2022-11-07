@@ -41,6 +41,8 @@ fun App() {
         location = newLocation
     }
 
+    var info by remember { mutableStateOf<Info<*>?>(null) }
+
     var searchText by remember { mutableStateOf("") }
     var searchSuggestions by remember { mutableStateOf<Suggestions?>(null) }
     var showSuggestions by remember { mutableStateOf(false) }
