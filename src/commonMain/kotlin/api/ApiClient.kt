@@ -49,10 +49,6 @@ suspend fun getArtistDirectAlbums(id: Long): Response<ArtistAlbums> {
     return client.get(Artists.Get.DirectAlbums(Artists.Get(id = id))).body()
 }
 
-suspend fun getChart(chartType: ChartScope): Response<Chart> {
-    return client.get(Landing.Chart(chartType = chartType)).body()
-}
-
 suspend fun getEpisode(id: Long): Response<List<Episode>> {
     return client.get(Tracks.Get(id = id)).body()
 }
@@ -67,6 +63,14 @@ suspend fun getFeed(): Response<Feed> {
 
 suspend fun getGenres(): Response<List<Genre>> {
     return client.get(Genres()).body()
+}
+
+suspend fun getLandingChart(chartType: ChartScope): Response<Chart> {
+    return client.get(Landing.Chart(chartType = chartType)).body()
+}
+
+suspend fun getLandingMetaTags(): Response<MetaTagForest> {
+    return client.get(Landing.MetaTags()).body()
 }
 
 suspend fun getPlaylists(playlistIds: List<PlaylistId>): Response<List<Playlist>> {

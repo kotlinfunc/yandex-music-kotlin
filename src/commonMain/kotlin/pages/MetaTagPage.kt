@@ -7,7 +7,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Radio
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -45,7 +50,26 @@ fun MetaTagPage(tag: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationCh
     } else {
         metaTagResponse?.result?.let {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                Text(it.title.title, fontWeight = FontWeight.Bold, fontSize = 45.sp)
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Text(it.title.title, fontWeight = FontWeight.Bold, fontSize = 45.sp)
+                    Spacer(Modifier.weight(1f))
+                    Button({}, shape = AbsoluteRoundedCornerShape(20.dp)) {
+                        Icon(
+                            Icons.Filled.Radio,
+                            contentDescription = null,
+                            modifier = Modifier.size(ButtonDefaults.IconSize)
+                        )
+                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                        Text("Поток")
+                        IconButton({}) {
+                            Icon(
+                                Icons.Outlined.FavoriteBorder,
+                                contentDescription = null,
+                                modifier = Modifier.size(ButtonDefaults.IconSize)
+                            )
+                        }
+                    }
+                }
                 TabRow(selectedTab) {
                     titles.forEachIndexed { index, title ->
                         Tab(

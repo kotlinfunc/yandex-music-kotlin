@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import api.getChart
 import api.getFeed
-import api.getGenres
+import api.getLandingChart
+import api.getLandingMetaTags
 import api.models.*
 import components.AlbumCard
 import components.PlaylistCard
@@ -24,13 +24,6 @@ import layouts.Flow
 import layouts.TruncatedRow
 import navigation.*
 
-private val childGenres = listOf("forchildren", "children", "fairytales", "poemsforchildren")
-private val soundtrackGenre = "soundtrack"
-private val podcastGenre = "podcasts"
-private val bookGenres = listOf("fiction", "nonfictionliterature", "booksnotinrussian")
-private val otherGenres = childGenres + soundtrackGenre + podcastGenre + bookGenres
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
@@ -44,12 +37,12 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
 
     var chartResponse by remember { mutableStateOf<Response<Chart>?>(null) }
     LaunchedEffect(ChartScope.RUSSIA) {
-        chartResponse = getChart(ChartScope.RUSSIA)
+        chartResponse = getLandingChart(ChartScope.RUSSIA)
     }
 
-    var genresResponse by remember { mutableStateOf<Response<List<Genre>>?>(null) }
+    var metaTagsTreeResponse by remember { mutableStateOf<Response<MetaTagForest>?>(null) }
     LaunchedEffect(true) {
-        genresResponse = getGenres()
+        metaTagsTreeResponse = getLandingMetaTags()
     }
 
     Column {
@@ -183,8 +176,8 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                 }
             }
             3 -> {
-                val genres = genresResponse?.result
-                if (genres == null) {
+                val metaTags = metaTagsTreeResponse?.result?.trees
+                if (metaTags == null) {
                     Column(Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally) {
@@ -194,52 +187,22 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                     val stateVertical = rememberScrollState(0)
 
                     Box(Modifier.fillMaxSize()) {
-                        Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
-                            Text("Жанры", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                            Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
-                                genres.filter { genre -> genre.id !in otherGenres }.forEach {
-                                    Column {
-                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) }, fontWeight = FontWeight.Bold)
-                                        it.subGenres?.forEach {
-                                            Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
-                                        }
-                                    }
-                                }
-                            }
-                            Text("Сказки и детская музыка", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                            Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
-                                genres.filter { genre -> genre.id in childGenres }.forEach {
-                                    Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
-                                    it.subGenres?.forEach {
-                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
-                                    }
-                                }
-                            }
-                            genres.first { genre -> genre.id == podcastGenre }.let {
-                                Text("Подкасты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
-                                    Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
-                                    it.subGenres?.forEach {
-                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
-                                    }
-                                }
-                            }
-                            genres.first { genre -> genre.id == podcastGenre }.let {
-                                Text("Саундтреки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
-                                    Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
-                                    it.subGenres?.forEach {
-                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
-                                    }
-                                }
-                            }
-                            Text("Аудиокниги", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                            Flow(horizontalSpacing = 10.dp, verticalSpacing = 15.dp) {
-                                genres.filter { genre -> genre.id in bookGenres }.forEach {
-                                    Column {
-                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) }, fontWeight = FontWeight.Bold)
-                                        it.subGenres?.forEach {
-                                            Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
+                        Column(Modifier.padding(10.dp).verticalScroll(stateVertical), Arrangement.spacedBy(20.dp)) {
+                            metaTags.forEach { tree ->
+                                val hasNotEmptyBushes = tree.leaves!!.any { it.leaves?.isNotEmpty() == true }
+                                Column(Modifier.padding(10.dp)) {
+                                    Text(tree.title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
+                                        tree.leaves.forEach { bush ->
+                                            Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                                                Text(bush.title,
+                                                    fontWeight = if (hasNotEmptyBushes || bush.leaves?.isNotEmpty() == true)
+                                                        FontWeight.Bold else
+                                                            FontWeight.Normal)
+                                                bush.leaves?.forEach { leave ->
+                                                    Text(leave.title)
+                                                }
+                                            }
                                         }
                                     }
                                 }
