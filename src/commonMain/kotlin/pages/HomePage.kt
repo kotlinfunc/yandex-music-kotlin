@@ -24,6 +24,7 @@ import layouts.Flow
 import layouts.TruncatedRow
 import navigation.*
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
@@ -195,12 +196,12 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                                     Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                         tree.leaves.forEach { bush ->
                                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                                                Text(bush.title,
+                                                Text(bush.title, Modifier.onClick { onLocationChange(MetaTagLocation(bush.title)) },
                                                     fontWeight = if (hasNotEmptyBushes || bush.leaves?.isNotEmpty() == true)
                                                         FontWeight.Bold else
                                                             FontWeight.Normal)
                                                 bush.leaves?.forEach { leave ->
-                                                    Text(leave.title)
+                                                    Text(leave.title, Modifier.onClick { onLocationChange(MetaTagLocation(leave.title)) })
                                                 }
                                             }
                                         }
