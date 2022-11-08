@@ -105,7 +105,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                                 chartInfo.chart.tracks?.take(10)?.let {
                                     it.forEach {
-                                        TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
+                                        TrackItem(it.track!!, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                     }
                                 }
                             }
@@ -162,7 +162,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                                 chartInfo.chart.tracks?.let {
                                     it.forEach {
-                                        TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
+                                        TrackItem(it.track!!, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                     }
                                 }
                             }
@@ -199,9 +199,9 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                             Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                 genres.filter { genre -> genre.id !in otherGenres }.forEach {
                                     Column {
-                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) }, fontWeight = FontWeight.Bold)
+                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) }, fontWeight = FontWeight.Bold)
                                         it.subGenres?.forEach {
-                                            Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                            Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
                                         }
                                     }
                                 }
@@ -209,27 +209,27 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                             Text("Сказки и детская музыка", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                             Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                 genres.filter { genre -> genre.id in childGenres }.forEach {
-                                    Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                    Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
                                     it.subGenres?.forEach {
-                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
                                     }
                                 }
                             }
                             genres.first { genre -> genre.id == podcastGenre }.let {
                                 Text("Подкасты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
-                                    Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                    Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
                                     it.subGenres?.forEach {
-                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
                                     }
                                 }
                             }
                             genres.first { genre -> genre.id == podcastGenre }.let {
                                 Text("Саундтреки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
-                                    Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                    Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
                                     it.subGenres?.forEach {
-                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
                                     }
                                 }
                             }
@@ -237,9 +237,9 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                             Flow(horizontalSpacing = 10.dp, verticalSpacing = 15.dp) {
                                 genres.filter { genre -> genre.id in bookGenres }.forEach {
                                     Column {
-                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) }, fontWeight = FontWeight.Bold)
+                                        Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) }, fontWeight = FontWeight.Bold)
                                         it.subGenres?.forEach {
-                                            Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                            Text(it.title, Modifier.onClick { onLocationChange(MetaTagLocation(it.id)) })
                                         }
                                     }
                                 }

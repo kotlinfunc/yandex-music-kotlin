@@ -81,7 +81,7 @@ fun PlaylistInfoPanel(id: PlaylistId, onLocationChange: (Location<*>) -> Unit = 
                 it.tracks?.let {
                     Column {
                         it.forEachIndexed { idx, item ->
-                            SimpleTrackItem(item.track, idx + 1) { onLocationChange(it) }
+                            SimpleTrackItem(item.track!!, idx + 1) { onLocationChange(it) }
                         }
                     }
                 }

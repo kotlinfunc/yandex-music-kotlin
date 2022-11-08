@@ -118,9 +118,9 @@ fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocati
                                 },
                                 placeholder = { Text("Поиск") }, singleLine = true)
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                                it.filter { it.track.title.contains(searchText)
+                                it.filter { it.track!!.title.contains(searchText)
                                         || it.track.artists?.any { it.name.contains(searchText) } == true }.forEach {
-                                    TrackItem(it.track, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
+                                    TrackItem(it.track!!, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }

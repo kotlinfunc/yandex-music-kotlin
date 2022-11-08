@@ -162,7 +162,7 @@ fun AlbumPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange:
                             if (it.albums?.isNotEmpty() == true) {
                                 Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                     Text("Новые альбомы жанра «${it.title.title}»", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                                    TextButton(onClick = { onLocationChange(TagLocation(it.id)) }) {
+                                    TextButton(onClick = { onLocationChange(MetaTagLocation(it.id)) }) {
                                         Text("Смотреть все")
                                     }
                                 }

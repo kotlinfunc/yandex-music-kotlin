@@ -29,7 +29,8 @@ import kotlinx.serialization.encoding.*
 /**
  * 
  *
- * @param id 
+ * @param id
+ * @param albumId
  * @param playCount 
  * @param recent 
  * @param timestamp 
@@ -37,16 +38,11 @@ import kotlinx.serialization.encoding.*
  */
 @Serializable
 data class TrackItem (
-
-    @SerialName(value = "id") val id: Long,
-
-    @SerialName(value = "playCount") val playCount: Int? = null,
-
-    @SerialName(value = "recent") val recent: Boolean? = null,
-
-    @SerialName(value = "timestamp") val timestamp: String? = null,
-
-    @SerialName(value = "track") val track: Track
-
+    val id: Long,
+    val albumId: Long? = null,
+    val playCount: Int? = null,
+    val recent: Boolean? = null,
+    val timestamp: String? = null,
+    val track: Track? = null
 )
 

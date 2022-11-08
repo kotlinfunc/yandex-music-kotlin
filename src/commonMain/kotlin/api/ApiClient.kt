@@ -93,10 +93,6 @@ suspend fun getPodcastWithEpisodes(id: Long): Response<Podcast> {
     return client.get(Albums.Get.WithTracks(Albums.Get(id = id))).body()
 }
 
-suspend fun getTagPlaylistIds(tag: String): Response<Ids<PlaylistId>> {
-    return client.get(Tags.Get.PlaylistIds(Tags.Get(tag = tag))).body()
-}
-
 suspend fun getTrack(id: Long): Response<List<Track>> {
     return client.get(Tracks.Get(id = id)).body()
 }

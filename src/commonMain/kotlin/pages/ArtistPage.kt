@@ -27,10 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import api.getArtistBriefInfo
+import api.models.*
 import api.models.ArtistInfo
-import api.models.Link
-import api.models.PlaylistId
-import api.models.Response
 import components.*
 import compose.icons.FontAwesomeIcons
 import compose.icons.fontawesomeicons.Brands
@@ -218,7 +216,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
                                         artistInfo.similarArtists.take(5).forEach {
-                                            ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
+                                            ArtistCard(it, onClick = { onInfoRequest(navigation.ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
@@ -310,7 +308,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(artistInfo.similarArtists) {
-                                ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
+                                ArtistCard(it, onClick = { onInfoRequest(navigation.ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
                             }
                         }
                     }
@@ -349,13 +347,16 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                                 it.forEach {
                                                     OutlinedButton({ openInBrowser(it.href) }) {
                                                         Icon(
-                                                            if (it.type == Link.Type.SOCIAL)
+                                                            if (it.type == Artist.Link.Type.SOCIAL)
                                                                 when (it.socialNetwork!!) {
-                                                                    Link.SocialNetwork.FACEBOOK -> FontAwesomeIcons.Brands.Facebook
-                                                                    Link.SocialNetwork.TIKTOK -> FontAwesomeIcons.Brands.Tiktok
-                                                                    Link.SocialNetwork.TWITTER -> FontAwesomeIcons.Brands.Twitter
-                                                                    Link.SocialNetwork.VK -> FontAwesomeIcons.Brands.Vk
-                                                                    Link.SocialNetwork.YOUTUBE -> FontAwesomeIcons.Brands.Youtube
+                                                                    Artist.Link.SocialNetwork.DISCORD -> FontAwesomeIcons.Brands.Discord
+                                                                    Artist.Link.SocialNetwork.FACEBOOK -> FontAwesomeIcons.Brands.Facebook
+                                                                    Artist.Link.SocialNetwork.TELEGRAM -> FontAwesomeIcons.Brands.Telegram
+                                                                    Artist.Link.SocialNetwork.TIKTOK -> FontAwesomeIcons.Brands.Tiktok
+                                                                    Artist.Link.SocialNetwork.TWITTER -> FontAwesomeIcons.Brands.Twitter
+                                                                    Artist.Link.SocialNetwork.VK -> FontAwesomeIcons.Brands.Vk
+                                                                    Artist.Link.SocialNetwork.YOUTUBE -> FontAwesomeIcons.Brands.Youtube
+                                                                    Artist.Link.SocialNetwork.ZEN -> FontAwesomeIcons.Brands.Yandex
                                                                 }
                                                             else Icons.Filled.Language,
                                                             contentDescription = null,
