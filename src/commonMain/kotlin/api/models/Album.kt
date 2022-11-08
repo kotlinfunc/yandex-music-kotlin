@@ -87,6 +87,9 @@ data class Album (
     /* Жанр музыки */
     @SerialName(value = "genre") val genre: String? = null,
 
+    /* Жанр музыки (id мета тэга) */
+    @SerialName(value = "metaTagId") val metaTagId: String? = null,
+
     @SerialName(value = "buy") val buy: List<String>? = null,
 
     /* Количество треков. */
@@ -102,7 +105,7 @@ data class Album (
     @SerialName(value = "artists") val artists: List<Artist>? = null,
 
     /* Лейблы */
-    //@SerialName(value = "labels") val labels: List<String>? = null,
+    @SerialName(value = "labels") val labels: List<AbstractLabel>? = null,
 
     /* Доступен ли альбом */
     @SerialName(value = "available") val available: Boolean? = null,

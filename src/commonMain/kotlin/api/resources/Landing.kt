@@ -10,4 +10,8 @@ class Landing {
     @Serializable
     @Resource("chart/{chartType}")
     class Chart(val parent: Landing = Landing(), val chartType: ChartScope)
+
+    @Serializable
+    @Resource("metatags")
+    class MetaTags(val parent: Landing = Landing())
 }

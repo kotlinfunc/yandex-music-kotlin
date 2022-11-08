@@ -14,7 +14,4 @@ data class Genre(
     val images: Map<String, String>,
     val radioIcon: RadioIcon? = null,
     val subGenres: List<Genre>? = null
-) {
-    @Serializable
-    data class Title(val title: String, val fullTitle: String? = null)
-}
+)

@@ -1,6 +1,7 @@
 package api.resources
 
 import io.ktor.resources.*
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,7 +16,10 @@ class Artists {
 
         @Serializable
         @Resource("direct-albums")
-        class DirectAlbums(val parent: Get, val page: Int = 0, val pageSize: Int = 20, val sortBy: String? = null)
+        class DirectAlbums(val parent: Get,
+                           val page: Int = 0,
+                           val pageSize: Int = 20,
+                           @SerialName("sort-by") val sortBy: String = "rating")
 
         @Serializable
         @Resource("track-ids-by-rating")

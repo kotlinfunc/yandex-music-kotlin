@@ -158,6 +158,7 @@ fun App() {
                             is RadiosLocation -> RadiosPage() { changeLocation(it) }
                             is SearchLocation -> SearchPage(location.data as String, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
                             is SettingsLocation -> {}
+                            is TagLocation -> TagPage(location.data as String, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
                         }
                     }
 

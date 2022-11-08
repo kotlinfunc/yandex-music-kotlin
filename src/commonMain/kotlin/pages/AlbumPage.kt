@@ -14,28 +14,45 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import api.getAlbumWithTracks
+import api.getArtistDirectAlbums
+import api.getMetaTagAlbums
 import api.models.Album
+import api.models.ArtistAlbums
+import api.models.MetaTag
 import api.models.Response
 import components.AlbumCard
 import components.AsyncImage
 import components.SimpleTrackItem
 import components.loadImageBitmap
 import layouts.Flow
+import layouts.TruncatedRow
 import navigation.*
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AlbumPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     var albumResponse by remember { mutableStateOf<Response<Album>?>(null) }
+    var genreAlbumsResponse by remember { mutableStateOf<Response<MetaTag>?>(null) }
+    var otherAlbumsResponse by remember { mutableStateOf<Response<ArtistAlbums>?>(null) }
     val stateVertical = rememberScrollState(0)
 
     LaunchedEffect(id) {
-        albumResponse = getAlbumWithTracks(id)
+        val albumWithTracks = getAlbumWithTracks(id)
+        albumWithTracks.result?.artists?.get(0)?.let {
+            otherAlbumsResponse = getArtistDirectAlbums(it.id)
+        }
+        albumWithTracks.result?.metaTagId?.let {
+            genreAlbumsResponse = getMetaTagAlbums(it, pageSize = 10)
+        }
+        albumResponse = albumWithTracks
     }
 
     if (albumResponse == null) {
@@ -123,21 +140,54 @@ fun AlbumPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange:
                                 }
                             }
                         }
-                        /*Text(buildAnnotatedString {
-                            withStyle(style = SpanStyle(fontWeight = FontWeight.Light)) {
-                                append("Лейбл: ")
+                        album.labels?.let {
+                            if (it.isNotEmpty()) {
+                                Text(buildAnnotatedString {
+                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Light)) {
+                                        append("Лейбл ")
+                                    }
+                                    append(it.joinToString(", "))
+                                }, fontSize = 13.sp)
                             }
-                        }, fontSize = 13.sp)*/
+                        }
                         album.duplicates?.let {
                             Text("Другие версии альбома", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                            Row(Modifier.wrapContentWidth(), Arrangement.spacedBy(10.dp)) {
+                            Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
                                 it.forEach {
                                     AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }
-                        //Text("Новые альбомы жанра «${album.genre}»", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                        //Text("Другие альбомы исполнителя", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        genreAlbumsResponse?.result?.let {
+                            if (it.albums?.isNotEmpty() == true) {
+                                Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
+                                    Text("Новые альбомы жанра «${it.title.title}»", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    TextButton(onClick = { onLocationChange(TagLocation(it.id)) }) {
+                                        Text("Смотреть все")
+                                    }
+                                }
+                                TruncatedRow(horizontalSpacing = 10.dp) {
+                                    it.albums.take(10).forEach {
+                                        AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
+                                    }
+                                }
+                            }
+                        }
+                        otherAlbumsResponse?.result?.albums?.let {
+                            if (it.isNotEmpty()) {
+                                Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
+                                    Text("Другие альбомы исполнителя", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    TextButton(onClick = { onLocationChange(ArtistLocation(album.artists!![0].id)) }) {
+                                        Text("Смотреть все")
+                                    }
+                                }
+                                TruncatedRow(horizontalSpacing = 10.dp) {
+                                    it.filter { otherAlbum -> otherAlbum.id != album.id }.take(5).forEach {
+                                        AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
+                                    }
+                                }
+                            }
+                        }
                     }
                     VerticalScrollbar(
                         modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),

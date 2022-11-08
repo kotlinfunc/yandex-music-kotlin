@@ -1,14 +1,11 @@
 package pages
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,6 +24,13 @@ import layouts.Flow
 import layouts.TruncatedRow
 import navigation.*
 
+private val childGenres = listOf("forchildren", "children", "fairytales", "poemsforchildren")
+private val soundtrackGenre = "soundtrack"
+private val podcastGenre = "podcasts"
+private val bookGenres = listOf("fiction", "nonfictionliterature", "booksnotinrussian")
+private val otherGenres = childGenres + soundtrackGenre + podcastGenre + bookGenres
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
@@ -77,7 +81,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                     Box(Modifier.fillMaxSize()) {
                         Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical), Arrangement.spacedBy(10.dp)) {
                             Text("Главное", fontWeight = FontWeight.Bold, fontSize = 45.sp)
-                            Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
+                            Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                 Text("Новые релизы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                 TextButton({ selectedTab = 0 }) {
                                     Text("Смотреть все")
@@ -89,7 +93,7 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                                 }
                             }
 
-                            Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
+                            Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                 Column {
                                     Text(chartInfo.chart.title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                     Text(chartInfo.title)
@@ -193,11 +197,49 @@ fun HomePage(onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<
                         Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
                             Text("Жанры", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                             Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
-                                genres.forEach {
+                                genres.filter { genre -> genre.id !in otherGenres }.forEach {
                                     Column {
-                                        Text(it.title, fontWeight = FontWeight.Bold)
+                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) }, fontWeight = FontWeight.Bold)
                                         it.subGenres?.forEach {
-                                            Text(it.title)
+                                            Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                        }
+                                    }
+                                }
+                            }
+                            Text("Сказки и детская музыка", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                            Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
+                                genres.filter { genre -> genre.id in childGenres }.forEach {
+                                    Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                    it.subGenres?.forEach {
+                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                    }
+                                }
+                            }
+                            genres.first { genre -> genre.id == podcastGenre }.let {
+                                Text("Подкасты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
+                                    Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                    it.subGenres?.forEach {
+                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                    }
+                                }
+                            }
+                            genres.first { genre -> genre.id == podcastGenre }.let {
+                                Text("Саундтреки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                Flow(horizontalSpacing = 15.dp, verticalSpacing = 10.dp) {
+                                    Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                    it.subGenres?.forEach {
+                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
+                                    }
+                                }
+                            }
+                            Text("Аудиокниги", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                            Flow(horizontalSpacing = 10.dp, verticalSpacing = 15.dp) {
+                                genres.filter { genre -> genre.id in bookGenres }.forEach {
+                                    Column {
+                                        Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) }, fontWeight = FontWeight.Bold)
+                                        it.subGenres?.forEach {
+                                            Text(it.title, Modifier.onClick { onLocationChange(TagLocation(it.id)) })
                                         }
                                     }
                                 }

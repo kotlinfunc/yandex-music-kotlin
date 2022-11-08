@@ -23,3 +23,5 @@ object RadiosLocation: Location<Unit>(Unit)
 class SearchLocation(searchText: String): Location<String>(searchText)
 
 object SettingsLocation: Location<Unit>(Unit)
+
+class TagLocation(tag: String): Location<String>(tag)

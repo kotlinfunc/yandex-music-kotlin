@@ -139,7 +139,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                         Box(Modifier.fillMaxSize()) {
                             Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
                                 if (artistInfo.popularTracks.isNotEmpty()) {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Популярные треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 1 }) {
                                             Text("Смотреть все")
@@ -150,7 +150,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     }
                                 }
                                 if (artistInfo.albums.isNotEmpty()) {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Популярные альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 2 }) {
                                             Text("Смотреть все")
@@ -163,7 +163,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     }
                                 }
                                 if (artistInfo.alsoAlbums.isNotEmpty()) {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Популярные сборники", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 2 }) {
                                             Text("Смотреть все")
@@ -184,7 +184,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     }
                                 }
                                 if (artistInfo.videos.isNotEmpty()) {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Клипы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 3 }) {
                                             Text("Смотреть все")
@@ -197,7 +197,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     }
                                 }
                                 if (artistInfo.concerts.isNotEmpty()) {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Концерты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 4 }) {
                                             Text("Смотреть все")
@@ -210,7 +210,7 @@ fun ArtistPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange
                                     }
                                 }
                                 if (artistInfo.similarArtists.isNotEmpty()) {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Похожие исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 5 }) {
                                             Text("Смотреть все")

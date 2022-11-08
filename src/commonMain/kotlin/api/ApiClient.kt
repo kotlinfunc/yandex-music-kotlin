@@ -45,6 +45,10 @@ suspend fun getArtistBriefInfo(id: Long): Response<ArtistInfo> {
     return client.get(Artists.Get.BriefInfo(Artists.Get(id = id))).body()
 }
 
+suspend fun getArtistDirectAlbums(id: Long): Response<ArtistAlbums> {
+    return client.get(Artists.Get.DirectAlbums(Artists.Get(id = id))).body()
+}
+
 suspend fun getChart(chartType: ChartScope): Response<Chart> {
     return client.get(Landing.Chart(chartType = chartType)).body()
 }
@@ -69,8 +73,28 @@ suspend fun getPlaylists(playlistIds: List<PlaylistId>): Response<List<Playlist>
     return client.post(Playlists(playlistIds.map { "${it.uid}:${it.kind}" })).body()
 }
 
+suspend fun getMetaTag(tag: String): Response<MetaTag> {
+    return client.get(MetaTags(tag)).body()
+}
+
+suspend fun getMetaTagAlbums(tag: String, page: Int = 0, pageSize: Int = 20, sortBy: String? = null): Response<MetaTag> {
+    return client.get(MetaTags.Albums(MetaTags(tag), page * pageSize, pageSize, sortBy)).body()
+}
+
+suspend fun getMetaTagArtists(tag: String, page: Int = 0, pageSize: Int = 20, sortBy: String? = null): Response<MetaTag> {
+    return client.get(MetaTags.Artists(MetaTags(tag), page * pageSize, pageSize, sortBy)).body()
+}
+
+suspend fun getMetaTagPlaylists(tag: String, page: Int = 0, pageSize: Int = 20, sortBy: String? = null): Response<MetaTag> {
+    return client.get(MetaTags.Playlists(MetaTags(tag), page * pageSize, pageSize, sortBy)).body()
+}
+
 suspend fun getPodcastWithEpisodes(id: Long): Response<Podcast> {
     return client.get(Albums.Get.WithTracks(Albums.Get(id = id))).body()
+}
+
+suspend fun getTagPlaylistIds(tag: String): Response<Ids<PlaylistId>> {
+    return client.get(Tags.Get.PlaylistIds(Tags.Get(tag = tag))).body()
 }
 
 suspend fun getTrack(id: Long): Response<List<Track>> {

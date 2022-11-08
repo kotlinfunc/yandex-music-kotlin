@@ -64,7 +64,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         Box(Modifier.fillMaxSize()) {
                             Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
                                 it.artists?.let {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 1 }) {
                                             Text("Смотреть всех")
@@ -77,7 +77,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                 }
                                 it.albums?.let {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 2 }) {
                                             Text("Смотреть все")
@@ -90,7 +90,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                 }
                                 it.tracks?.let {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 3 }) {
                                             Text("Смотреть все")
@@ -103,7 +103,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                 }
                                 it.podcasts?.let {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Подкасты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 4 }) {
                                             Text("Смотреть все")
@@ -116,7 +116,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                 }
                                 it.podcastEpisodes?.let {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Выпуски", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 5 }) {
                                             Text("Смотреть все")
@@ -129,7 +129,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     }
                                 }
                                 it.playlists?.let {
-                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 6 }) {
                                             Text("Смотреть все")
