@@ -29,8 +29,6 @@ import navigation.*
 @Composable
 fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     var searchResult by remember { mutableStateOf<Response<Search>?>(null) }
-    var selectedTab by remember { mutableStateOf(0) }
-    val titles = listOf("Всё", "Исполнители", "Альбомы", "Треки", "Подкасты", "Выпуски", "Плейлисты")
 
     LaunchedEffect(query) {
         searchResult = search(query)
@@ -45,25 +43,34 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
     } else if (searchResult?.error != null) {
         Text("Ошибка: ${searchResult?.error?.message}")
     } else {
-        Column {
-            TabRow(selectedTab) {
-                titles.forEachIndexed { index, title ->
-                    Tab(
-                        text = { Text(title) },
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index }
-                    )
-                }
-            }
+        searchResult?.result?.let { overviewResult ->
+            var selectedTab by remember { mutableStateOf(0) }
+            val titles = listOf("Всё",
+                "Исполнители: ${overviewResult.artists?.total ?: 0}",
+                "Альбомы: ${overviewResult.albums?.total ?: 0}",
+                "Треки: ${overviewResult.tracks?.total ?: 0}",
+                "Подкасты: ${overviewResult.podcasts?.total ?: 0}",
+                "Выпуски: ${overviewResult.podcastEpisodes?.total ?: 0}",
+                "Плейлисты ${overviewResult.playlists?.total ?: 0}")
 
-            searchResult?.result?.let {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                ScrollableTabRow(selectedTab) {
+                    titles.forEachIndexed { index, title ->
+                        Tab(
+                            text = { Text(title) },
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index }
+                        )
+                    }
+                }
+
                 when(selectedTab) {
                     0 -> {
                         val stateVertical = rememberScrollState(0)
 
                         Box(Modifier.fillMaxSize()) {
                             Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
-                                it.artists?.let {
+                                overviewResult.artists?.let {
                                     Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Исполнители", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 1 }) {
@@ -71,12 +78,12 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                         }
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
-                                        it.results.forEach {
+                                        it.results.take(10).forEach {
                                             ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
-                                it.albums?.let {
+                                overviewResult.albums?.let {
                                     Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Альбомы", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 2 }) {
@@ -84,12 +91,12 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                         }
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
-                                        it.results.forEach {
+                                        it.results.take(10).forEach {
                                             AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
-                                it.tracks?.let {
+                                overviewResult.tracks?.let {
                                     Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Треки", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 3 }) {
@@ -97,12 +104,12 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                         }
                                     }
                                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                        it.results.forEach {
+                                        it.results.take(10).forEach {
                                             TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
-                                it.podcasts?.let {
+                                overviewResult.podcasts?.let {
                                     Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Подкасты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 4 }) {
@@ -110,12 +117,12 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                         }
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
-                                        it.results.forEach {
+                                        it.results.take(10).forEach {
                                             PodcastCard(it, onClick = { onInfoRequest(PodcastInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
-                                it.podcastEpisodes?.let {
+                                overviewResult.podcastEpisodes?.let {
                                     Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Выпуски", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 5 }) {
@@ -123,12 +130,12 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                         }
                                     }
                                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                        it.results.take(5).forEach {
+                                        it.results.take(10).forEach {
                                             EpisodeItem(it, onClick = { onInfoRequest(EpisodeInfo(it.id)) }, onLocationChange = onLocationChange)
                                         }
                                     }
                                 }
-                                it.playlists?.let {
+                                overviewResult.playlists?.let {
                                     Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
                                         Text("Плейлисты", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                                         TextButton(onClick = { selectedTab = 6 }) {
@@ -136,7 +143,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                         }
                                     }
                                     TruncatedRow(horizontalSpacing = 10.dp) {
-                                        it.results.take(5).forEach {
+                                        it.results.take(10).forEach {
                                             PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }, onLocationChange = onLocationChange)
                                         }
                                     }
@@ -149,18 +156,23 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         }
                     }
                     1 -> {
-                        LazyVerticalGrid(
-                            modifier = Modifier.fillMaxSize(),
-                            columns = GridCells.Adaptive(minSize = 200.dp),
-                            contentPadding = PaddingValues(10.dp),
-                            horizontalArrangement = Arrangement.spacedBy(15.dp),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                           it.artists?.results?.let {
-                                items(it) {
-                                    ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
+                        overviewResult.artists?.let {
+                            LazyVerticalGrid(
+                                modifier = Modifier.weight(1f),
+                                columns = GridCells.Adaptive(minSize = 200.dp),
+                                contentPadding = PaddingValues(10.dp),
+                                horizontalArrangement = Arrangement.spacedBy(15.dp),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                items(it.results) {
+                                    ArtistCard(
+                                        it,
+                                        onClick = { onInfoRequest(ArtistInfo(it.id)) },
+                                        onLocationChange = onLocationChange
+                                    )
                                 }
                             }
+                            Pager()
                         }
                     }
                     2 -> {
@@ -170,19 +182,20 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                             horizontalArrangement = Arrangement.spacedBy(15.dp),
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            it.albums?.results?.let {
+                            overviewResult.albums?.results?.let {
                                 items(it) {
                                     AlbumCard(it, onClick = { onInfoRequest(AlbumInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }
+                        Pager()
                     }
                     3 -> {
                         Box(Modifier.fillMaxSize()) {
                             val state = rememberLazyListState()
                             LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
                                 verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                it.tracks?.results?.let {
+                                overviewResult.tracks?.results?.let {
                                     items(it) {
                                         TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                     }
@@ -195,9 +208,10 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                 )
                             )
                         }
+                        Pager()
                     }
                     4 -> {
-                        it.podcasts?.results?.let {
+                        overviewResult.podcasts?.results?.let {
                             LazyVerticalGrid(
                                 columns = GridCells.Adaptive(minSize = 200.dp),
                                 contentPadding = PaddingValues(10.dp),
@@ -208,10 +222,11 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     PodcastCard(it, onClick = { onInfoRequest(PodcastInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }
+                            Pager()
                         }
                     }
                     5 -> {
-                        it.podcastEpisodes?.let {
+                        overviewResult.podcastEpisodes?.let {
                             Box {
                                 val state = rememberLazyListState()
                                 LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
@@ -227,6 +242,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                                     )
                                 )
                             }
+                            Pager()
                         }
                     }
                     6 -> {
@@ -236,12 +252,13 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                             horizontalArrangement = Arrangement.spacedBy(15.dp),
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            it.playlists?.results?.let {
+                            overviewResult.playlists?.results?.let {
                                 items(it) {
                                     PlaylistCard(it, onClick = { onInfoRequest(PlaylistInfo(PlaylistId(it.uid, it.kind))) }, onLocationChange = onLocationChange)
                                 }
                             }
                         }
+                        Pager()
                     }
                 }
             }

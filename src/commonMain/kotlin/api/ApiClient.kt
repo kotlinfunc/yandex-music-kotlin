@@ -1,6 +1,7 @@
 package api
 
 import api.models.*
+import api.models.Chart
 import api.models.Feed
 import api.models.Search
 import api.resources.*

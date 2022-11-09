@@ -47,41 +47,35 @@ import kotlinx.serialization.encoding.*
  */
 @Serializable
 data class Search (
-
     /* ID запроса */
-    @SerialName(value = "searchRequestId") val searchRequestId: String,
-
+    val searchRequestId: String,
+    val page: Int? = null,
+    val perPage: Int? = null,
     /* Текст запроса */
-    @SerialName(value = "text") val text: String,
-
+    val text: String,
     //@SerialName(value = "best") val best: Best? = null,
-
-    @SerialName(value = "albums") val albums: PagingResult<Album>? = null,
-
-    @SerialName(value = "artists") val artists: PagingResult<Artist>? = null,
-
-    @SerialName(value = "playlists") val playlists: PagingResult<Playlist>? = null,
-
-    @SerialName(value = "tracks") val tracks: PagingResult<Track>? = null,
-
-    @SerialName(value = "videos") val videos: PagingResult<Video>? = null,
+    val albums: PagingResult<Album>? = null,
+    val artists: PagingResult<Artist>? = null,
+    val playlists: PagingResult<Playlist>? = null,
+    val tracks: PagingResult<Track>? = null,
+    val videos: PagingResult<Video>? = null,
 
     //@SerialName(value = "users") val users: SearchResult<BestResult>? = null,
 
-    @SerialName(value = "podcasts") val podcasts: PagingResult<Podcast>? = null,
+    val podcasts: PagingResult<Podcast>? = null,
 
     @SerialName(value = "podcast_episodes") val podcastEpisodes: PagingResult<Episode>? = null,
 
-    @SerialName(value = "type") val type: SearchType? = SearchType.all,
+    val type: SearchType? = SearchType.all,
 
     /* Был ли исправлен запрос */
-    @SerialName(value = "misspellCorrected") val misspellCorrected: Boolean,
+    val misspellCorrected: Boolean,
 
     /* Оригинальный запрос */
-    @SerialName(value = "misspellOriginal") val misspellOriginal: String? = null,
+    val misspellOriginal: String? = null,
 
     /* Было ли отключено исправление результата */
-    @SerialName(value = "nocorrect") val nocorrect: Boolean
+   val nocorrect: Boolean
 
 )
 
