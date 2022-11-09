@@ -4,6 +4,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -19,25 +20,29 @@ private fun calculatePageRange(currentPage: Int, totalPages: Int): IntRange {
 
 @Composable
 @Preview
-fun Pager() {
-    val totalPages = 10
-    var page by remember { mutableStateOf(1) }
-    Row(Modifier.fillMaxWidth(), Arrangement.spacedBy(5.dp)) {
+fun Pager(page: Int = 1, totalPages: Int = 1, onPageChange: (Int) -> Unit = {}) {
+    Row(Modifier, Arrangement.spacedBy(5.dp)) {
         if (page > 5) {
-            TextButton({ page = 1 }) {
+            TextButton({ onPageChange(1) }) {
                 Text("В начало")
             }
-            TextButton({ page -= 5 }) {
+            TextButton({ onPageChange(page - 5) }) {
                 Text("Предыдущие 5")
             }
         }
         calculatePageRange(page, totalPages).forEach {
-            OutlinedButton({ page = it }) {
-                Text("$it")
+            if (page == it) {
+                Button({ onPageChange(it) }) {
+                    Text("$it")
+                }
+            } else {
+                OutlinedButton({ onPageChange(it) }) {
+                    Text("$it")
+                }
             }
         }
         if (totalPages - page > 5) {
-            TextButton({ page += 5 }) {
+            TextButton({ onPageChange(page + 5) }) {
                 Text("Следующие 5")
             }
         }

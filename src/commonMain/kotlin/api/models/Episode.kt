@@ -35,7 +35,7 @@ data class Episode(
 
     val pubDate: LocalDate? = null,
 
-    val r128: R128,
+    val r128: R128? = null,
 
     val realId: String,
 

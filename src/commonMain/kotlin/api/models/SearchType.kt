@@ -40,8 +40,14 @@ enum class SearchType(val value: String) {
     @SerialName(value = "track")
     track("track"),
 
+    @SerialName(value = "playlist")
+    playlist("playlist"),
+
     @SerialName(value = "podcast")
     podcast("podcast"),
+
+    @SerialName(value = "podcast_episode")
+    podcastEpisode("podcast_episode"),
 
     @SerialName(value = "all")
     all("all");

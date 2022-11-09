@@ -130,6 +130,6 @@ suspend fun findSuggestions(search: String): Response<Suggestions> {
     return client.get(api.resources.Search.Suggest(part = search)).body()
 }
 
-suspend fun search(query: String): Response<Search> {
-    return client.get(api.resources.Search(query)).body()
+suspend fun search(query: String, page: Int = 0, perPage: Int = 0, type: SearchType = SearchType.all): Response<Search> {
+    return client.get(api.resources.Search(query, page, perPage, type)).body()
 }

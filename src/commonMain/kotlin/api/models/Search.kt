@@ -27,7 +27,7 @@ import kotlinx.serialization.encoding.*
 /**
  * Результаты поиска
  *
- * @param searchResultId ID запроса
+ * @param searchRequestId ID запроса
  * @param text Текст запроса
  * @param best 
  * @param albums 
@@ -37,8 +37,7 @@ import kotlinx.serialization.encoding.*
  * @param videos 
  * @param users 
  * @param podcasts 
- * @param podcastEpisodes 
- * @param type 
+ * @param podcastEpisodes
  * @param page Текущая страница
  * @param perPage Результатов на странице
  * @param misspellCorrected Был ли исправлен запрос
@@ -66,16 +65,14 @@ data class Search (
 
     @SerialName(value = "podcast_episodes") val podcastEpisodes: PagingResult<Episode>? = null,
 
-    val type: SearchType? = SearchType.all,
-
     /* Был ли исправлен запрос */
-    val misspellCorrected: Boolean,
+    val misspellCorrected: Boolean? = null,
 
     /* Оригинальный запрос */
     val misspellOriginal: String? = null,
 
     /* Было ли отключено исправление результата */
-   val nocorrect: Boolean
+   val nocorrect: Boolean? = null
 
 )
 
