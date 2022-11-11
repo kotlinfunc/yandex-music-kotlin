@@ -69,7 +69,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                 when(selectedTab) {
                     0 -> Overview(overviewResult, onInfoRequest, onLocationChange) { selectedTab = it }
                     1 -> if (overviewResult.artists != null) {
-                        Part(query, 50, SearchType.artist, Search::artists) {
+                        Part(query, 50, SearchType.ARTIST, Search::artists) {
                             LazyVerticalGrid(GridCells.Adaptive(minSize = 200.dp), Modifier.weight(1f),
                                 contentPadding = PaddingValues(10.dp),
                                 horizontalArrangement = Arrangement.spacedBy(15.dp),
@@ -86,7 +86,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         }
                     }
                     2 -> if (overviewResult.albums != null) {
-                        Part(query, 50, SearchType.album, Search::albums) {
+                        Part(query, 50, SearchType.ALBUM, Search::albums) {
                             LazyVerticalGrid(GridCells.Adaptive(minSize = 200.dp), Modifier.weight(1f),
                                 contentPadding = PaddingValues(10.dp),
                                 horizontalArrangement = Arrangement.spacedBy(15.dp),
@@ -99,7 +99,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         }
                     }
                     3 -> if (overviewResult.tracks != null) {
-                        Part(query, 100, SearchType.track, Search::tracks) {
+                        Part(query, 100, SearchType.TRACK, Search::tracks) {
                             Box(Modifier.weight(1f)) {
                                 val state = rememberLazyListState()
                                 LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
@@ -118,7 +118,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         }
                     }
                     4 -> if (overviewResult.podcasts != null) {
-                        Part(query, 50, SearchType.podcast, Search::podcasts) {
+                        Part(query, 50, SearchType.PODCAST, Search::podcasts) {
                             LazyVerticalGrid(
                                 GridCells.Adaptive(minSize = 200.dp),
                                 Modifier.weight(1f),
@@ -133,7 +133,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         }
                     }
                     5 -> if (overviewResult.podcastEpisodes != null) {
-                        Part(query, 100, SearchType.podcastEpisode, Search::podcastEpisodes) {
+                        Part(query, 100, SearchType.PODCAST_EPISODE, Search::podcastEpisodes) {
                             Box(Modifier.weight(1f)) {
                                 val state = rememberLazyListState()
                                 LazyColumn(Modifier.fillMaxSize(), state, contentPadding = PaddingValues(10.dp),
@@ -152,7 +152,7 @@ fun SearchPage(query: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationC
                         }
                     }
                     6 -> if (overviewResult.podcastEpisodes != null) {
-                        Part(query, 100, SearchType.playlist, Search::playlists) {
+                        Part(query, 100, SearchType.PLAYLIST, Search::playlists) {
                             LazyVerticalGrid(GridCells.Adaptive(minSize = 200.dp), Modifier.weight(1f),
                                 contentPadding = PaddingValues(10.dp),
                                 horizontalArrangement = Arrangement.spacedBy(15.dp),

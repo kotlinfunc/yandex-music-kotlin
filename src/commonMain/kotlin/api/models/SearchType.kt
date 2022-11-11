@@ -29,53 +29,27 @@ import kotlinx.serialization.*
  * Values: artist,album,track,podcast,all
  */
 @Serializable
-enum class SearchType(val value: String) {
+enum class SearchType {
 
     @SerialName(value = "artist")
-    artist("artist"),
+    ARTIST,
 
     @SerialName(value = "album")
-    album("album"),
+    ALBUM,
 
     @SerialName(value = "track")
-    track("track"),
+    TRACK,
 
     @SerialName(value = "playlist")
-    playlist("playlist"),
+    PLAYLIST,
 
     @SerialName(value = "podcast")
-    podcast("podcast"),
+    PODCAST,
 
     @SerialName(value = "podcast_episode")
-    podcastEpisode("podcast_episode"),
+    PODCAST_EPISODE,
 
     @SerialName(value = "all")
-    all("all");
-
-    /**
-     * Override toString() to avoid using the enum variable name as the value, and instead use
-     * the actual value defined in the API spec file.
-     *
-     * This solves a problem when the variable name and its value are different, and ensures that
-     * the client sends the correct enum values to the server always.
-     */
-    override fun toString(): String = value
-
-    companion object {
-        /**
-         * Converts the provided [data] to a [String] on success, null otherwise.
-         */
-        fun encode(data: kotlin.Any?): kotlin.String? = if (data is SearchType) "$data" else null
-
-        /**
-         * Returns a valid [SearchType] for [data], null otherwise.
-         */
-        fun decode(data: kotlin.Any?): SearchType? = data?.let {
-          val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
-            it == value || normalizedData == "$value".lowercase()
-          }
-        }
-    }
+    ALL;
 }
 

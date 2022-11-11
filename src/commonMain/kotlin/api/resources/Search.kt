@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Resource("/search")
-class Search(val text: String? = "", val page: Int? = 0, val pageSize: Int? = 0, val type: SearchType? = SearchType.all, val nococrrect: Boolean? = false) {
+class Search(val text: String? = "", val page: Int? = 0, val pageSize: Int? = 0, val type: SearchType? = SearchType.ALL, val nococrrect: Boolean? = false) {
 
     @Serializable
     @Resource("suggest")

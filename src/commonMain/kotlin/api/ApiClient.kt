@@ -82,6 +82,17 @@ suspend fun getMetaTag(tag: String): Response<MetaTag> {
     return client.get(MetaTags(tag)).body()
 }
 
+suspend fun getMetaTagPlayables(tag: String, type: SearchType = SearchType.ALL,
+                                page: Int = 0, pageSize: Int = 20, sortBy: String? = null): Response<MetaTag> {
+    return when (type) {
+        SearchType.ALL -> getMetaTag(tag)
+        SearchType.ALBUM -> getMetaTagAlbums(tag, page, pageSize, sortBy)
+        SearchType.ARTIST -> getMetaTagArtists(tag, page, pageSize, sortBy)
+        SearchType.PLAYLIST -> getMetaTagPlaylists(tag, page, pageSize, sortBy)
+        else -> throw NotImplementedError()
+    }
+}
+
 suspend fun getMetaTagAlbums(tag: String, page: Int = 0, pageSize: Int = 20, sortBy: String? = null): Response<MetaTag> {
     return client.get(MetaTags.Albums(MetaTags(tag), page * pageSize, pageSize, sortBy)).body()
 }
@@ -130,6 +141,6 @@ suspend fun findSuggestions(search: String): Response<Suggestions> {
     return client.get(api.resources.Search.Suggest(part = search)).body()
 }
 
-suspend fun search(query: String, page: Int = 0, perPage: Int = 0, type: SearchType = SearchType.all): Response<Search> {
+suspend fun search(query: String, page: Int = 0, perPage: Int = 0, type: SearchType = SearchType.ALL): Response<Search> {
     return client.get(api.resources.Search(query, page, perPage, type)).body()
 }

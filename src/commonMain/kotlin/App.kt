@@ -29,6 +29,7 @@ import components.loadSvgPainter
 import navigation.*
 import pages.*
 import pages.search.SearchPage
+import pages.tag.MetaTagPage
 import panels.*
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)

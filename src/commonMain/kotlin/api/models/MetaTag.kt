@@ -10,6 +10,8 @@ data class MetaTag(
     val title: Title,
     val stationId: String,
 
+    val pager: PageSize? = null,
+
     val artists: List<Artist>? = null,
     val albums: List<Album>? = null,
     val playlists: List<Playlist>? = null,
@@ -21,4 +23,7 @@ data class MetaTag(
 ) {
     @Serializable
     data class SortedBy(val value: String, val title: String, val active: Boolean)
+
+    @Serializable
+    data class PageSize(val total: Int, val page: Int, val perPage: Int)
 }
