@@ -24,6 +24,7 @@ import api.models.Cover
 import api.models.Owner
 import api.models.PlaylistTagsInner
 import api.models.TrackItem
+import kotlinx.datetime.Instant
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
@@ -74,9 +75,9 @@ data class Playlist (
 
     @SerialName(value = "cover") val cover: Cover? = null,
 
-    @SerialName(value = "created") val created: String? = null,
+    @SerialName(value = "created") val created: Instant? = null,
 
-    @SerialName(value = "modified") val modified: String? = null,
+    @SerialName(value = "modified") val modified: Instant? = null,
 
     @SerialName(value = "backgroundColor") val backgroundColor: String? = null,
 
@@ -126,9 +127,9 @@ data class Playlist (
      * Values: `public`,`private`
      */
     @Serializable
-    enum class Visibility(val value: String) {
-        @SerialName(value = "public") `public`("public"),
-        @SerialName(value = "private") `private`("private");
+    enum class Visibility {
+        @SerialName(value = "public") PUBLIC,
+        @SerialName(value = "private") PRIVATE;
     }
 }
 

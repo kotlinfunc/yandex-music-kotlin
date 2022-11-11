@@ -35,8 +35,10 @@ internal fun Overview(artistInfo: ArtistInfo,
                         Text("Смотреть все")
                     }
                 }
-                artistInfo.popularTracks.take(5).forEach {
-                    TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
+                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                    artistInfo.popularTracks.take(5).forEach {
+                        TrackItem(it, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
+                    }
                 }
             }
             if (artistInfo.albums.isNotEmpty()) {
@@ -108,7 +110,7 @@ internal fun Overview(artistInfo: ArtistInfo,
                 }
                 TruncatedRow(horizontalSpacing = 10.dp) {
                     artistInfo.similarArtists.take(5).forEach {
-                        ArtistCard(it, onClick = { onInfoRequest(navigation.ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
+                        ArtistCard(it, onClick = { onInfoRequest(ArtistInfo(it.id)) }, onLocationChange = onLocationChange)
                     }
                 }
             }

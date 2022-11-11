@@ -1,6 +1,6 @@
 package api.models
 
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,7 +13,7 @@ data class Concert(
     val city: String,
     val place: String,
     val address: String,
-    @SerialName("datetime") val dateTime: String,
+    @SerialName("datetime") val dateTime: Instant,
     val coordinates: DoubleArray,
     val map: String,
     val mapUrl: String,

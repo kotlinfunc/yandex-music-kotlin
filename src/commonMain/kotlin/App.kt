@@ -1,4 +1,5 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -14,14 +15,12 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import api.findSuggestions
 import api.models.PlaylistId
 import api.models.Suggestions
-import components.AsyncImage
 import components.Player
-import components.loadSvgPainter
 import navigation.*
 import pages.PlaylistPage
 import pages.PodcastPage
@@ -38,8 +37,6 @@ import panels.InfoPanel
 @Composable
 @Preview
 fun App() {
-    val density = LocalDensity.current
-
     var requestedInfo by remember { mutableStateOf<Info<*>?>(null) }
 
     val previousLocations = mutableStateListOf<Location<*>>()
@@ -61,16 +58,16 @@ fun App() {
         if (searchText.isNotBlank()) {
             searchSuggestions = findSuggestions(searchText).result
             showSuggestions = true
+        } else {
+            showSuggestions = false
         }
     }
 
     MaterialTheme {
         PermanentNavigationDrawer(
             {
-                AsyncImage(
-                    load = { loadSvgPainter(this.javaClass.getResourceAsStream("/logo_semantic_horizontal_black.svg")!!, density) },
-                    painterFor = { it },
-                    contentDescription = "",
+                Image(
+                    painterResource("logo_semantic_horizontal_black.svg"), null,
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier.height(100.dp).fillMaxWidth().padding(12.dp)
                 )
@@ -127,7 +124,7 @@ fun App() {
                             placeholder = { Text("Поиск") },
                             singleLine = true
                         )
-                        DropdownMenu(showSuggestions, { showSuggestions = false }) {
+                        DropdownMenu(showSuggestions, { showSuggestions = false }, false) {
                             searchSuggestions!!.suggestions.forEach { option ->
                                 DropdownMenuItem(
                                     onClick = {
@@ -153,19 +150,19 @@ fun App() {
                     Column(Modifier.weight(1f)) {
                         when (location) {
                             is CollectionLocation -> {}
-                            is ArtistLocation -> ArtistPage(location.data as Long, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
-                            is AlbumLocation -> AlbumPage(location.data as Long, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
-                            is HomeLocation -> HomePage(onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
-                            is PlaylistLocation -> PlaylistPage(location.data as PlaylistId, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
-                            is PodcastLocation -> PodcastPage(location.data as Long, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
-                            is PodcastsLocation -> PodcastsPage(onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
-                            is RadiosLocation -> RadiosPage() { changeLocation(it) }
-                            is SearchLocation -> SearchPage(location.data as String, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
+                            is ArtistLocation -> ArtistPage(location.data as Long, onInfoRequest = { requestedInfo = it }, ::changeLocation)
+                            is AlbumLocation -> AlbumPage(location.data as Long, onInfoRequest = { requestedInfo = it }, ::changeLocation)
+                            is HomeLocation -> HomePage(onInfoRequest = { requestedInfo = it }, ::changeLocation)
+                            is PlaylistLocation -> PlaylistPage(location.data as PlaylistId, onInfoRequest = { requestedInfo = it }, ::changeLocation)
+                            is PodcastLocation -> PodcastPage(location.data as Long, onInfoRequest = { requestedInfo = it }, ::changeLocation)
+                            is PodcastsLocation -> PodcastsPage(onInfoRequest = { requestedInfo = it }, ::changeLocation)
+                            is RadiosLocation -> RadiosPage(::changeLocation)
+                            is SearchLocation -> SearchPage(location.data as String, onInfoRequest = { requestedInfo = it }, ::changeLocation)
                             is SettingsLocation -> {}
-                            is MetaTagLocation -> MetaTagPage(location.data as String, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
+                            is MetaTagLocation -> MetaTagPage(location.data as String, onInfoRequest = { requestedInfo = it }, ::changeLocation)
                         }
                     }
-                    requestedInfo?.let { InfoPanel(it) }
+                    requestedInfo?.let { InfoPanel(it, { requestedInfo = null }, ::changeLocation) }
                 }
                 BottomAppBar {
                     Player { changeLocation(it) }

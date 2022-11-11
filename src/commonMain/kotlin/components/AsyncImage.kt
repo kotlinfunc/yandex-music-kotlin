@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.Density
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xml.sax.InputSource
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL

@@ -10,8 +10,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
@@ -19,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import api.models.Album
 import components.AsyncImage
 import components.loadImageBitmap
@@ -29,15 +29,17 @@ import navigation.Location
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 internal fun InfoPanel(album: Album, onLocationChange: (Location<*>) -> Unit = {}) {
-    Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+    var showCoverDialog by remember { mutableStateOf(false) }
+
+    Row(Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         AsyncImage(
             load = { loadImageBitmap("https://" + album.coverUri?.replace("%%", "200x200")) },
             painterFor = { remember { BitmapPainter(it) } },
             contentDescription = "",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.onClick { showCoverDialog = true }.size(200.dp)
         )
-        Column {
+        Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text("Альбом")
                 if (album.veryImportant == true) {
@@ -83,6 +85,18 @@ internal fun InfoPanel(album: Album, onLocationChange: (Location<*>) -> Unit = {
                     )
                 }
             }
+        }
+    }
+
+    if (showCoverDialog) {
+        Dialog({ showCoverDialog = false }, title = "${album.title}: обложка") {
+            AsyncImage(
+                load = { loadImageBitmap("https://" + album.coverUri?.replace("%%", "1000x1000")) },
+                painterFor = { remember { BitmapPainter(it) } },
+                contentDescription = "",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }

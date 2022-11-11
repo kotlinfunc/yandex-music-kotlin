@@ -24,6 +24,7 @@ import api.getUserPlaylist
 import api.models.Playlist
 import api.models.PlaylistId
 import api.models.Response
+import api.models.Track
 import components.CoverImage
 import components.PlaylistCard
 import components.TrackItem
@@ -32,15 +33,18 @@ import navigation.Info
 import navigation.Location
 import navigation.PlaylistInfo
 import navigation.TrackInfo
+import util.date
 import util.time
 import kotlin.time.Duration.Companion.milliseconds
+
+private fun isTrackRelevant(track: Track, searchText: String) = track.title.contains(searchText)
+        || track.artists?.any { it.name.contains(searchText) } == true
 
 @Composable
 @Preview
 fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     var loading by remember { mutableStateOf(true) }
     var playlistResponse by remember { mutableStateOf<Response<Playlist>?>(null) }
-    var searchText by remember { mutableStateOf("") }
 
     LaunchedEffect(id) {
         loading = true
@@ -59,6 +63,10 @@ fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocati
     } else {
         playlistResponse?.result?.let {
             val stateVertical = rememberScrollState(0)
+            var searchText by remember { mutableStateOf("") }
+            val filteredTracks by remember(searchText) {
+                derivedStateOf { it.tracks?.filter { item -> isTrackRelevant(item.track!!, searchText) } }
+            }
 
             Column {
                 Row(Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
@@ -77,7 +85,7 @@ fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocati
                                 Text(it.name)
                             }
                             it.modified?.let {
-                                Text(it)
+                                Text(it.date())
                             }
                         }
                         Row {
@@ -121,8 +129,7 @@ fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocati
                                 },
                                 placeholder = { Text("Поиск") }, singleLine = true)
                             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                                it.filter { it.track!!.title.contains(searchText)
-                                        || it.track.artists?.any { it.name.contains(searchText) } == true }.forEach {
+                                filteredTracks?.forEach {
                                     TrackItem(it.track!!, onClick = { onInfoRequest(TrackInfo(it.id)) }, onLocationChange = onLocationChange)
                                 }
                             }

@@ -21,6 +21,7 @@ import api.models.Response
 import components.SimpleTrackItem
 import navigation.Location
 import navigation.PlaylistLocation
+import util.date
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -54,7 +55,7 @@ internal fun PlaylistInfoPanel(id: PlaylistId, onLocationChange: (Location<*>) -
                             Text(it.name)
                         }
                         it.modified?.let {
-                            Text(it)
+                            Text(it.date())
                         }
                     }
                 }

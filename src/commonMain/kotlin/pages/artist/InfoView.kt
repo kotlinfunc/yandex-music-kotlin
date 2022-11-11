@@ -1,21 +1,20 @@
 package pages.artist
 
-import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.NavigateBefore
+import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import api.models.Artist
 import api.models.ArtistInfo
 import components.AsyncImage
@@ -26,21 +25,23 @@ import compose.icons.fontawesomeicons.brands.*
 import layouts.Flow
 import util.openInBrowser
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun InfoView(artistInfo: ArtistInfo) {
+    var selectedImage by remember { mutableStateOf(-1) }
+
     val stateVertical = rememberScrollState(0)
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
             if (artistInfo.allCovers.size > 1) {
                 Flow(horizontalSpacing = 5.dp) {
-                    artistInfo.allCovers.forEach {
+                    artistInfo.allCovers.forEachIndexed { idx, cover ->
                         AsyncImage(
-                            load = { loadImageBitmap("https://" + it.uri!!.replace("%%", "1000x1000")) },
+                            load = { loadImageBitmap("https://" + cover.uri!!.replace("%%", "1000x1000")) },
                             painterFor = { remember { BitmapPainter(it) } },
                             contentDescription = "",
                             contentScale = ContentScale.FillWidth,
-                            modifier = Modifier.width(290.dp).height(185.dp)
+                            modifier = Modifier.onClick { selectedImage = idx }.width(290.dp).height(185.dp)
                         )
                     }
                 }
@@ -48,18 +49,19 @@ internal fun InfoView(artistInfo: ArtistInfo) {
             artistInfo.stats?.let {
                 Text("Слушателей за предыдущий месяц: ${it.lastMonthListeners}")
             }
-            Row(Modifier.fillMaxWidth()) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 artistInfo.artist.description?.let {
-                    Card(Modifier.fillMaxWidth(0.5f)) {
-                        Column {
+                    Card(Modifier.weight(0.5f)) {
+                        Column(Modifier.padding(10.dp)) {
                             Text("Об исполнителе", fontWeight = FontWeight.Bold)
                             Text(it.text)
                         }
                     }
                 }
                 artistInfo.artist.links?.let {
-                    Card(Modifier.fillMaxWidth(0.5f)) {
-                        Column {
+                    Card(Modifier.weight(0.5f)) {
+                        Column(Modifier.padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Официальные страницы", fontWeight = FontWeight.Bold)
                             it.forEach {
                                 OutlinedButton({ openInBrowser(it.href) }) {
                                     Icon(
@@ -91,5 +93,33 @@ internal fun InfoView(artistInfo: ArtistInfo) {
             modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             adapter = rememberScrollbarAdapter(stateVertical)
         )
+    }
+
+    if (selectedImage >= 0) {
+        Dialog({ selectedImage = -1 }, title = "${artistInfo.artist.name}: фотогалерея") {
+            Row(Modifier.fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                IconButton({ selectedImage-- }, enabled = selectedImage > 0) {
+                    Icon(
+                        Icons.Filled.NavigateBefore,
+                        contentDescription = null,
+                        modifier = Modifier.size(ButtonDefaults.IconSize)
+                    )
+                }
+                AsyncImage(
+                    load = { loadImageBitmap("https://" + artistInfo.allCovers[selectedImage].uri!!.replace("%%", "1000x1000")) },
+                    painterFor = { remember { BitmapPainter(it) } },
+                    contentDescription = "",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.weight(1f)
+                )
+                IconButton({ selectedImage++ }, enabled = selectedImage < artistInfo.allCovers.size - 1) {
+                    Icon(
+                        Icons.Filled.NavigateNext,
+                        contentDescription = null,
+                        modifier = Modifier.size(ButtonDefaults.IconSize)
+                    )
+                }
+            }
+        }
     }
 }

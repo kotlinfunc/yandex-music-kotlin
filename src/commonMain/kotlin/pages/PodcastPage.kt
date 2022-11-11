@@ -1,12 +1,9 @@
 package pages
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
@@ -20,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import api.getPodcastWithEpisodes
 import api.models.Podcast
 import api.models.Response
@@ -30,12 +28,12 @@ import navigation.EpisodeInfo
 import navigation.Info
 import navigation.Location
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun PodcastPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
     var loading by remember { mutableStateOf(true) }
     var podcastResponse by remember { mutableStateOf<Response<Podcast>?>(null) }
-    var selectedTab by remember { mutableStateOf(0) }
     val titles = listOf("О подкасте", "Выпуски")
 
     LaunchedEffect(id) {
@@ -54,6 +52,9 @@ fun PodcastPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChang
         Text("Ошибка: ${podcastResponse?.error?.message}")
     } else {
         podcastResponse?.result?.let {
+            var selectedTab by remember { mutableStateOf(0) }
+            var showCoverDialog by remember { mutableStateOf(false) }
+
             Column {
                 Row(Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     AsyncImage(
@@ -61,7 +62,7 @@ fun PodcastPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChang
                         painterFor = { remember { BitmapPainter(it) } },
                         contentDescription = "",
                         contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.size(200.dp)
+                        modifier = Modifier.onClick { showCoverDialog = true }.size(200.dp)
                     )
                     Column {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -156,6 +157,18 @@ fun PodcastPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChang
                             }
                         }
                     }
+                }
+            }
+
+            if (showCoverDialog) {
+                Dialog({ showCoverDialog = false }, title = "${it.title}: обложка") {
+                    AsyncImage(
+                        load = { loadImageBitmap("https://" + it.coverUri.replace("%%", "1000x1000")) },
+                        painterFor = { remember { BitmapPainter(it) } },
+                        contentDescription = "",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
         }
