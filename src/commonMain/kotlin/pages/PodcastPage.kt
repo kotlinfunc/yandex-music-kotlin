@@ -33,12 +33,15 @@ import navigation.Location
 @Composable
 @Preview
 fun PodcastPage(id: Long, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
+    var loading by remember { mutableStateOf(true) }
     var podcastResponse by remember { mutableStateOf<Response<Podcast>?>(null) }
     var selectedTab by remember { mutableStateOf(0) }
     val titles = listOf("О подкасте", "Выпуски")
 
     LaunchedEffect(id) {
+        loading = true
         podcastResponse = getPodcastWithEpisodes(id)
+        loading = false
     }
 
     if (podcastResponse == null) {

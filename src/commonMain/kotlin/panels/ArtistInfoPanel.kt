@@ -25,14 +25,17 @@ import navigation.ArtistLocation
 import navigation.Location
 
 @Composable
-fun ArtistInfoPanel(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+internal fun ArtistInfoPanel(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+    var loading by remember { mutableStateOf(true) }
     var artistResponse by remember { mutableStateOf<Response<ArtistInfo>?>(null) }
 
     LaunchedEffect(id) {
+        loading = true
         artistResponse = getArtist(id)
+        loading = false
     }
 
-    if (artistResponse == null) {
+    if (loading) {
         Column(
             Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,

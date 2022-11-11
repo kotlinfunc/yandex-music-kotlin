@@ -26,14 +26,17 @@ import navigation.Location
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AlbumInfoPanel(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+internal fun AlbumInfoPanel(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+    var loading by remember { mutableStateOf(true) }
     var albumResponse by remember { mutableStateOf<Response<Album>?>(null) }
 
     LaunchedEffect(id) {
+        loading = true
         albumResponse = getAlbumWithTracks(id)
+        loading = false
     }
 
-    if (albumResponse == null) {
+    if (loading) {
         Column(
             Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,

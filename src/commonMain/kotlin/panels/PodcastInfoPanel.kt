@@ -23,14 +23,17 @@ import navigation.PodcastLocation
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PodcastInfoPanel(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+internal fun PodcastInfoPanel(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+    var loading by remember { mutableStateOf(true) }
     var podcastResponse by remember { mutableStateOf<Response<Podcast>?>(null) }
 
     LaunchedEffect(id) {
+        loading = true
         podcastResponse = getPodcastWithEpisodes(id)
+        loading = false
     }
 
-    if (podcastResponse == null) {
+    if (loading) {
         Column(
             Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,

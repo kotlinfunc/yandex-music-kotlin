@@ -1,9 +1,5 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.TopAppBar
@@ -27,10 +23,16 @@ import components.AsyncImage
 import components.Player
 import components.loadSvgPainter
 import navigation.*
-import pages.*
+import pages.PlaylistPage
+import pages.PodcastPage
+import pages.PodcastsPage
+import pages.RadiosPage
+import pages.album.AlbumPage
+import pages.artist.ArtistPage
+import pages.home.HomePage
 import pages.search.SearchPage
 import pages.tag.MetaTagPage
-import panels.*
+import panels.InfoPanel
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -96,7 +98,7 @@ fun App() {
             }
         ) {
             Column {
-                TopAppBar() {
+                TopAppBar {
                     IconButton({ location = previousLocations.removeLast() }, enabled = previousLocations.isNotEmpty()) {
                         Icon(
                             Icons.Filled.ArrowBack,
@@ -104,7 +106,7 @@ fun App() {
                             modifier = Modifier.size(ButtonDefaults.IconSize)
                         )
                     }
-                    Row(Modifier.weight(0.5f).wrapContentSize(Alignment.TopStart)) {
+                    Box(Modifier.weight(0.5f).wrapContentSize(Alignment.TopStart)) {
                         TextField(searchText, { searchText = it },
                             Modifier.fillMaxWidth().onKeyEvent {
                                 if (it.key == Key.Enter && searchText.isNotBlank()) {
@@ -163,39 +165,10 @@ fun App() {
                             is MetaTagLocation -> MetaTagPage(location.data as String, onInfoRequest = { requestedInfo = it }) { changeLocation(it) }
                         }
                     }
-
-                    requestedInfo?.let {
-                        val stateVertical = rememberScrollState(0)
-                        Column(Modifier.padding(15.dp, 30.dp).width(300.dp), horizontalAlignment = Alignment.End) {
-                            IconButton({ requestedInfo = null }) {
-                                Icon(
-                                    Icons.Filled.Close,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(ButtonDefaults.IconSize)
-                                )
-                            }
-
-                            Box(Modifier.fillMaxSize()) {
-                                Column(Modifier.fillMaxWidth().padding(10.dp).verticalScroll(stateVertical)) {
-                                    when (it) {
-                                        is AlbumInfo -> AlbumInfoPanel(it.data) { changeLocation(it) }
-                                        is ArtistInfo -> ArtistInfoPanel(it.data) { changeLocation(it) }
-                                        is EpisodeInfo -> EpisodeInfoPanel(it.data) { changeLocation(it) }
-                                        is PlaylistInfo -> PlaylistInfoPanel(it.data) { changeLocation(it) }
-                                        is PodcastInfo -> PodcastInfoPanel(it.data) { changeLocation(it) }
-                                        is TrackInfo -> TrackInfoPanel(it.data) { changeLocation(it) }
-                                    }
-                                }
-                                VerticalScrollbar(
-                                    modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-                                    adapter = rememberScrollbarAdapter(stateVertical)
-                                )
-                            }
-                        }
-                    }
+                    requestedInfo?.let { InfoPanel(it) }
                 }
                 BottomAppBar {
-                    Player() { changeLocation(it) }
+                    Player { changeLocation(it) }
                 }
             }
         }

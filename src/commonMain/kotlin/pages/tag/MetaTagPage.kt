@@ -27,15 +27,18 @@ import navigation.*
 
 @Composable
 fun MetaTagPage(tag: String, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
+    var loading by remember { mutableStateOf(true) }
     var metaTagResponse by remember { mutableStateOf<Response<MetaTag>?>(null) }
     var selectedTab by remember { mutableStateOf(0) }
     val titles = listOf("Обзор", "Альбомы", "Исполнители", "Плейлисты")
 
     LaunchedEffect(tag) {
+        loading = true
         metaTagResponse = getMetaTag(tag)
+        loading = false
     }
 
-    if (metaTagResponse == null) {
+    if (loading) {
         Column(
             Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,

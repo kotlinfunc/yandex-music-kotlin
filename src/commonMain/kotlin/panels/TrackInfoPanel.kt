@@ -31,15 +31,18 @@ import navigation.Location
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TrackInfoPanel(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+internal fun TrackInfoPanel(id: Long, onLocationChange: (Location<*>) -> Unit = {}) {
+    var loading by remember { mutableStateOf(true) }
     var trackResponse by remember { mutableStateOf<Response<List<Track>>?>(null) }
     var trackSupplement by remember { mutableStateOf<Response<TrackSupplement>?>(null) }
     var trackSimilarTracks by remember { mutableStateOf<Response<SimilarTracks>?>(null) }
 
     LaunchedEffect(id) {
+        loading = true
         trackResponse = getTrack(id)
         trackSupplement = getTrackSupplement(id)
         trackSimilarTracks = getTrackSimilar(id)
+        loading = false
     }
 
     if (trackResponse == null) {

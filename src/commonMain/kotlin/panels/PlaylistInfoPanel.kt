@@ -24,14 +24,17 @@ import navigation.PlaylistLocation
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PlaylistInfoPanel(id: PlaylistId, onLocationChange: (Location<*>) -> Unit = {}) {
+internal fun PlaylistInfoPanel(id: PlaylistId, onLocationChange: (Location<*>) -> Unit = {}) {
+    var loading by remember { mutableStateOf(true) }
     var playlistResponse by remember { mutableStateOf<Response<Playlist>?>(null) }
 
     LaunchedEffect(id) {
+        loading = true
         playlistResponse = getUserPlaylist(id)
+        loading = false
     }
 
-    if (playlistResponse == null) {
+    if (loading) {
         Column(
             Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,

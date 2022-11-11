@@ -38,14 +38,17 @@ import kotlin.time.Duration.Companion.milliseconds
 @Composable
 @Preview
 fun PlaylistPage(id: PlaylistId, onInfoRequest: (Info<*>) -> Unit = {}, onLocationChange: (Location<*>) -> Unit = {}) {
+    var loading by remember { mutableStateOf(true) }
     var playlistResponse by remember { mutableStateOf<Response<Playlist>?>(null) }
     var searchText by remember { mutableStateOf("") }
 
     LaunchedEffect(id) {
+        loading = true
         playlistResponse = getUserPlaylist(id)
+        loading = false
     }
 
-    if (playlistResponse == null) {
+    if (loading) {
         Column(Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
